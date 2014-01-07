@@ -1,0 +1,14 @@
+{
+  	"name": "statinf",
+  	"main": "index.html",
+  	"window": {
+  		"toolbar": false,
+  		"width": 1200,
+    	"height": 800,
+    	"min_width": 300,
+    	"min_height": 200
+	},
+	"webkit": {
+		"plugin": false
+	}
+}

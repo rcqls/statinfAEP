@@ -1,0 +1,4 @@
+#/bin/bash
+
+ruby -ropal.rb -e "puts Opal::Builder.build('opal')" > opal.js
+#java -jar yuicompressor.jar opal.js -o opal-min.js

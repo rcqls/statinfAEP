@@ -1,0 +1,6 @@
+1) package.json added for node-webkit use: nw .
+2) lib/cqls created to include all the stuff based on opal and createjs.
+3) To deploy: 
+	.) modifying package.js and index.html (which do not include link to opal.js, cqls.js and main.js)
+	.) ./tools.deploy.sh allows us to minify all these js files inside build/app.js
+4) TODO: PhoneGap (read README.cordova-phonegap) to create application Android and iOS.

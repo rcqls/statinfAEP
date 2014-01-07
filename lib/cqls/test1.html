@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>A. E. P.</title>
+
+	<!-- script type="text/javascript" src="http://code.createjs.com/createjs-2013.09.25.min.js"></script-->
+
+
+	<link rel="stylesheet/css" type="text/css" href="../js/bootplate/lib/onyx/css/onyx.css" />
+
+	<script type="text/javascript" src="../js/lib/less.min.js"></script>
+	<script type="text/javascript" src="../js/lib/easeljs-NEXT.min.js"></script>
+	<script type="text/javascript" src="../js/lib/tweenjs-NEXT.min.js"></script>
+	<script type="text/javascript" src="../js/bootplate/build/enyo.js"></script>
+	<script type="text/javascript" src="../js/bootplate/lib/onyx/source/ToggleButton.js"></script>
+	<script type="text/javascript" src="../js/lib/jstat.min.js"></script>
+	<script type="text/javascript" src="./opal.js"></script>
+	<script type="text/javascript" src="./cqls.js"></script>
+	<script type="text/javascript">
+
+
+	// m: main, s: sim, h: hist, i: cqls.i.ctrlace
+	var cqls={m: {},s: {}, h: {}, i: {count: 1}};
+
+	function init() {
+
+		enyo.kind({
+    		name: "HelloWidget",
+    		components: [
+        		{name: "hello", content: "Hello From Enyo"},
+        		{kind: "Button", content: "Click Me!", ontap: "helloTap"}
+    		],
+    		helloTap: function() {
+        		this.$.hello.applyStyle("color", "red");
+    		}
+		});
+		enyo.kind({
+    		name: "MyApp",
+    		components: [
+        		{kind: "HelloWidget"},
+        		{kind:"onyx.ToggleButton", onChange:"toggleChanged", value: true}
+    		],
+    		toggleChanged: function(inSender, inEvent) {
+				cqls.i.histCurveVisible=inSender.getValue();
+        		if(cqls.i.histCurveVisible) {
+	    			cqls.m.stage.addChild(cqls.h.curve);
+	    		} else {
+	    			cqls.m.stage.removeChild(cqls.h.curve);
+	    		}
+	    		cqls.m.stage.update();
+			}
+		});
+		new MyApp().renderInto(document.getElementById("enyo"));
+
+	    cqls.m.canvas = document.getElementById("createjsCanvas");
+	    w = cqls.m.canvas.width;
+	    h = cqls.m.canvas.height;
+	    cqls.m.stage = new createjs.Stage(cqls.m.canvas);
+
+	    cqls.s.graph=Opal.Cqls.Graph.$new([-5.0,5.0],[0.0,0.5],[0,0,500,300]);
+	    cqls.s.curve=Opal.Cqls.Curve.$new([-5.0,5.0]);
+	    cqls.s.curve.$add(jStat.normal.pdf,[0,1]);
+
+	    cqls.s.plot = new createjs.Shape();
+	    cqls.s.plot.graphics.beginFill("#88FF88").drawRect(0,0,500,300);
+
+	    cqls.s.curveShape = new createjs.Shape();
+	    drawCurve();
+	    cqls.m.stage.addChild(cqls.s.plot,cqls.s.curveShape);
+
+	    cqls.h.graph=Opal.Cqls.Graph.$new([-5.0,5.0],[0.0,0.5],[0,400,500,300]);
+	    cqls.h.hist=Opal.Cqls.HistoCont.$new([-5.0,5.0],8);
+	    
+	    //addHist(1000);
+	    //console.log(cqls.h.hist.$counts(3));
+
+	    cqls.h.plot = new createjs.Shape();
+	    cqls.h.plot.graphics.beginFill("#FF8888").drawRect(0,400,500,300);
+	    cqls.h.plot.addEventListener("click", function(evt) { 
+	    	if(evt.stageX > 250) cqls.h.hist.$level(1); else cqls.h.hist.$level(-1);
+	    	drawHist(cqls.h.hist.$level());
+	    	cqls.m.stage.update();
+	    });
+	    
+	    cqls.h.histShape = new createjs.Shape();
+	    drawHist(4);
+	    cqls.h.curve = new createjs.Shape();
+	    drawCurve({curve: cqls.h.curve, graph: cqls.h.graph});
+	    cqls.m.stage.addChild(cqls.h.plot,cqls.h.histShape);
+	    
+
+	    var circle = new createjs.Shape();
+		circle.graphics.beginFill("#FFFF00").drawCircle(0,0,50);
+
+		cqls.i.ctrl = new createjs.Container();
+		cqls.i.ctrl.x = 550; cqls.i.ctrl.y = 0;
+		cqls.i.ctrl.width = 450; cqls.i.ctrl.height = 300;
+		cqls.i.ctrl.alpha = 0.8;
+		// cqls.i.ctrl.rotation = 25;
+		// cqls.i.ctrl.scaleX = 1.5;
+
+		var content = new createjs.DOMElement("interface");
+		// content.x = 500;
+		// content.y = 0;
+		// content.regX = 650;
+		// content.regY = 35;
+		cqls.i.ctrl.addChild(content);
+
+	    cqls.m.stage.addChild(cqls.i.ctrl);
+
+	    cqls.i.ctrl2 = new createjs.Container();
+		cqls.i.ctrl2.x = 550; cqls.i.ctrl2.y = 400;
+		cqls.i.ctrl2.width = 450; cqls.i.ctrl2.height = 300;
+		cqls.i.ctrl2.alpha = 0.8;
+
+		var content2 = new createjs.DOMElement("enyo");
+		cqls.i.ctrl2.addChild(content2);
+
+
+		cqls.m.stage.addChild(cqls.i.ctrl2);
+
+	    // createjs.Tween.get(rect, {loop:true}).wait(1000)
+     //             .to({scaleX: 2, scaleY:2}, 1500,createjs.Ease.bounceOut);
+
+        // set up a tween that tweens between scale 0.3 and 1 every second.
+		createjs.Tween.get(circle,{loop:false}).set({x: cqls.h.graph.$to_X(0)}, circle)
+			.wait(1000) // wait for 1 second
+			.to({scaleX:0.2,scaleY:0.2}) // jump to the new scale properties (default duration of 0)
+			.wait(1000)
+                .set({y: cqls.h.graph.$to_Y(0)}, circle)
+			.to({scaleX:1,scaleY:1},1000,createjs.Ease.bounceOut) // tween to scaleX/Y of 1 with ease bounce out
+
+	 
+	    //createjs.Ticker.setInterval(20);
+		// in order for the cqls.m.stage to continue to redraw when the Ticker is paused we need to add it with
+		// the second ("pauseable") param set to false.
+		createjs.Ticker.addEventListener("tick", cqls.m.stage);
+
+
+	}
+
+	function drawCurve(where) {
+		if(!where) {where={curve: cqls.s.curveShape, graph: cqls.s.graph,close: true};} 
+		where.curve.graphics.clear();
+		if(where.close) {cqls.s.curveShape.graphics.beginFill("#88F");}
+		where.curve.graphics.beginStroke("#000000");
+	    cqls.s.curve.$draw(where.curve.graphics,where.graph,where.close);
+	}
+
+	function updateHist() {
+		addHist(cqls.i.count);
+		drawHist(cqls.h.hist.$level());
+		cqls.m.stage.update();
+	}
+
+	function addHist(count) {
+		z=[];for(i=0;i<count;i++) {z[i]=jStat.normal(0,1).sample();};
+		cqls.h.hist.$add(z);
+	}
+
+	function drawHist(level) {
+		cqls.h.histShape.graphics.clear().beginFill("#0000FF").beginStroke("#000000");
+	    cqls.h.hist.$draw(cqls.h.histShape.graphics,cqls.h.graph,level);
+	}
+
+	// function tick(event) {
+	// 	cqls.m.stage.update(event);
+	// }
+
+	function updateSlider(slideAmount) {
+		drawHist(slideAmount);
+		cqls.m.stage.update();
+	}
+ 
+	 
+
+	
+
+	</script>
+
+</head>
+<body onload="init();">
+	<div id="interface" style="z-index: 1; position: absolute; background-color: #EEF; color:#FFF; width:500px; height:300px; padding: 5px; visibility: hidden;">
+		<input id="sliderLevel" type="range" min="0" max="8" step="1" value="4" onchange="updateSlider(this.value)" /></br>
+	<form onsubmit="return false" oninput="cqls.i.count=outputCount.value = Math.pow(10,slideCount.valueAsNumber);">
+		<button id="btnCount" width="100" onclick="updateHist();">Add k data</button> 
+		<input id="sliderCount" name="slideCount" type="range"
+ min="0" max="4" step="1" value="0" style="width:50px;"/><span style="color:#000;">
+ 		k=</span><output id="outputCount" for="sliderCount" style="margin:0px; padding:0px;color:#000;">1</output>
+ 	</form>
+</div>
+<div id="enyo" style="z-index: 1; position: absolute; background-color: #EEF; color:#FFF; width:400px; height:300px; padding: 5px; visibility: hidden;"></div>
+	<canvas id="createjsCanvas" width="1000" height="1000" ></canvas> 
+
+</body>
+</html>
