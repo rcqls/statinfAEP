@@ -5,14 +5,14 @@ if [ -d "./build" ]; then
 fi
 
 mkdir ./build
-cp -r ../deploy/* ./build
+cp -r ~/devel/js/StatInfJS/deploy/* ./build
 
-cp ./src/index.html build/index.html
+cp ./src/aep.html build/aep.html
 cp ./src/package.json build/package.json
 
 mkdir ./build/extra
-cp -H ../../lib/easeljs*.min.js ./build/extra/
-cp -H ../../lib/tweenjs*.min.js ./build/extra/
+cp -H ~/devel/js/lib/easeljs*.min.js ./build/extra/
+cp -H ~/devel/js/lib/tweenjs*.min.js ./build/extra/
 ##cp -H ../../lib/jstat.min.js ./build/extra/
 
 cd build
