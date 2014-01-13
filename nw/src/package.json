@@ -1,5 +1,6 @@
 {
   	"name": "statinf",
+    "version": "0.1",
   	"main": "aep.html",
   	"window": {
   		"toolbar": false,
