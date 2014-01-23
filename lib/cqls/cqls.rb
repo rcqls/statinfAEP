@@ -69,7 +69,11 @@ module Cqls
 
 		def initialize(dim,xlim=[],ylim=[],style=nil)
 			@dim,@style=dim,style
-			@marg={l:10,r:10,t:10,b:20}
+			@marg={l:0.1,r:0.1,t:0.2,b:0.1}
+			@marg[:l]=@dim[:w]*@marg[:l] if @marg[:l] < 1
+			@marg[:r]=@dim[:w]*@marg[:r] if @marg[:r] < 1
+			@marg[:t]=@dim[:h]*@marg[:t] if @marg[:t] < 1
+			@marg[:b]=@dim[:h]*@marg[:b] if @marg[:b] < 1
 			@xylim0={x: xlim, y: ylim}
 			@list,@active=[],[] 
 			@list << @xylim0 unless @xylim0[:x].empty?
@@ -300,6 +304,16 @@ module Cqls
 			@x=Cqls.seq(@bounds[0],@bounds[1],@length)
 			@kind=:density
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
+			@expAxisShape=%x{new createjs.Shape()}
+		end
+
+		def attachExpAxis(ratio)
+			@plot.addChild(@expAxisShape,[self,:drawExpAxis,[ratio]])
+		end
+
+		def drawExpAxis(ratio)
+			%x{#{@expAxisShape}.visible=true}
+			%x{#{@expAxisShape}.graphics.c().s("#000").ss(1).mt(#{@graph.dim[:x]},#{@graph.dim[:h]*ratio}).lt(#{@graph.dim[:x]+@graph.dim[:w]},#{@graph.dim[:h]*ratio})}
 		end
 
 		def attachSummary
@@ -780,6 +794,8 @@ module Cqls
 
 			@exp[0].attachSummary;@exp[1].attachSummary
 			@hist[0].attachSummary;@hist[1].attachSummary
+			@exp[0].attachExpAxis(0.3);@exp[1].attachExpAxis(0.1)
+			isModeHidden? #to initialize @modeHidden
 
 			setTransf
 			reset
@@ -850,6 +866,8 @@ module Cqls
 				params=[0.15] unless params
 			when "binomial"
 				params=[5,0.15] unless params
+			when "birthday"
+				params=[365,50] unless params
 			when "uniform"
 				params=[0,1] unless params
 			when "stdNormal"
@@ -1349,8 +1367,8 @@ module Cqls
 			isTransf=@transf ? true : false
 			isSample=isTransf && transfMode==:sample
 			%x{
-				#{@exp[0]}.shape.visible=true;
-				#{@exp[1]}.shape.visible=#{isTransf};
+				#{@exp[0]}.shape.visible=cqls.enyo.app.$.checkExp0Curve.getValue();
+				#{@exp[1]}.shape.visible=#{isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue();
 				#{@hist[0]}.shape.visible=#{!isTransf};
 				#{@hist[1]}.shape.visible=#{isTransf};
 				#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
@@ -1359,7 +1377,15 @@ module Cqls
 				#{@hist[1]}.summaryShapes[0].visible=false;
 				#{@checkTCL}.shape.visible=#{isSample} & cqls.enyo.app.$.checkTCL.getValue();
 			}
+			showExpAxis
 			showSummary
+		end
+
+		def showExpAxis
+			isTransf = transfMode != :none
+			%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
+			%x{#{@exp[1]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
+
 		end
 
 		def drawSummary(cur=@curIndHist)
@@ -1374,10 +1400,10 @@ module Cqls
 		def showSummary
 			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
 			isTransf = transfMode != :none
-			%x{#{@exp[0]}.summaryShapes[0].visible=#{state}}
-			%x{#{@exp[0]}.summaryShapes[1].visible=#{state}}
-			%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf}}
-			%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf}}
+			%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqls.enyo.app.$.checkExp0Curve.getValue()}
+			%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqls.enyo.app.$.checkExp1Curve.getValue()}
+			%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp0Curve.getValue()}
+			%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue()}
 			%x{#{@histCur}.summaryShapes[0].visible=#{state}}
 			%x{#{@histCur}.summaryShapes[1].visible=#{state}}
 		end
@@ -1423,6 +1449,17 @@ module Cqls
 			playNextAfter(@time+duration)
 		end
 
+		def playLongDensityBasicHidden(duration=1000)
+			addXY(@nbSim)
+			transitionInitHist(0)
+			transitionInitPts(0)
+			transitionInitRects(0)
+			transitionDrawPts(0)
+			transitionFallPts(0)
+			transitionHistPtsAndRects(0)
+			playNextAfter(@time+duration)
+		end
+
 		def playLongDensityWithTransf(duration=1000)
 			addXY(@nbSim)
 			transitionInitTransf(0,1)
@@ -1440,11 +1477,42 @@ module Cqls
 			playNextAfter(@time+duration)
 		end
 
+		def playLongDensityWithTransfHidden(duration=1000)
+			addXY(@nbSim)
+			transitionInitTransf(0,1)
+			transitionInitHist(0) #to get info on step in particular
+			transitionInitHist(1)
+			transitionInitPts(0)
+			transitionInitPtsTransf(0)
+			transitionInitRects(1)
+			transitionDrawPts(0)
+			transitionPtsTransf(1)
+			transitionInitPtsTransf(1)
+			transitionDrawPts(1)
+			transitionFallPts(1)
+			transitionHistPtsAndRects(1)
+			playNextAfter(@time+duration)
+		end
+
+		def isModeHidden?
+			@modeHidden=%x{!cqls.enyo.app.$.checkExp0Curve.getValue()}
+			return @modeHidden
+		end
+
 		def playLongDensity(duration=1000)
+
 			if @transf
-				playLongDensityWithTransf(duration)
+				if isModeHidden?
+					playLongDensityWithTransfHidden(duration)
+				else
+					playLongDensityWithTransf(duration)
+				end
 			else
-				playLongDensityBasic(duration)
+				if isModeHidden?
+					playLongDensityBasicHidden(duration)
+				else
+					playLongDensityBasic(duration)
+				end
 			end
 		end
 
@@ -1543,6 +1611,11 @@ module Cqls
 						type: :disc,
 						dist: ["BinomialDistribution"],
 						qbounds: [0,1]
+					},
+					birthday: {
+						type: :disc,
+						dist: ["BirthdayDistribution"],
+						qbounds: [0.01,1]
 					},
 					mean: {
 						dist: :none,

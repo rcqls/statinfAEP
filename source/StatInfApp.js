@@ -12,6 +12,7 @@ enyo.kind({
 					{id:"discreteUniform", content: "Uniform Discrete"},
 					{id:"bernoulli", content: "Bernoulli"},
 					{id:"binomial", content: "Binomial"},
+					{id:"birthday", content: "Birthday"},
 					{classes: "onyx-menu-divider"},
 					{id:"stdNormal", content: "N(0,1)"},
 					{id:"uniform", content: "Uniform"},
@@ -70,6 +71,8 @@ enyo.kind({
 		{kind: "onyx.MoreToolbar",style:"height:"+cqls.enyo.bottom+"px;" ,components: [
 			{kind: "onyx.ToggleButton", ontap: "toggleAnimMode",value:true},
 			{classes: "onyx-sample-tools", components: [
+				{kind: "onyx.Checkbox", name: "checkExp0Curve", onchange:"toggleExp0Curve"},
+				{kind: "onyx.Checkbox", name: "checkExp1Curve", onchange:"toggleExp1Curve"},
 				{kind: "onyx.Checkbox", name: "checkTCL", onchange:"toggleTCL"},
 				{kind: "onyx.Checkbox", name: "checkHistCurve", onchange: "toggleHistCurve"},
 				{kind: "onyx.Checkbox", name: "checkSummary", onchange: "toggleSummary"} 
@@ -123,6 +126,18 @@ enyo.kind({
 	},
 	toggleAnimMode: function(inSender, inEvent) {
 		cqls.i.anim=inSender.getValue();
+		cqls.m.stage.update();
+	},
+	toggleExp0Curve: function(inSender, inEvent) {
+		cqls.m.play.exp[0].shape.visible=inSender.getValue();
+		if(!inSender.getValue()) cqls.enyo.app.$.checkExp1Curve.setValue(inSender.getValue());
+		cqls.enyo.app.$.checkExp1Curve.disabled=!inSender.getValue();
+		cqls.m.play.$showExpAxis();
+		cqls.m.stage.update();
+	},
+	toggleExp1Curve: function(inSender, inEvent) { 
+		cqls.m.play.exp[1].shape.visible=inSender.getValue();
+		cqls.m.play.$showExpAxis();
 		cqls.m.stage.update();
 	},
 	toggleHistCurve: function(inSender, inEvent) {

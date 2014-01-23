@@ -1,3 +1,5 @@
+To develop go to devel/js/StatInfJS
+
 1) package.json added for node-webkit use: nw .
 2) lib/cqls created to include all the stuff based on opal and createjs.
 3) To deploy: 
