@@ -482,6 +482,7 @@ module Cqls
 			@shape=%x{new createjs.Shape()}
 			@curveShape=%x{new createjs.Shape()}
 			@aep={}
+			@aepLastStep={}
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
 		end
 
@@ -552,8 +553,8 @@ module Cqls
 			@mean,@sd=[0,0],0
 		end
 
-		def index(x)
-			regular? ? ((x-@bounds[0])/@step).floor : @ind[Cqls.quantize(x)]
+		def index(x,step=@step)
+			regular? ? ((x-@bounds[0])/step).floor : @ind[Cqls.quantize(x)]
 			# TODO: @ind[x] when considering non-equidistant modalities
 		end
 
@@ -680,35 +681,13 @@ module Cqls
 			%x{#{@shape}.graphics.cp()}
 		end
 
-		def updateHistAEP(x) #,info={cpt: [],step: 0, nbTot: 0, xRect: [],  })
+		def updateHistAEP(x,mode=:normal) #,info={cpt: [],step: 0, nbTot: 0, xRect: [],  })
 			## made in the current level
-			@aep[:cpt]=counts
+			@aep[:cpt]=(mode==:normal ? counts : ([0]*(@type==:disc ? @bounds.length : (2**@level)) )) #mode==:new
 			@aep[:step]= @type==:cont ? (@bounds[1]-@bounds[0]).to_f / (2**@level).to_f : @step
-			@aep[:nbTot] = @nbTot + x.length
+			@aep[:nbTot] = (([:normal,:reduced].include? mode) ? @nbTot : 0) + x.length
 			@aep[:xRect],@aep[:yRect]=[],[]
-			# x.each_with_index {|e,i|
-			# 	if @bounds[0] <= e and e <= @bounds[-1]
-			# 		case @type
-			# 		when :cont
-			# 			pos=((e-@bounds[0]) / (@aep[:step]) ).floor
-			# 			@aep[:xRect][i]=@bounds[0]+(@aep[:step]*pos.to_f)
-			# 		when :disc
-			# 			pos=index(e)
-			# 			@aep[:xRect][i]=@bounds[pos]-@aep[:step]/2.0
-			# 		end
-			# 		@aep[:cpt][pos] += 1
-			# 		@aep[:yRect][i]=@aep[:cpt][pos].to_f/@aep[:nbTot].to_f/@aep[:step]
-			# 	else
-			# 		case @type
-			# 		when :cont
-			# 			pos=((e-@bounds[0]) / (@aep[:step]) ).floor
-			# 			@aep[:xRect][i]=@bounds[0]+(@aep[:step]*pos.to_f)
-			# 		when :disc
-			# 			@aep[:xRect][i]=e-@aep[:step]/2.0
-			# 		end
-			# 		@aep[:yRect][i]=0
-			# 	end
-			# }
+		
 			case @type
 			when :cont
 				x.each_with_index {|e,i|
@@ -735,6 +714,14 @@ module Cqls
 						@aep[:yRect][i]=0
 					end
 				}
+			end
+
+			if mode==:new
+				@aep[:mean]=[
+					(x.inject(0) {|e,e2| e+=e2})/@aep[:nbTot],
+					(x.inject(0) {|e,e2| e+=e2**2})/@aep[:nbTot]
+				]
+				@aep[:sd]=%x{Math.sqrt(#{@aep[:mean][1]-@aep[:mean][0]**2})}
 			end
 		end
 
@@ -794,7 +781,10 @@ module Cqls
 
 			@exp[0].attachSummary;@exp[1].attachSummary
 			@hist[0].attachSummary;@hist[1].attachSummary
-			@exp[0].attachExpAxis(0.3);@exp[1].attachExpAxis(0.1)
+			@ratioExpAxis=[1-@graphExp.marg[:b]/@graphExp.dim[:h],0.2]
+			@yExpAxis=[@ratioExpAxis[0]*@graphExp.dim[:h],@ratioExpAxis[1]*@graphExp.dim[:h]]
+			@exp[0].attachExpAxis(@ratioExpAxis[0])
+			@exp[1].attachExpAxis(@ratioExpAxis[1])
 			isModeHidden? #to initialize @modeHidden
 
 			setTransf
@@ -845,7 +835,7 @@ module Cqls
 		    	@checkTCL.style={close: true,stroke:"#000",fill:"rgba(100,200,255,0.5)",thickness: 5}
 		    	@plotHist.addChild(@checkTCL,[@checkTCL,:draw])
 		    end
-	    	@checkTCL.setDistrib("normal",[@expCur.distrib.mean,%x{Math.sqrt(#{@expCur.distrib.variance})}])
+	    	@checkTCL.setDistrib("normal",[@exp[0].distrib.mean,%x{Math.sqrt(#{@exp[0].distrib.variance/@n})}])
 	    	showTCL(false)
 	    end
 
@@ -1177,13 +1167,14 @@ module Cqls
 		end
 
 
-		def transitionInitHist(cur)
+		def transitionInitHist(cur,mode=:normal)
 			allowLevelChange(false)
-			@hist[cur].updateHistAEP(@x[cur])
+			@hist[cur].updateHistAEP(@x[cur], mode)
 			@aep[cur]=@hist[cur].aep #to simplify the call
 			#p @aep[cur]
 			@w[cur],@h[cur]=@aep[cur][:step],1/@aep[cur][:nbTot].to_f/@aep[cur][:step]
 			@wX[cur],@hY[cur]=@graphHist.to_X(@w[cur])-@graphHist.to_X(0),@graphHist.to_Y(0)-@graphHist.to_Y(@h[cur])
+			#@hNew,@hYNew=@h[cur],@hY[cur] if mode==:new #used inside transitionHistRectsAndPtsHidden
 		end
 
 		def transitionInitPts(cur)
@@ -1239,6 +1230,28 @@ module Cqls
 				
 		end
 
+		def transitionInitTime
+			@time=0
+		end
+
+		def transitionInitExpRects(cur)
+			if @modeHidden
+				scale=(@graphExp.dim[:h]*0.2)/(@x[cur].length)
+				scale=1 if scale > 1
+			end
+			(0...@x[cur].length).each do |i|
+				y=@yExpAxis[0] - (@hist[cur].type==:disc ? (i*scale) : 0)
+				%x{
+					//draw rect first
+					cqls.actors.rect[i].x=#{@graphExp.to_X(@aep[cur][:xRect][i])};cqls.actors.rect[i].y=#{y};
+					cqls.actors.rect[i].regY=#{@hY[cur]/2};
+					cqls.actors.rect[i].graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
+					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
+				}
+			end	
+
+		end
+
 		def transitionInitRects(cur)
 			(0...@x[cur].length).each do |i|
 				%x{
@@ -1249,19 +1262,24 @@ module Cqls
 					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
 				}
 			end	
-			@time=0
 		end
 
 		## Timing[0,500,1000,1500]
 		def transitionDrawPts(cur,wait=1000)
 			#p [:drawPts,cur,@hist[cur].type]
+			if @modeHidden
+				scale=(@graphExp.dim[:h]*0.2)/(@x[cur].length)
+				scale=1 if scale > 1
+			end
 			(0...@x[cur].length).each do |i|
+				y=@modeHidden ? @yExpAxis[0] : @graphExp.to_Y(@y[cur][i])
+				y -= i*scale if @modeHidden and @hist[cur].type==:disc
 				%x{
-					cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{@graphExp.to_Y(@y[cur][i])}})
+					cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{y}})
 					.set({visible:true})
 					.wait(#{wait})
 				}
-				if @hist[cur].type==:disc
+				if @hist[cur].type==:disc and !@modeHidden
 					#p [:drawPt,i,@graphExp.to_X(@x[cur][i]),@graphExp.to_Y(@y[cur][i])]
 					%x{
 						cqls.tweens.line[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{@graphExp.to_Y(@y[cur][i])}})
@@ -1274,13 +1292,21 @@ module Cqls
 		end
 
 		def transitionPtsTransf(t=1,merge=1500,wait=500)
+			if @modeHidden
+				scale=(@graphExp.dim[:h]*0.2)/(@ind.length)
+				scale=1 if scale > 1
+			end
+				
 			@ind.each_with_index do |s,i2|
 				col="rgba(#{@col[i2][0]},#{@col[i2][1]},#{@col[i2][2]},#{@col[i2][3]})"
+				y=@modeHidden ? @yExpAxis[1] : @graphExp.to_Y(@y[t][i2])
+				y -= i2*scale if @modeHidden and @hist[t].type==:disc
 				s.each do |i|
 					%x{
-						cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[t][i2])},y:#{@graphExp.to_Y(@y[t][i2])}},#{merge})
-						.wait(#{wait}).set({visible:false})
-						if(#{@transf and @hist[0].type==:disc and @hist[1].type==:disc}) {
+						cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[t][i2])},y:#{y}},#{merge})
+						if(#{@modeHidden}) cqls.tweens.pt[i].to({y:#{@graphExp.to_Y(0)}},#{merge})
+						cqls.tweens.pt[i].wait(#{wait}).set({visible:false})
+						if(#{@transf and @hist[0].type==:disc and @hist[1].type==:disc and !@modeHidden}) {
 					 		cqls.tweens.line[i].call(function(tween) {
 					 			tween._target.regX=#{@wX[t]}/2.0;
 					 			tween._target.graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[t]},2);
@@ -1293,6 +1319,7 @@ module Cqls
 				end
 			end
 			@time+=merge+wait
+			@time+=merge if @modeHidden
 		end
 
 		def transitionFallPts(cur,fall=2000,wait=1000)
@@ -1310,6 +1337,80 @@ module Cqls
 			end
 			@time+=fall+wait
 		end
+
+
+		def transitionExpPtsAndRects(cur,from=@time,before=2000,fall=1000,after=1000)
+			fall+=@x[cur].length
+			(0...@x[cur].length).each do |i|
+				%x{
+					cqls.tweens.pt[i].wait(#{before}+i)
+					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(1000);
+
+					//rect start here so wait "from" ms first
+					cqls.tweens.rect[i].set({visible:false})
+					.wait(#{from}).set({visible:true})
+					.wait(#{before}+i)
+					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(#{after});
+
+				}
+			end
+			@time += before+fall+after
+		end
+
+		def transitionDrawRectsHidden(cur,from=@time,after=500)
+			#p [@wX[cur],@hY[cur]]
+			(0...@x[cur].length).each do |i|
+				%x{
+					 
+					cqls.tweens.pt[i].to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0})
+					.wait(#{after});
+
+					if(i==0) {
+						cqls.tweens.rect[i].call(function(tween) {
+							#{@hist[cur].draw(@aep[cur][:nbTot])};
+							#{allowLevelChange(true)};
+						})
+					}
+					//redraw rect first
+					cqls.tweens.rect[i].call(function(tween) {
+						tween._target.regY=#{@hY[cur]/2};
+					 	tween._target.graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
+					})
+					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0})
+					.wait(#{after});
+
+				}
+			end
+			@time += after
+		end
+
+		def transitionHistPtsAndRectsHidden(cur,from=@time,before=1000,fall=1000,after=1000)
+			fall+=@x[cur].length
+			(0...@x[cur].length).each do |i|
+				%x{
+					cqls.tweens.pt[i].wait(#{before}+i)
+					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(1000);
+
+					cqls.tweens.rect[i].wait(#{before}+i)
+					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(#{after});
+
+				}
+			end
+			%x{
+				//only once
+				cqls.tweens.pt[0].call(function(tween) {
+						#{hideAll(cur);@hist[cur].add(@x[cur]);@hist[cur].draw;drawSummary(cur)};
+				})
+			}
+			@time += before+fall+after
+		end
+
+
+
 
 		def transitionHistPtsAndRects(cur,from=@time,before=2000,fall=1000,after=1000)
 			fall+=@x[cur].length
@@ -1384,7 +1485,7 @@ module Cqls
 		def showExpAxis
 			isTransf = transfMode != :none
 			%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
-			%x{#{@exp[1]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
+			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
 
 		end
 
@@ -1443,6 +1544,7 @@ module Cqls
 			transitionInitHist(0)
 			transitionInitPts(0)
 			transitionInitRects(0)
+			transitionInitTime
 			transitionDrawPts(0)
 			transitionFallPts(0)
 			transitionHistPtsAndRects(0)
@@ -1451,12 +1553,16 @@ module Cqls
 
 		def playLongDensityBasicHidden(duration=1000)
 			addXY(@nbSim)
-			transitionInitHist(0)
+			transitionInitHist(0,:new)
 			transitionInitPts(0)
-			transitionInitRects(0)
+			transitionInitExpRects(0)
+			transitionInitTime
 			transitionDrawPts(0)
-			transitionFallPts(0)
-			transitionHistPtsAndRects(0)
+			transitionExpPtsAndRects(0)
+			transitionInitHist(0,:reduced)
+			transitionDrawRectsHidden(0)
+			transitionInitHist(0)
+			transitionHistPtsAndRectsHidden(0)
 			playNextAfter(@time+duration)
 		end
 
@@ -1468,6 +1574,7 @@ module Cqls
 			transitionInitPts(0)
 			transitionInitPtsTransf(0)
 			transitionInitRects(1)
+			transitionInitTime
 			transitionDrawPts(0)
 			transitionPtsTransf(1)
 			transitionInitPtsTransf(1)
@@ -1481,16 +1588,20 @@ module Cqls
 			addXY(@nbSim)
 			transitionInitTransf(0,1)
 			transitionInitHist(0) #to get info on step in particular
-			transitionInitHist(1)
+			transitionInitHist(1,:new)
 			transitionInitPts(0)
 			transitionInitPtsTransf(0)
-			transitionInitRects(1)
+			transitionInitExpRects(1)
+			transitionInitTime
 			transitionDrawPts(0)
 			transitionPtsTransf(1)
 			transitionInitPtsTransf(1)
 			transitionDrawPts(1)
-			transitionFallPts(1)
-			transitionHistPtsAndRects(1)
+			transitionExpPtsAndRects(1)
+			transitionInitHist(1,:reduced)
+			transitionDrawRectsHidden(1)
+			transitionInitHist(1)
+			transitionHistPtsAndRectsHidden(1)
 			playNextAfter(@time+duration)
 		end
 
