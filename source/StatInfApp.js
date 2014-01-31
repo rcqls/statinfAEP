@@ -21,6 +21,8 @@ enyo.kind({
 					{id:"chi2", content: "Chi2"},
 					{classes: "onyx-menu-divider"},
 					{id:"cauchy", content: "Cauchy"},
+					{classes: "onyx-menu-divider"},
+					{id:"saljus", content: "Salaire Juste"}
 				]}
 			]},
 			{kind: "onyx.MenuDecorator", name: "transfMenu",onSelect: "transfSelected", components: [
@@ -69,14 +71,16 @@ enyo.kind({
 		//]}
 		,
 		{kind: "onyx.MoreToolbar",style:"height:"+cqls.enyo.bottom+"px;" ,components: [
-			{kind: "onyx.ToggleButton", ontap: "toggleAnimMode",value:true},
+			{kind: "onyx.ToggleButton", name: "animMode", ontap: "toggleAnimMode",value:true},
+			{kind: "onyx.ToggleButton", name: "priorMode", ontap: "toggleAnimMode",value:false},
+			{kind: "onyx.ToggleButton", name: "demoMode", ontap: "toggleDemoMode",value:false},
 			{classes: "onyx-sample-tools", components: [
-				{kind: "onyx.Checkbox", name: "checkExp0Curve", onchange:"toggleExp0Curve"},
-				{kind: "onyx.Checkbox", name: "checkExp1Curve", onchange:"toggleExp1Curve"},
-				{kind: "onyx.Checkbox", name: "checkTCL", onchange:"toggleTCL"},
-				{kind: "onyx.Checkbox", name: "checkHistCurve", onchange: "toggleHistCurve"},
-				{kind: "onyx.Checkbox", name: "checkSummary", onchange: "toggleSummary"} 
-			]}	
+				{kind: "onyx.Checkbox", name: "checkExp0Curve", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkExp1Curve", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkTCL", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkHistCurve", onchange: "toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkSummary", onchange: "toggleVisible"} 
+			]}
 		]}
 	],
 	distribSelected: function(inSender,inEvent) {
@@ -125,32 +129,15 @@ enyo.kind({
 		cqls.m.stage.update();
 	},
 	toggleAnimMode: function(inSender, inEvent) {
-		cqls.i.anim=inSender.getValue();
+		cqls.m.play.$animMode();
 		cqls.m.stage.update();
 	},
-	toggleExp0Curve: function(inSender, inEvent) {
-		cqls.m.play.exp[0].shape.visible=inSender.getValue();
-		if(!inSender.getValue()) cqls.enyo.app.$.checkExp1Curve.setValue(inSender.getValue());
-		cqls.enyo.app.$.checkExp1Curve.disabled=!inSender.getValue();
-		cqls.m.play.$showExpAxis();
+	toggleDemoMode: function(inSender, inEvent) {
+		cqls.i.scaleTime=(inSender.getValue() ? 2.0 : 1.0);
 		cqls.m.stage.update();
 	},
-	toggleExp1Curve: function(inSender, inEvent) { 
-		cqls.m.play.exp[1].shape.visible=inSender.getValue();
-		cqls.m.play.$showExpAxis();
-		cqls.m.stage.update();
-	},
-	toggleHistCurve: function(inSender, inEvent) {
-		cqls.m.play.histCur.curveShape.visible=inSender.getValue();
-	},
-	toggleTCL: function(inSender, inEvent) {
-		cqls.m.play.$showTCL(inSender.getValue());
-		cqls.m.stage.update();
-	},
-	toggleSummary: function(inSender, inEvent) {
-		cqls.m.play.$drawSummary();
-		cqls.m.play.$showSummary(inSender.getValue());
-		cqls.m.stage.update();
+	toggleVisible: function(inSender, inEvent) {
+		cqls.m.play.$updateVisible();
 	},
 	onTapCanvas: function(inSender, inEvent) {
 		var p = enyo.getPosition();

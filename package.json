@@ -2,7 +2,7 @@
   	"name": "statinf",
   	"main": "debug.html",
   	"window": {
-  		"toolbar": true,
+  		"toolbar": false,
   		"width": 1200,
     	"height": 730,
     	"min_width": 300,

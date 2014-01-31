@@ -1,0 +1,21 @@
+Idées Laurent:
+=============
+
+[ ] Mode dessin des briques dans l'histogramme du bas en mode Anim
+[ ] ...
+
+
+Idées R:
+=======
+[ ] Mode IC (Assez urgent)
+[ ] Mode Diagramme en Batôn 
+[ ] Dessiner l'histo réalisé en haut en mode 'fast'
+[ ] Paramétrage des courbes (Prochain mode: pas animMode + IC + Test Hypo)
+[ ] Mode Scenario pour demo (pas de souci de répétabilité)
+[ ] Barres verticales en pointillé indiquant les modalités (cas discret et optionnel) 
+
+Niveau avancé (mais pas urgent):
+================================
+
+[ ] Actualiser le pas d'histogramme dans le mode anim
+[ ] Stopper l'anim sans attendre la fin en mode anim. 

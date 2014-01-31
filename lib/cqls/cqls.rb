@@ -821,10 +821,10 @@ module Cqls
 			end
 			@plotHist.update
 			setCurHist(@transf ? 1 : 0)
-			setTCL
+			setTCL;updateTCL(false);
 			# hideChildren
 			# showChildren
-			show
+			updateVisible
 	    end
 
 	    #########  Distribution
@@ -833,22 +833,34 @@ module Cqls
 	    	unless @checkTCL
 		    	@checkTCL=Curve.new 
 		    	@checkTCL.style={close: true,stroke:"#000",fill:"rgba(100,200,255,0.5)",thickness: 5}
-		    	@plotHist.addChild(@checkTCL,[@checkTCL,:draw])
+		    	@plotHist.addChild(@checkTCL)
 		    end
-	    	@checkTCL.setDistrib("normal",[@exp[0].distrib.mean,%x{Math.sqrt(#{@exp[0].distrib.variance/@n})}])
-	    	showTCL(false)
+		    if @transf
+		    	case @transf[:name]
+		    	when "mean"
+	    			@checkTCL.setDistrib("normal",[@exp[0].distrib.mean,%x{Math.sqrt(#{@exp[0].distrib.variance/@n})}])
+	    		when "stdMean"
+	    			@checkTCL.setDistrib("normal",[0,1])
+	    		when "sum"
+	    			@checkTCL.setDistrib("normal",[@exp[0].distrib.mean*@n,%x{Math.sqrt(#{@exp[0].distrib.variance*@n})}])
+	    		end
+	    	end
+	    	# p [:setTCL,[@exp[0].distrib.mean,@exp[0].distrib.variance,@exp[0].distrib.variance/@n,%x{Math.sqrt(#{@exp[0].distrib.variance/@n})}],@n]
+	    	# p [:ChecTCL,@checkTCL.distrib.mean,@checkTCL.distrib.variance,@checkTCL.distrib.pdf([100])]
+	    	# p [:ChecTCL2,@exp[1].distrib.mean,@exp[1].distrib.variance,@exp[1].distrib.pdf([100])]
 	    end
 
-	    def showTCL(state=true)
-	    	#state=false unless @transf
-	    	%x{
-	    		#{@checkTCL}.shape.visible=#{state};
-	    		#{@stage}.update
-	    	}
-
+	    def updateTCL(state=true)
+	    	state=false unless @transf and (["mean","sum","stdMean"].include? @transf[:name])
+	    	if state
+	    		setTCL 
+	    		@checkTCL.draw #since update just above does not work (my mistake, I guess)
+	    	end
+	    	%x{#{@checkTCL}.shape.visible=#{state}}
 	    end
 
 		def setDistrib(name="normal",params=nil,cur=0)
+			to_set=true
 			case name
 			when "discreteUniform"
 				params=[1,6,1] unless params # dice
@@ -869,10 +881,17 @@ module Cqls
 				params=[10] unless params
 			when "chi2"
 				params=[10] unless params
+			when "exp"
+				params=[1] unless params
 			when "cauchy"
 				params=[0,1] unless params
+			when "saljus"
+				# fixed mean=100 (90+10) and sd=10 (var=100)
+				setDistribAs(Distribution.new("exp",[1],{name: :locationScale, args: [90,10]}))
+				# p [:transf_in_saljus, @transf,@curIndHist]
+				to_set=false
 			end
-			@exp[cur].setDistrib(name,params)
+			@exp[cur].setDistrib(name,params) if to_set
 			setTransf(@transf[:name]) if @transf and cur==0
 		end
 
@@ -1006,6 +1025,21 @@ module Cqls
 			else
 				@nold=@n
 				@n=1 #used nbsSim
+			end
+		end
+
+		def animMode # 3 modes
+			%x{cqls.i.anim=cqls.enyo.app.$.animMode.getValue()}
+			%x{cqls.i.prior=cqls.enyo.app.$.priorMode.getValue()}
+			%x{console.log(cqls.i.anim + ":"+ cqls.i.prior)}
+			if %x{cqls.i.anim}
+				if %x{cqls.i.prior}
+					"prior"
+				else
+					"normal"
+				end
+			else
+				"fast"
 			end
 		end
 
@@ -1265,7 +1299,7 @@ module Cqls
 		end
 
 		## Timing[0,500,1000,1500]
-		def transitionDrawPts(cur,wait=1000)
+		def transitionDrawPts(cur,wait=1000*%x{cqls.i.scaleTime})
 			#p [:drawPts,cur,@hist[cur].type]
 			if @modeHidden
 				scale=(@graphExp.dim[:h]*0.2)/(@x[cur].length)
@@ -1291,7 +1325,7 @@ module Cqls
 			@time+=wait
 		end
 
-		def transitionPtsTransf(t=1,merge=1500,wait=500)
+		def transitionPtsTransf(t=1,merge=1500*%x{cqls.i.scaleTime},wait=500*%x{cqls.i.scaleTime})
 			if @modeHidden
 				scale=(@graphExp.dim[:h]*0.2)/(@ind.length)
 				scale=1 if scale > 1
@@ -1322,7 +1356,7 @@ module Cqls
 			@time+=merge if @modeHidden
 		end
 
-		def transitionFallPts(cur,fall=2000,wait=1000)
+		def transitionFallPts(cur,fall=2000*%x{cqls.i.scaleTime},wait=1000*%x{cqls.i.scaleTime})
 			(0...@x[cur].length).each do |i|
 				%x{
 					cqls.tweens.pt[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
@@ -1339,13 +1373,13 @@ module Cqls
 		end
 
 
-		def transitionExpPtsAndRects(cur,from=@time,before=2000,fall=1000,after=1000)
+		def transitionExpPtsAndRects(cur,from=@time,before=2000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
 					cqls.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
-					.wait(1000);
+					.wait(#{after});
 
 					//rect start here so wait "from" ms first
 					cqls.tweens.rect[i].set({visible:false})
@@ -1359,7 +1393,7 @@ module Cqls
 			@time += before+fall+after
 		end
 
-		def transitionDrawRectsHidden(cur,from=@time,after=500)
+		def transitionDrawRectsHidden(cur,from=@time,after=500*%x{cqls.i.scaleTime})
 			#p [@wX[cur],@hY[cur]]
 			(0...@x[cur].length).each do |i|
 				%x{
@@ -1386,13 +1420,13 @@ module Cqls
 			@time += after
 		end
 
-		def transitionHistPtsAndRectsHidden(cur,from=@time,before=1000,fall=1000,after=1000)
+		def transitionHistPtsAndRectsHidden(cur,from=@time,before=1000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
 					cqls.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
-					.wait(1000);
+					.wait(#{after});
 
 					cqls.tweens.rect[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
@@ -1412,13 +1446,13 @@ module Cqls
 
 
 
-		def transitionHistPtsAndRects(cur,from=@time,before=2000,fall=1000,after=1000)
+		def transitionHistPtsAndRects(cur,from=@time,before=2000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
 					cqls.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
-					.wait(1000);
+					.wait(#{after});
 
 					//rect start here so wait "from" ms first
 					cqls.tweens.rect[i].set({visible:false})
@@ -1464,9 +1498,66 @@ module Cqls
 		
 		end
 
-		def show
-			isTransf=@transf ? true : false
-			isSample=isTransf && transfMode==:sample
+		# def show
+		# 	isTransf=transfMode != :none
+		# 	isSample=transfMode==:sample
+		# 	%x{
+		# 		#{@exp[0]}.shape.visible=cqls.enyo.app.$.checkExp0Curve.getValue();
+		# 		#{@exp[1]}.shape.visible=#{isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue();
+		# 		#{@hist[0]}.shape.visible=#{!isTransf};
+		# 		#{@hist[1]}.shape.visible=#{isTransf};
+		# 		#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
+		# 		#{@hist[1]}.curveShape.visible=#{isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
+		# 		#{@hist[0]}.summaryShapes[0].visible=false;
+		# 		#{@hist[1]}.summaryShapes[0].visible=false;
+		# 		#{@checkTCL}.shape.visible=#{isSample} & cqls.enyo.app.$.checkTCL.getValue();
+		# 	}
+		# 	showExpAxis
+		# 	showSummary
+		# end
+
+		# def showExpAxis
+		# 	isTransf = transfMode != :none
+		# 	%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
+
+		# end
+
+		def drawSummary(cur=@curIndHist)
+			## AEP only since the others do not change
+			@hist[cur].drawMean
+			@hist[cur].drawSD
+			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
+			%x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
+			%x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
+		end
+
+		# def showSummary
+		# 	state=%x{cqls.enyo.app.$.checkSummary.getValue()}
+		# 	isTransf = transfMode != :none
+		# 	%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqls.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqls.enyo.app.$.checkExp1Curve.getValue()}
+		# 	%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue()}
+		# 	%x{#{@histCur}.summaryShapes[0].visible=#{state}}
+		# 	%x{#{@histCur}.summaryShapes[1].visible=#{state}}
+		# end
+
+		# def initEnyoMode
+		# 	unless @enyoMode
+		# 		@enyoMode={
+		# 			"exp0Curve" => "checkExp0Curve",
+		# 			"exp1Curve" => "checkExp1Curve",
+		# 			"summary" => "checkSummary",
+		# 			"tclCurve" => "checkTCL",
+		# 			"histCurve" => "checkHistCurve"
+		# 		}
+		# 	end
+		# end
+
+		def updateVisible #from enyo interface
+			isTransf = transfMode != :none
+			isSample = transfMode == :sample
 			%x{
 				#{@exp[0]}.shape.visible=cqls.enyo.app.$.checkExp0Curve.getValue();
 				#{@exp[1]}.shape.visible=#{isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue();
@@ -1478,36 +1569,26 @@ module Cqls
 				#{@hist[1]}.summaryShapes[0].visible=false;
 				#{@checkTCL}.shape.visible=#{isSample} & cqls.enyo.app.$.checkTCL.getValue();
 			}
-			showExpAxis
-			showSummary
-		end
 
-		def showExpAxis
-			isTransf = transfMode != :none
+			## Axis
 			%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
 			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
 
-		end
-
-		def drawSummary(cur=@curIndHist)
-			## AEP only since the others do not change
-			@hist[cur].drawMean
-			@hist[cur].drawSD
+			## Summary
 			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			%x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
-			%x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
-		end
-
-		def showSummary
-			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			isTransf = transfMode != :none
 			%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqls.enyo.app.$.checkExp0Curve.getValue()}
 			%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqls.enyo.app.$.checkExp1Curve.getValue()}
 			%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp0Curve.getValue()}
 			%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue()}
 			%x{#{@histCur}.summaryShapes[0].visible=#{state}}
 			%x{#{@histCur}.summaryShapes[1].visible=#{state}}
+			## TCL
+			updateTCL(%x{cqls.enyo.app.$.checkTCL.getValue()})
+			# update stage since possible change of visibility
+			%x{cqls.m.stage.update()}
 		end
+
+
 
 		####### Reset play
 
@@ -1606,7 +1687,8 @@ module Cqls
 		end
 
 		def isModeHidden?
-			@modeHidden=%x{!cqls.enyo.app.$.checkExp0Curve.getValue()}
+			animMode
+			@modeHidden=%x{!cqls.i.prior}
 			return @modeHidden
 		end
 
@@ -1701,6 +1783,11 @@ module Cqls
 					chi2: {
 						type: :cont,
 						dist: ["ChiSquareDistribution"], 
+						qbounds: [0,%x{cqls.m.qmax}]
+					},
+					exp: {
+						type: :cont,
+						dist: ["ExponentialDistribution"], 
 						qbounds: [0,%x{cqls.m.qmax}]
 					},
 					cauchy: {
