@@ -322,7 +322,7 @@ module Cqls
 		end
 
 		def drawMean
-			%x{#{@summaryShapes[0]}.visible=true}
+			# %x{#{@summaryShapes[0]}.visible=true}
 			%x{#{@summaryShapes[0]}.graphics.c().s("#000").ss(1).mt(#{@graph.to_X(@distrib.mean)},#{@graph.dim[:y]}).lt(#{@graph.to_X(@distrib.mean)},#{@graph.dim[:y]+@graph.dim[:h]})}
 		end
 
@@ -331,7 +331,7 @@ module Cqls
 			h=@distrib.maxPdf/2.0
 			h=h/@step if @type==:disc
 			h=@graph.to_Y(h)
-			%x{#{@summaryShapes[1]}.visible=true}
+			# %x{#{@summaryShapes[1]}.visible=true}
 			%x{
 				#{@summaryShapes[1]}.graphics.c().s("#000").ss(1)		
 				.mt(#{@graph.to_X(@distrib.mean-@distrib.stdDev)}+x,#{h}-y)
@@ -464,7 +464,7 @@ module Cqls
 
 	class Hist < Child
 
-		attr_accessor :bounds, :level, :levels, :nbPart, :nbTot, :curveShape, :type, :aep, :style
+		attr_accessor :bounds, :level, :levels, :nbPart, :nbTot, :curveShape, :type, :aep, :style, :cptICTot
 
 		def initialize(id=nil,type=:cont,bounds=[0,1],style={hist: {fill:"rgba(100,100,255,0.5)",stroke:"#000000"},mean: {stroke: "rgba(100,100,255,1)",thickness: 1},sd: {stroke: "rgba(100,100,255,1)",thickness: 1,fill:"rgba(100,100,255,1)" },curve:{close:false,fill:"#000",stroke:"rgba(0,0,0,.4)",thickness:3}},levels=8)
 			@@histCpt=-1 unless @@histCpt
@@ -496,7 +496,7 @@ module Cqls
 		end
 
 		def drawMean
-			%x{#{@summaryShapes[0]}.visible=#{@nbTot>0}}
+			# %x{#{@summaryShapes[0]}.visible=#{@nbTot>0}}
 			%x{#{@summaryShapes[0]}.graphics.c().s(#{@style[:mean][:stroke]}).ss(#{@style[:mean][:thickness]}).mt(#{@graph.to_X(@mean[0])},#{@graph.dim[:y]}).lt(#{@graph.to_X(@mean[0])},#{@graph.dim[:y]+@graph.dim[:h]})}
 		end
 
@@ -506,7 +506,7 @@ module Cqls
 			h=@curve.distrib.maxPdf/2.0
 			h=h/@step if @type==:disc
 			h=@graph.to_Y(h)
-			%x{#{@summaryShapes[1]}.visible=#{@nbTot>0}}
+			#%x{#{@summaryShapes[1]}.visible=#{@nbTot>0}}
 			%x{
 				#{@summaryShapes[1]}.graphics.c().s(#{@style[:mean][:stroke]}).ss(1)
 				.mt(#{@graph.to_X(@mean[0]-@sd)}+x,#{h}-y)
@@ -550,7 +550,7 @@ module Cqls
 				 # #p [:ind,@ind]
 				 # p [:cpt,@cpt]
 			end
-			@mean,@sd=[0,0],0
+			@mean,@sd,@cptICTot=[0,0],0,0
 		end
 
 		def index(x,step=@step)
@@ -605,6 +605,10 @@ module Cqls
 			@mean[1]=@mean[1]/@nbTot.to_f
 			@sd=%x{Math.sqrt(#{@mean[1]-@mean[0]**2})}
 			##p [@mean,@mean[1]-@mean[0]**2]
+		end
+
+		def incCptIC(cpt)
+			@cptICTot += cpt
 		end
 
 		def level(val=0,mode=:inc) #or :assign 
@@ -785,6 +789,11 @@ module Cqls
 			@yExpAxis=[@ratioExpAxis[0]*@graphExp.dim[:h],@ratioExpAxis[1]*@graphExp.dim[:h]]
 			@exp[0].attachExpAxis(@ratioExpAxis[0])
 			@exp[1].attachExpAxis(@ratioExpAxis[1])
+
+
+			@n01=Distribution.new("normal",[0,1]);
+			setAlpha(0.05)
+			setStatMode(:none)
 			isModeHidden? #to initialize @modeHidden
 
 			setTransf
@@ -914,6 +923,16 @@ module Cqls
 			setNbSim
 		end
 
+		def setStatMode(transf)
+			@statMode=(transf==:meanIC ? :ic : :none)
+			isModeHidden?
+			p [:setStatMode,transf,@statMode,@modeHidden]
+		end
+
+		def setAlpha(alpha)
+			@alpha=alpha
+		end
+
 		def setMLevel(val=3,mode=:inc)
 			return @mLevel if mode==:inc and val==0
 			@mLevels=[1,3,5,10,30,100,1000,3000] unless @mLevels
@@ -932,6 +951,7 @@ module Cqls
 		def setTransf(transf=nil) # @transf=nil => no transformation
 			@transf=transf
 			@transf=nil if @transf==:none
+			# Be careful: below, transf and not @transf
 			if @transf
 				if @n==1 #default if transf fixed before n
 					@nold=10 unless @nold
@@ -1115,7 +1135,7 @@ module Cqls
 
 		def stdMean_transf(v,mu)
 			m=(v.inject(0){|e,v2| e+=v2})/@n
-			m2=v.inject(0){|e,v2| e+=v2**2}/@n
+			m2=(v.inject(0){|e,v2| e+=v2**2})/@n
 			(m-mu)/%x{Math.sqrt((#{m2-m**2})/#{@n-1})}
 		end
 
@@ -1133,6 +1153,20 @@ module Cqls
 		def sumOfSq_transf_by_index(inds,v)
 			m,s=@transf[:origDist].mean,@transf[:origDist].stdDev
 			inds.inject(0){|e,i| e+=((v[i]-m)/s)**2}
+		end
+
+		def seMean_transf(v)
+			m=(v.inject(0){|e,v2| e+=v2})/@n
+			m2=(v.inject(0){|e,v2| e+=v2**2})/@n
+			#p [:seMean,inds,v,m,m2,%x{Math.sqrt((#{m2-m**2})/#{@n-1})}]
+			%x{Math.sqrt((#{m2-m**2})/#{@n-1})}
+		end
+
+		def seMean_transf_by_index(inds,v)
+			m=(inds.inject(0){|e,i| e+=v[i]})/@n
+			m2=(inds.inject(0){|e,i| e+=v[i]**2})/@n
+			#p [:seMean,inds,v,m,m2,%x{Math.sqrt((#{m2-m**2})/#{@n-1})}]
+			%x{Math.sqrt((#{m2-m**2})/#{@n-1})}
 		end
 
 		## vector mode since transfMode==:all
@@ -1179,11 +1213,19 @@ module Cqls
 				@ind=[];(0...(@x[o].length/@n)).each {|i| @ind << []} #carefull with [[]]*(@x[o].length/@n)
 				(0...@x[o].length).each {|i| @ind[(i/@n).floor] << i}
 				@x[t]=[0]*(@x[o].length/@n)
+				@icSide,@icGood,@cptIC,q,mu=[0]*(@x[t].length),[0]*(@x[t].length),0,@n01.quantile(1-@alpha/2),@exp[t].distrib.mean if @statMode==:ic
 				@col=[]
 				@ind.each_with_index do |s,i|
 					@x[t][i]=applyTransfByIndex(s,@x[o])
 					@col[i]=[%x{Math.random()*256}.floor,%x{Math.random()*256}.floor,%x{Math.random()*256}.floor,0.8]
+					if @statMode==:ic #necessarily a mean for now!
+						#p [:x,@x[o],q]
+						@icSide[i]=q*seMean_transf_by_index(s,@x[o])
+						@icGood[i]=1 if (@x[t][i]-@icSide[i] <= mu) and (mu <= @x[t][i]+@icSide[i])
+						@cptIC += @icGood[i]
+					end
 				end
+				#p [:cptIC,@cptIC,@x[t],@icSide]
 				@y[t]=@exp[t].y(@x[t])
 			elsif transfMode==:all
 				@ind=(0...@x[o].length).map{|i| [i]}
@@ -1304,14 +1346,18 @@ module Cqls
 			if @modeHidden
 				scale=(@graphExp.dim[:h]*0.2)/(@x[cur].length)
 				scale=1 if scale > 1
+				@remember={:lag => wait/@x[cur].length} if cur==0
 			end
+
 			(0...@x[cur].length).each do |i|
 				y=@modeHidden ? @yExpAxis[0] : @graphExp.to_Y(@y[cur][i])
 				y -= i*scale if @modeHidden and @hist[cur].type==:disc
+				wait2=wait
+				wait2 -= i*@remember[:lag] if @modeHidden and cur==0 and @transf #only for transf
 				%x{
 					cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{y}})
 					.set({visible:true})
-					.wait(#{wait})
+					.wait(#{wait2})
 				}
 				if @hist[cur].type==:disc and !@modeHidden
 					#p [:drawPt,i,@graphExp.to_X(@x[cur][i]),@graphExp.to_Y(@y[cur][i])]
@@ -1330,16 +1376,18 @@ module Cqls
 				scale=(@graphExp.dim[:h]*0.2)/(@ind.length)
 				scale=1 if scale > 1
 			end
-				
+			
 			@ind.each_with_index do |s,i2|
 				col="rgba(#{@col[i2][0]},#{@col[i2][1]},#{@col[i2][2]},#{@col[i2][3]})"
 				y=@modeHidden ? @yExpAxis[1] : @graphExp.to_Y(@y[t][i2])
 				y -= i2*scale if @modeHidden and @hist[t].type==:disc
 				s.each do |i|
+					wait2=wait
+					wait2 -= (@n-i)*@remember[:lag] if @modeHidden
 					%x{
 						cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[t][i2])},y:#{y}},#{merge})
 						if(#{@modeHidden}) cqls.tweens.pt[i].to({y:#{@graphExp.to_Y(0)}},#{merge})
-						cqls.tweens.pt[i].wait(#{wait}).set({visible:false})
+						cqls.tweens.pt[i].wait(#{wait2}).set({visible:false})
 						if(#{@transf and @hist[0].type==:disc and @hist[1].type==:disc and !@modeHidden}) {
 					 		cqls.tweens.line[i].call(function(tween) {
 					 			tween._target.regX=#{@wX[t]}/2.0;
@@ -1478,6 +1526,96 @@ module Cqls
 			@time += before+fall+after
 		end
 
+
+		def transitionDrawIC(from=@time,wait=1000*%x{cqls.i.scaleTime},pause=1000*%x{cqls.i.scaleTime},before=1000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
+			#p [:transIC,@icSide,@icSide.map{|e| @graphExp.to_X(e)}]
+			@ind.each_with_index do |s,i2|
+				col="rgba(#{@col[i2][0]},#{@col[i2][1]},#{@col[i2][2]},#{@col[i2][3]})"
+				y=@graphExp.to_Y(@y[1][i2])
+				l=@graphExp.to_X(@icSide[i2])-@graphExp.to_X(0)
+				%x{cqls.tweens.pt[i2].wait(#{pause})}
+				if @hist[1].type==:disc #
+					%x{
+						cqls.tweens.line[i2]
+						.call(function(tween) {
+				 			tween._target.regX=#{l};
+				 			tween._target.regY=1;
+				 			tween._target.graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{2*l},2);
+					 	})
+						.wait(#{pause})
+					 	
+					} 
+				else #create them
+					%x{
+						//draw lines
+						cqls.actors.line[i2].graphics.c().s(#{col}).f(#{@style[:fl]})
+						.drawRect(0,0,#{2*l},2);
+						cqls.actors.line[i2].regX=#{l};
+						cqls.actors.line[i2].regY=1;
+						//tweens for lines
+						cqls.tweens.line[i2]=createjs.Tween.get(cqls.actors.line[i2],{override:true});
+						cqls.tweens.line[i2].set({visible:false}).wait(#{from}+#{wait})
+						.to({x:#{@graphExp.to_X(@x[1][i2])},y:#{y}})
+				 		.set({visible:true}).wait(#{pause})
+				 	}
+				end
+				if @icGood[i2]==0
+					%x{
+						cqls.tweens.pt[i2].wait(#{pause}).to({scaleX:2.0,scaleY:2.0},#{pause}) //.to({scaleX:1.0,scaleY:1.0})
+						cqls.tweens.line[i2].to({scaleY:3.0},#{pause}) //.to({scaleY:1.0})
+					}
+				else 
+					%x{
+						cqls.tweens.pt[i2].wait(#{2*pause})
+						cqls.tweens.line[i2].wait(#{pause})
+					}
+				end
+			end
+			@time+=3*pause
+
+			## adaptation of transitionHistPtsAndRects
+			cur=1 
+			fall += @x[cur].length
+			(0...@x[cur].length).each do |i|
+				%x{
+					//rect start here so wait "@time" ms first
+					cqls.tweens.rect[i].set({visible:false})
+					.wait(#{@time})
+					.to({x:#{@graphExp.to_X(@aep[cur][:xRect][i])},y:#{@graphExp.to_Y(@y[1][i])}})
+					.set({visible:true})
+					if(i==0) {
+						cqls.tweens.rect[i].call(function(tween) {
+							#{@hist[cur].draw(@aep[cur][:nbTot])};
+							#{allowLevelChange(true)};
+						})
+					}
+
+					cqls.tweens.pt[i].wait(#{before}+i)
+					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(#{after});
+					cqls.tweens.line[i].wait(#{before}+i)
+					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(#{after});
+
+					cqls.tweens.rect[i].wait(#{before}+i)
+					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
+					.wait(#{after});
+					if(#{@icGood[i]==0}) {
+						cqls.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
+						cqls.tweens.line[i].to({scaleY:1.0})
+					}
+
+				}
+			end
+			%x{
+				//only once
+				cqls.tweens.pt[0].call(function(tween) {
+						#{hideAll(cur);@hist[cur].add(@x[cur]);@hist[cur].incCptIC(@cptIC);@hist[cur].draw;drawSummary(cur)};
+				})
+			}
+			@time += before+fall+after
+		end
+
 		def hideAll(cur)
 			if @x[cur]
 				# (0...@x[cur].length).each{|i| 
@@ -1528,8 +1666,8 @@ module Cqls
 			@hist[cur].drawMean
 			@hist[cur].drawSD
 			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			%x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
-			%x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
+			#%x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
+			#%x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
 		end
 
 		# def showSummary
@@ -1576,12 +1714,12 @@ module Cqls
 
 			## Summary
 			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqls.enyo.app.$.checkExp0Curve.getValue()}
-			%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqls.enyo.app.$.checkExp1Curve.getValue()}
-			%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp0Curve.getValue()}
-			%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue()}
-			%x{#{@histCur}.summaryShapes[0].visible=#{state}}
-			%x{#{@histCur}.summaryShapes[1].visible=#{state}}
+			%x{#{@exp[0]}.summaryShapes[0].visible=cqls.enyo.app.$.checkExp0Mean.getValue()}
+			%x{#{@exp[0]}.summaryShapes[1].visible=cqls.enyo.app.$.checkExp0SD.getValue()}
+			%x{#{@exp[1]}.summaryShapes[0].visible=#{isTransf} & cqls.enyo.app.$.checkExp1Mean.getValue()}
+			%x{#{@exp[1]}.summaryShapes[1].visible=#{isTransf} & cqls.enyo.app.$.checkExp1SD.getValue()}
+			%x{#{@histCur}.summaryShapes[0].visible=cqls.enyo.app.$.checkHistMean.getValue()}
+			%x{#{@histCur}.summaryShapes[1].visible=cqls.enyo.app.$.checkHistSD.getValue()}
 			## TCL
 			updateTCL(%x{cqls.enyo.app.$.checkTCL.getValue()})
 			# update stage since possible change of visibility
@@ -1602,10 +1740,16 @@ module Cqls
 		def playShort(cur=@curIndHist,duration=500)
 			hideAll(cur) # todo resetAll instead
 			@time=0
-			if @transf and @transf[:dist]!= :exact
+			if @transf and (@transf[:dist]!=:exact or @statMode==:ic)
 				x=[]
+				q,mu=@n01.quantile(1-@alpha/2),@exp[0].distrib.mean if @statMode==:ic
 				(0...(10 ** %x{cqls.i.count})).each do |i|
-					x[i]=applyTransfByValue(@exp[0].sample(@n))
+					xx=@exp[0].sample(@n)
+					x[i]=applyTransfByValue(xx)
+					if @statMode==:ic
+						icSide=q*seMean_transf(xx)
+						@hist[cur].cptICTot += 1  if (x[i]-icSide <= mu) and (mu <= x[i]+icSide)
+					end
 				end
 				# p [:x,x]
 				# p [:bounds,@hist[cur].bounds]
@@ -1686,17 +1830,41 @@ module Cqls
 			playNextAfter(@time+duration)
 		end
 
+		def playLongDensityForIC(duration=1000)
+			addXY(@nbSim)
+			transitionInitTransf(0,1)
+			transitionInitHist(0) #to get info on step in particular
+			transitionInitHist(1)
+			transitionInitPts(0)
+			transitionInitPtsTransf(0)
+			transitionInitRects(1)
+			transitionInitTime
+			transitionDrawPts(0)
+			transitionPtsTransf(1)
+			transitionInitPtsTransf(1)
+			transitionDrawPts(1)
+			transitionDrawIC
+			# transitionFallPts(1)
+			# transitionHistPtsAndRects(1)
+			playNextAfter(@time+duration)
+		end
+
 		def isModeHidden?
 			animMode
 			@modeHidden=%x{!cqls.i.prior}
+			@modeHidden=false if @statMode==:ic
+			#p [:modeHidden,@modeHidden]
 			return @modeHidden
 		end
 
 		def playLongDensity(duration=1000)
 
 			if @transf
+
 				if isModeHidden?
 					playLongDensityWithTransfHidden(duration)
+				elsif @statMode==:ic
+					playLongDensityForIC(duration)
 				else
 					playLongDensityWithTransf(duration)
 				end

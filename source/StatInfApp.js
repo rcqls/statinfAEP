@@ -35,8 +35,22 @@ enyo.kind({
 					{classes: "onyx-menu-divider"},
 					{id:"sum", content: "Sample Sum"},
 					{id:"mean", content: "Sample Mean"},
-					{id:"stdMean", content: "Standardized Mean Error"}//,
+					{id:"stdMean", content: "Standardized Mean Error"},
+					{classes: "onyx-menu-divider"},
+					{id:"meanIC", content: "IC Mean"}//,
 					//{id:"sumOfSq", content: "Sum of squares"}
+				]}
+			]},
+			{kind: "onyx.MenuDecorator", name: "alphaMenu",onSelect: "alphaSelected", components: [
+				{content: "Alpha"},
+				{kind: "onyx.Menu", components: [
+					{id:"0.001", content: "0.1%"},
+					{id:"0.01", content: "1%"},
+					{id:"0.025", content: "2.5%"},
+					{id:"0.05", content: "5%"},
+					{id:"0.1", content: "10%"},
+					{id:"0.2", content: "20%"},
+					{id:"0.5", content: "50%"}
 				]}
 			]},
 			{kind: "onyx.MenuDecorator",name: "nMenu",onSelect: "nSelected", components: [
@@ -76,9 +90,21 @@ enyo.kind({
 			{kind: "onyx.ToggleButton", name: "demoMode", ontap: "toggleDemoMode",value:false},
 			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkExp0Curve", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkExp0Mean", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkExp0SD", onchange:"toggleVisible"}
+			]},
+			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkExp1Curve", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkExp1Mean", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkExp1SD", onchange:"toggleVisible"}
+			]},
+			{classes: "onyx-sample-tools", components: [
+				{kind: "onyx.Checkbox", name: "checkHistCurve", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkHistMean", onchange:"toggleVisible"},
+				{kind: "onyx.Checkbox", name: "checkHistSD", onchange:"toggleVisible"}
+			]},
+			{classes: "onyx-sample-tools", components: [			
 				{kind: "onyx.Checkbox", name: "checkTCL", onchange:"toggleVisible"},
-				{kind: "onyx.Checkbox", name: "checkHistCurve", onchange: "toggleVisible"},
 				{kind: "onyx.Checkbox", name: "checkSummary", onchange: "toggleVisible"} 
 			]}
 		]}
@@ -89,14 +115,24 @@ enyo.kind({
 		cqls.m.stage.update();
 	},
 	transfSelected: function(inSender,inEvent) {
-		cqls.m.play.$setTransf(inEvent.selected.id);
-		if(["none","locationScale","center"].indexOf(inEvent.selected.id) > 0) this.$.nMenu.hide();
+		var transf=inEvent.selected.id;
+		cqls.m.play.$setStatMode(transf);
+		if(transf=="meanIC") transf="mean";
+		cqls.m.play.$setTransf(transf);
+		if(["none","locationScale","center"].indexOf(transf) > 0) this.$.nMenu.hide();
 		else this.$.nMenu.show();
+		if(cqls.m.play.statMode=="ic") this.$.alphaMenu.show();
+		else this.$.alphaMenu.hide();
 		cqls.m.play.$reset();
 		cqls.m.stage.update();
 	},
 	nSelected: function(inSender,inEvent) {
 		cqls.m.play.$setN(parseInt(inEvent.selected.id));
+		cqls.m.play.$reset();
+		cqls.m.stage.update();
+	},
+	alphaSelected: function(inSender,inEvent) {
+		cqls.m.play.$setAlpha(parseFloat(inEvent.selected.id));
 		cqls.m.play.$reset();
 		cqls.m.stage.update();
 	},
