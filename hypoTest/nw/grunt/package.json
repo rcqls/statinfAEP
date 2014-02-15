@@ -1,0 +1,8 @@
+{
+  "name": "grunt-node-webkit-builder-statinfAEP",
+  "description": "grunt node webkit builder for statinfAEP",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-node-webkit-builder": "~0.1.14"
+  }
+}

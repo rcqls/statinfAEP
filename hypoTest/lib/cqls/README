@@ -1,0 +1,3 @@
+ruby -ropal.rb -e "puts Opal::Builder.build('opal')" > opal.js
+
+ruby -ropal -e 'puts Opal.compile(File.read("testOpal.rb"))' > testOpal.js

@@ -1,0 +1,5 @@
+#/bin/bash
+FILE=$1
+echo $FILE
+
+ruby -ropal -e "puts Opal.compile(File.read(\"${FILE}.rb\"))" > ${FILE}.js

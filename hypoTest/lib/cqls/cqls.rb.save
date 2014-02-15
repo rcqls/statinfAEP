@@ -1,0 +1,535 @@
+module Cqls
+
+	class Plot
+
+		attr_accessor :parent, :frame, :style, :graph, :dim
+
+		def initialize(dim={x:0,y:0,w:600,h:300},style={bg:"#88FF88"})
+			@dim,@style=dim,style
+			@parent=%x{new createjs.Container()}
+			@frame=	%x{new createjs.Shape()}		
+    		@graph=Cqls::Graph.new(@dim)
+    		# init frame
+    		%x{#{@frame}.graphics.beginFill(#{@style[:bg]}).drawRect(#{@dim[:x]},#{@dim[:y]},#{@dim[:w]},#{@dim[:h]})}
+			addChild(@frame)
+		end
+
+		def addChild(child,pos=-1)
+			## to transform after opalizing child
+			# %x{
+	  #    		if(#{child}.shape) {
+		 #    		#{@parent}.addChild(#{child}.shape);
+		 #    		//Maybe add something similar to: 
+		 #    		#{child}.plot=#{self};
+		 #    		#{child}.graph=#{@graph};
+		 #    		#{@graph}.$add(#{child});
+		 #    	} else {
+		 #    		#{@parent}.addChild(#{child});
+		 #    	}
+   #  		}
+
+   			shape=child
+    		unless  %x{#{child}.shape == null}
+  				shape=child.shape
+    			child.plot=self
+    			child.graph=@graph
+    			@graph.add(child)
+    		end
+    		if pos>=0
+    			%x{#{@parent}.addChildAt(#{shape},#{pos})}
+    		else
+    			%x{#{@parent}.addChild(#{shape})}
+    		end
+    	end
+
+	end
+
+
+	class Graph
+
+		def Graph.adjust(inter,more=%x{cqls.m.xylimMore})
+			l=(inter[1]-inter[0])*more
+			[inter[0]-more,inter[1]+more]
+		end
+
+		def initialize(where,xlim=[],ylim=[],style=nil)
+			@where,@style=where,style
+			@dim={x: xlim, y: ylim}
+			@list=[] 
+			@list << @dim unless @dim[:x].empty?
+			@xylim={x: [], y: []}
+		end
+
+		def update
+			#p @list;p @where
+			@xylim[:x][0]=@list.map{|e| e[:x][0]}.min
+			@xylim[:x][1]=@list.map{|e| e[:x][1]}.max
+			@xylim[:y][0]=@list.map{|e| e[:y][0]}.min
+			@xylim[:y][1]=@list.map{|e| e[:y][1]}.max
+			# then update the rescaling coeff
+			@ax,@ay=(@xylim[:x][1]-@xylim[:x][0])/@where[:w],(@xylim[:y][0]-@xylim[:y][1])/@where[:h]
+			@bx,@by=@xylim[:x][0]-@ax*@where[:x],@xylim[:y][1]-@ay*@where[:y]
+			#p [@ax,@bx,@ay,@by]
+		end
+
+		def add(element)
+			if element.xylim
+				@list << element.xylim 
+				update
+			end
+		end
+
+		def to_x(x)
+			@ax*x+@bx
+		end
+
+		def to_X(x)
+			(x-@bx)/@ax
+		end
+
+		def to_y(y)
+			@ay*y+@by
+		end
+
+		def to_Y(y)
+			(y-@by)/@ay
+		end
+
+		# (x,y) global to local (i.e. graph)
+		def to_local(x,y) 
+			[@ax*x+@bx,@ay*y+@by]
+		end
+
+		# (x,y) from local (i.e. graph) to global 
+		def to_global(x,y)
+			[(x-@bx)/@ax,(y-@by)/@ay]
+		end
+
+	end
+
+=begin
+	   cqls.s.density= {
+    	logic: Opal.Cqls.Curve.$new([cqls.m.xmin,cqls.m.xmax]),
+    	shape: new createjs.Shape(),
+    	cc:true, //closed curve
+		style: {sc:"#000",fc:"#88F",fp:"#FFF",sp:"#000000",fl:"#FFF",sl:"#000000",fr:"#0000FF",sr:"#000000"},
+	 
+    	init: function() {
+	    	cqls.s.density.shape.addEventListener("click", function(evt) {
+		    	 cqls.f.updateHist();
+		    });
+		},
+		set: function(dist) {
+			cqls.s.density.logic.$set(dist);
+		},
+		draw: function() {
+			cqls.f.drawCurve();
+		}
+	}
+=end
+
+	class Child
+
+		attr_accessor :plot, :graph, :shape, :style, :xylim
+
+		def initialize
+
+		end
+
+		# def plot=(plot)
+		# 	@graph=plot.graph
+		# end
+
+	end
+
+	
+	class Curve < Child
+
+		def initialize(bounds=[0,1],style={close: true,stroke:"#000",fill:"#88F"},length=100)
+			@bounds,@length,@style=bounds,length,style
+			@shape=%x{new createjs.Shape()}
+			%x{#{@x}=jStat.seq(#{@bounds[0]},#{@bounds[1]},#{@length})}
+		end
+
+		def set(experiment)
+			@exp=experiment
+			@bounds=@exp.bounds
+			#p @bounds
+			@x=%x{jStat.seq(#{@bounds[0]},#{@bounds[1]},#{@length})}
+			@y=@exp.pdf(@x)
+			#p @x;p @y;p @x.length
+			initXYLim
+		end
+
+		def initXYLim
+			@xylim={x: Graph.adjust(@bounds), y: Graph.adjust([0,@y.max])}
+		end
+
+		# TODO: graph=@plot.graph
+		def draw(curveJS=@shape,graph=%x{cqls.s.plot.graph},style=@style)
+
+			%x{
+				#{curveJS}.graphics.clear();
+				if(#{style[:close]}) {#{curveJS}.graphics.f(#{style[:fill]});}
+				#{curveJS}.graphics.s(#{style[:stroke]});
+			}
+			%x{#{curveJS}.graphics.mt(#{graph.to_X(@x[0])},#{graph.to_Y(0.0)})}
+			# Carefull, @x.length may differ from @length => do not use @length below
+			(0...@x.length).each {|i|
+				#p [i,"a",@x[i],@y[i]]
+				#p ["b",graph.to_X(@x[i]),graph.to_Y(@y[i])]
+				%x{#{curveJS}.graphics.lt(#{graph.to_X(@x[i])},#{graph.to_Y(@y[i])})}
+			}
+			%x{#{curveJS}.graphics.lt(#{graph.to_X(@x[-1])},#{graph.to_Y(0.0)})}
+			%x{#{curveJS}.graphics.cp()} if style[:close]
+		end
+
+		## additionnal simulation tricks for AEP show
+		def addSim(x=[])
+			@xSim=x
+			@ySim=@exp.pdf(@xSim)
+			@ySim=%x{#{@ySim}.map(function(e) {return jStat.uniform.sample(0,e);})}
+			#p @xSim+@ySim
+		end
+
+		def drawSim(shapesJS,graphSim,graphHist)
+			(0...@xSim.length).each do |i|
+				%x{
+					#{shapesJS}.pt[i].x=#{graphSim.to_X(@xSim[i])};#{shapesJS}.pt[i].y=#{graphSim.to_Y(@ySim[i])};
+					#{shapesJS}.pt[i].regX=cqls.i.ptSize/2;#{shapesJS}.pt[i].regY=cqls.i.ptSize/2;
+					#{shapesJS}.pt[i].visible=true;
+					#{shapesJS}.line[i].visible=false;
+					#{shapesJS}.line[i].graphics.c().s(cqls.m.style.sl).f(cqls.m.style.fl).mt(#{graphSim.to_X(@xSim[i])},#{graphHist.to_Y(0.0)});
+					#{shapesJS}.line[i].graphics.lt(#{graphSim.to_X(@xSim[i])},#{graphSim.to_Y(@ySim[i])});
+					#{shapesJS}.pt[i].graphics.c().s(cqls.m.style.sp).f(cqls.m.style.fp).drawEllipse(0,0,cqls.i.ptSize,cqls.i.ptSize);
+				}
+			end
+		end
+
+		def animSim(shapesJS,graphHist)
+			%x{if(cqls.s.tweenPts==null) cqls.s.tweenPts=[];}
+			(0...@xSim.length).each do |i|
+				#p [i,@xSim[i],@ySim[i],graph.to_X(@xSim[i]),graph.to_Y(@ySim[i])]
+				#p [0,graph.to_Y(0.0)]
+				%x{
+					cqls.s.tweenPts[i]=createjs.Tween.get(#{shapesJS}.pt[i],{override:true});
+					cqls.s.tweenPts[i].set({visible:true},#{shapesJS}.pt[i]).wait(1000)
+					.to({y:#{graphHist}.$to_Y(#{@xylim[:y][1]})},1000,createjs.Ease.bounceOut).wait(1000)
+				}			
+			end
+		end
+
+		def animHist(shapesJS,graphHist,hist)
+			histo=%x{hist}
+			histo.beginPre(@xSim)
+			w,h=histo.stepPre,1/histo.nbTotPre.to_f/histo.stepPre
+			wX,hY=graphHist.to_X(w)-graphHist.to_X(0),graphHist.to_Y(0)-graphHist.to_Y(h)
+			#p [w,h,wX,hY]
+			(0...@xSim.length).each do |i|
+				xSim=histo.xRectPre[i]
+				ySim=histo.yRectPre[i]
+				#p [i,xSim,@xSim[i],xSim+w,graphHist.to_X(xSim),graphHist.to_X(@xSim[i])]
+				%x{
+					//draw rect first
+					#{shapesJS}.rect[i].x=#{graphHist.to_X(xSim)};#{shapesJS}.rect[i].y=#{graphHist}.$to_Y(#{@xylim[:y][1]});
+					//#{shapesJS}.rect[i].regX=#{wX/2.0};
+					#{shapesJS}.rect[i].regY=#{hY/2};
+					#{shapesJS}.rect[i].graphics.c().f(cqls.m.style.fr).s(cqls.m.style.sr).drawRect(0,0,#{wX},#{hY});
+					createjs.Tween.get(#{shapesJS}.rect[i],{override:true}).set({visible:false},#{shapesJS}.rect[i]).wait(2000)
+					.set({visible:true},#{shapesJS}.rect[i]).call(function(tween) {#{histo}.$update();})
+					.wait(1000+1000+i).to({y:#{graphHist.to_Y(ySim)}+hY/2.0},1500+cqls.i.nbSim-i).wait(1000);
+					cqls.s.tweenPts[i].wait(1000+i).to({y:#{graphHist.to_Y(ySim)}+hY/2.0},1500+cqls.i.nbSim-i).wait(1000);
+
+				}
+			end
+			%x{
+				cqls.s.tweenPts[0].call(function(tween) {
+						#{histo}.$hidePre(#{shapesJS});
+						#{histo}.$endPre();
+						#{histo}.$update();//No shapesJS!
+					})
+			}
+		end
+
+		# def drawSim(ptsJS,linesJS,graph,graph2)
+		# 	(0...@xSim.length).each do |i|
+		# 		%x{#{linesJS}[i].graphics.mt(#{graph.to_X(@xSim[i])},#{graph2.to_Y(0.0)})}
+		# 		%x{#{linesJS}[i].graphics.lt(#{graph.to_X(@xSim[i])},#{graph.to_Y(@ySim[i])}).es()}
+		# 		%x{#{ptsJS}[i].graphics.mt(#{graph.to_X(@xSim[i])},#{graph.to_Y(0.0)}).drawEllipse(#{graph.to_X(@xSim[i])},#{graph.to_Y(@ySim[i])},10,10).es()}
+		# 	end
+		# end
+
+		# def animSim(ptsJS,graph,graph2)
+		# 	(0...@xSim.length).each do |i|
+		# 		#p [i,@xSim[i],@ySim[i],graph.to_X(@xSim[i]),graph.to_Y(@ySim[i])]
+		# 		#p [0,graph.to_Y(0.0)]
+		# 		%x{createjs.Tween.get(#{ptsJS}[i],{override:true}).set({visible:true},#{ptsJS}[i]).wait(500)
+		# 			.to({y:#{graph.to_Y(0)}-#{graph.to_Y(@ySim[i])}},1000).wait(500)
+		# 			.to({y:#{graph2.to_Y(0)}-#{graph.to_Y(@ySim[i])}},2000).wait(500).set({y:0,visible:false},#{ptsJS}[i])
+		# 		}			
+		# 	end
+		# end
+
+	end
+=begin
+	cqls.h.hist = {
+		logic: Opal.Cqls.Histo.$new([cqls.m.xmin,cqls.m.xmax],8),
+		shape: new createjs.Shape(),
+		curve: new createjs.Shape(),
+		cc:false, //closed curve
+		style: {fh:"#0000FF",sh:"#000000",sc:"#000",fc:"#FFF"},
+		init: function() {
+			//First add to graph to update xylim
+			cqls.h.plot.graph.$add(cqls.s.density);
+			//Then draw the curve
+			cqls.f.drawCurve({curve: cqls.h.hist.curve, graph: cqls.h.plot.graph,fill:cqls.h.hist.style.fc,stroke:cqls.h.hist.style.sc,close:cqls.h.hist.cc});
+		}
+	}
+=end
+
+	class Hist < Child
+
+		attr_accessor :stepPre, :nbTotPre, :xRectPre, :yRectPre, :curveShape
+
+		def initialize(bounds=[0,1],style={hist: {fill:"#0000FF",stroke:"#000000"},curve:{close:false,fill:"#FFF",stroke:"#000"}},levels=8)
+			@bounds,@levels,@level=bounds,levels,1
+			@nbPart=2**levels
+			init
+			@style=style
+			@shape=%x{new createjs.Shape()}
+			@curveShape=%x{new createjs.Shape()}
+		end
+
+		def attachCurve(curve)
+			#@xylim=curve.xylim
+			@graph.add(curve)
+			curve.draw(@curveShape,@graph,@style[:curve])
+			@plot.addChild(@curveShape,1)
+			%x{#{@curveShape}.visible=false}
+		end
+
+		def init
+			@step=(@bounds[1]-@bounds[0]).to_f/@nbPart
+			@cpt,@nbTot=[0]*@nbPart,0
+		end
+
+		# def set(experiment)
+		# 	@bounds=map {|e| }
+		# end
+
+		def add(x)
+			x.each {|e| @cpt[((e-@bounds[0]) / @step).floor]+=1}
+			@nbTot += x.length
+		end
+
+		def beginPre(x)
+			%x{cqls.i.pre=true}
+			@xPre=x
+			updatePre
+
+		end
+
+		def updatePre
+			## made in the current level
+			@cptPre=counts()
+			@stepPre=(@bounds[1]-@bounds[0]).to_f / (2**@level).to_f
+			@nbTotPre = @nbTot + @xPre.length
+			@xRectPre,@yRectPre=[],[]
+			#p @bounds
+			#p @level
+			@xPre.each_with_index {|e,i|
+				#p [i,e]
+				pos=((e-@bounds[0]) / (@stepPre) ).floor
+				@cptPre[pos]+=1
+				@xRectPre[i]=@bounds[0]+(@stepPre*pos.to_f)
+				@yRectPre[i]=@cptPre[pos].to_f/@nbTotPre.to_f/@stepPre
+			}
+		end
+
+		def endPre
+			add(@xPre)
+			%x{cqls.i.pre=false}
+		end
+
+		def level(val=0,mode=:inc) #or :assign 
+			return @level if mode==:inc and val==0
+			level = (mode==:inc ? @level : 0) + val
+			level=0 if level < 0
+			level=@levels if level > @levels
+			return (@level = level)
+		end
+
+		def counts
+			cptLevel=[0]*(2**@level)
+			(0...@nbPart).each{|i| cptLevel[i / 2**(@levels-@level)] += @cpt[i]}
+			cptLevel
+		end
+
+		def prob
+			counts().map{|e| e.to_f/@nbTot.to_f}
+		end
+
+		def density
+			cpt=counts()
+			step=@step*(2**(@levels-@level))
+			nbTot= %x{cqls.i.pre} ? @nbTotPre : @nbTot
+			##p [nbTot,@nbTot,%x{cqls.i.pre}]
+			cpt.map{|e| e.to_f/nbTot.to_f/step}
+		end
+
+		def bounds
+			step=@step*(2**(@levels-@level))
+			((0...(2**@level)).map{|i| @bounds[0]+i*step})+[@bounds[1]]
+		end
+
+		def draw
+			d=density()
+			b=bounds()
+			#p b
+			#p d
+			#p [@level,2**@level]
+			#%x{console.log(#{graph.to_Y(0.0)});}
+
+			%x{#{@shape}.graphics.c().f(#{@style[:hist][:fill]}).s(#{@style[:hist][:stroke]}).mt(#{@graph.to_X(b[0])},#{@graph.to_Y(0.0)})}
+			(0...(2**@level)).each {|i|
+				#p [@graph.to_X(b[i]),@graph.to_Y(d[i]),@graph.to_X(b[i+1]),@graph.to_Y(d[i])]
+				%x{
+					#{@shape}.graphics.lt(#{@graph.to_X(b[i])},#{@graph.to_Y(d[i])});
+					#{@shape}.graphics.lt(#{@graph.to_X(b[i+1])},#{@graph.to_Y(d[i])});
+				}
+			}
+			%x{#{@shape}.graphics.lt(#{@graph.to_X(b[-1])},#{@graph.to_Y(0.0)})}
+			%x{#{@shape}.graphics.cp()}
+		end
+
+		def update(shapesJS)
+			draw
+			## TODO: put this elsewhere
+			if %x{cqls.i.pre} and %x{#{shapesJS}!=null}
+				updatePre
+				w,h=@stepPre,1/@nbTotPre.to_f/@stepPre
+				wX,hY=@graph.to_X(w)-@graph.to_X(0),@graph.to_Y(0)-@graph.to_Y(h)
+				#p [w,h,wX,hY]
+				(0...@xPre.length).each do |i|
+					xPre=@xRectPre[i]
+					yPre=@yRectPre[i]
+					%x{
+						#{shapesJS}.rect[i].x=#{@graph.to_X(xPre)};#{shapesJS}.rect[i].y=#{@graph}.$to_Y(yPre)+hY/2.0;
+						//#{shapesJS}.rect[i].regX=#{wX/2.0};
+						#{shapesJS}.rect[i].regY=#{hY/2};
+						#{shapesJS}.rect[i].graphics.c().f(cqls.m.style.fr).s(cqls.m.style.sr).drawRect(0,0,#{wX},#{hY});
+						#{shapesJS}.pt[i].y=#{@graph}.$to_Y(yPre)+hY/2.0;
+						
+					}
+				
+				end
+
+			end
+		end
+
+		def hidePre(shapesJS)
+			if @xPre
+				(0...@xPre.length).each{|i| 
+					%x{
+						#{shapesJS}.pt[i].visible=false;
+						#{shapesJS}.line[i].visible=false;
+						#{shapesJS}.rect[i].visible=false;	
+					}
+				}
+			end
+		end
+
+	end
+
+	class Actor
+
+	end
+
+	class Transition
+		def initialize(from)
+		end
+	end
+
+	class Experiment
+
+		attr_accessor :list
+
+		def initialize
+			@list={
+				normal: {
+					dist: ["jStat","normal"], 
+					qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+				},
+				t: {
+					dist:["jStat","studentt"], 
+					qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+				},
+				chi2: {
+					dist: ["jStat","chisquare"], 
+					qbounds: [0,%x{cqls.m.qmax}]
+				},
+				binomial: {
+					dist: ["BinomialDistribution"],
+					qbounds: [0,1]
+				}	
+			}
+		end
+
+		def set(dist,args)
+			@args=args
+			@current=dist
+			if @list[@current]["dist"][0]=="jStat"
+				@mode=:j
+				@distrib=%x{eval(#{@list[@current]["dist"].join(".")})}
+			else
+				@mode=:d
+				instr="new "+@list[@current]["dist"].join(".")+"("+@args.join(',')+");"
+				@distrib=%x{eval(#{instr})}
+				
+			end
+		end
+
+		def bounds
+			@list[@current][:qbounds].map{|e| quantile(e)}
+		end
+
+		def sample(n=1)
+			%x{
+				z=[];
+				if(#{@mode}==="d") {
+					for(i=0;i<#{n};i++) {
+						z[i]=#{@distrib}.simulate();
+					}
+				} else {
+					for(i=0;i<#{n};i++) {
+						z[i]=#{@distrib}.sample.apply(null,#{@args});
+					}
+				}
+				return z;
+			}
+		end
+
+		def pdf(x)
+			%x{
+				if(#{@mode}==="d") {
+					return #{x}.map(function(e) {return #{@distrib}.pdf(e);});
+				} else {
+					return #{x}.map(function(e) {return #{@distrib}.pdf.apply(null,[e].concat(#{@args}));});
+				} 
+			}
+		end
+
+		def quantile(alpha)
+			%x{
+				if(#{@mode}==="d") {
+					return #{@distrib}.quantile(alpha);
+				} else {
+					return #{@distrib}.inv.apply(null,[alpha].concat(#{@args}));
+				} 
+			}
+		end
+
+	end
+
+
+end
