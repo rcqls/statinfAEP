@@ -50,10 +50,8 @@ enyo.kind({
 				]}
 			]}
 		]},
-		//{kind: "enyo.Scroller", id: "canvasContainer",components: [
-			{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqls.i.dim.w, height: cqls.i.dim.h*2}}
-		//]}
-		,
+		{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqls.i.dim.w, height: cqls.i.dim.h*2}},
+		//{id: "trigger-opentip",content: "opentip", attributes: {width: cqls.i.dim.w, height: 20}},
 		{kind: "onyx.MoreToolbar",style:"height:"+cqls.enyo.bottom+"px;" ,components: [
 			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkParam0Curve", onchange:"toggleVisible"},
@@ -84,6 +82,10 @@ enyo.kind({
 			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkData", onchange:"toggleVisible"},
 				{kind: "onyx.Checkbox", name: "checkPval", onchange: "toggleVisible"} 
+			]},
+			,
+			{classes: "onyx-sample-tools", components: [
+				{kind: "onyx.Checkbox", name: "checkTooltip"} 
 			]}
 		]}
 	],

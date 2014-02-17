@@ -182,11 +182,12 @@
 
 	    cqls.m.canvas = document.getElementById("createjsCanvas");
 	    cqls.m.ow=cqls.m.canvas.width;cqls.m.oh=cqls.m.canvas.height;
-
+	    
 		//Run function when browser resizes
 		window.onresize=function() {cqls.f.resizeCanvas();};
 
 	    cqls.m.stage = new createjs.Stage(cqls.m.canvas);
+	    cqls.m.stage.enableMouseOver();
 	    //cqls.m.stage.autoClear = true;
 	    createjs.Touch.enable(cqls.m.stage);
 
@@ -226,10 +227,11 @@
 		   //  cqls.m.stage.update();
 	    // });
 		
+		cqls.m.tooltip = new createjs.Text("", "20px monospace", "#000")
 
 	   	cqls.m.play=Opal.Cqls.Play.$new();
 
-		 
+		cqls.m.stage.addChild(cqls.m.tooltip);
 		
 		//Initial call 
 		cqls.f.resizeCanvas();

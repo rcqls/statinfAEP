@@ -299,6 +299,29 @@ module Cqls
 			@graph=@plot.graph
 		end
 
+		def initTooltip(shape=@shape)
+			shape=[shape] unless shape.is_a? Array
+			shape.each do|sh|
+				%x{
+					#{sh}.on("rollover",function(evt) {
+						//console.log("mouseover!!!"+evt.stageX/cqls.m.stage.scaleX+":"+evt.stageY/cqls.m.stage.scaleY);
+						cqls.m.tooltip.text=#{tooltipContent(sh)};
+						cqls.m.tooltip.x=evt.stageX/cqls.m.stage.scaleX;
+						cqls.m.tooltip.y=evt.stageY/cqls.m.stage.scaleY;
+						cqls.m.tooltip.visible=true;
+						//console.log("end mouseover");
+						cqls.m.stage.update();
+					});
+					#{sh}.on("rollout",function(evt) {
+						//console.log("mouseout!!!");
+						cqls.m.tooltip.text="";
+						cqls.m.tooltip.visible=false;
+						cqls.m.stage.update();
+					});
+				}
+			end
+		end
+
 	end
 
 	## This behaves as an Experiment
@@ -710,6 +733,7 @@ module Cqls
 			#default is from context
 			@alpha=:context #or :paramPval or:deltaPval
 			@side=:context
+			initTooltip(@shapes)
 		end
 
 		def initEvents
@@ -804,6 +828,10 @@ module Cqls
 			@plot.addChild(@shapes[1],[self,:draw])
 		end
 
+		def tooltipContent(shape)
+			@graph.to_x(%x{#{shape}.x}).to_s
+		end
+
 	end
 
 	class AreaRisk < Child
@@ -821,6 +849,7 @@ module Cqls
 			#default is from context
 			@alpha=:context #or paramH0 or deltaH0 or percentage
 			@side=:context
+			initTooltip(@shapes)
 		end
 
 		def getSides
@@ -899,6 +928,61 @@ module Cqls
 			@plot.addChild(@shapes[0],[self,:draw])
 			@plot.addChild(@shapes[1],[self,:draw])
 		end
+
+		def tooltipContent(shape=nil)
+			alpha=case @alpha
+			when :context
+				@context[:alpha]
+			when :paramH0
+				statTestQuantile=@context[:paramEstH0]
+				@context[:alpha]
+			when :deltaH0
+				statTestQuantile=@context[:deltaEstH0]
+				@context[:alpha]
+			when :paramEstLim
+				statTestQuantile=@context[:paramEstH0]
+				@context[:paramPval]
+			when :deltaEstLim
+				statTestQuantile=@context[:deltaEstH0]
+				@context[:deltaPval]
+			else
+				@alpha
+			end
+
+			area=alpha #default
+			if @statTest!=statTestQuantile
+				# value of parameter of interest
+				param=case @statTest.typeStatTest
+				when :dp0,:dm0,:dp1,:dm1
+					@statTest.paramsFrame[0].paramsFrame[1]
+				else
+					@statTest.paramsFrame[1]
+				end
+				
+				side= @side == :context ? @context[:side] : @side
+				area=case side
+				when ">"
+					if param > @context[:ref]
+						@statTest.distrib.cdf(statTestQuantile.distrib.quantile(1-alpha))
+					else
+						1-@statTest.distrib.cdf(statTestQuantile.distrib.quantile(1-alpha))
+					end
+				when "<"
+					if param < @context[:ref]
+						1-@statTest.distrib.cdf(statTestQuantile.distrib.quantile(alpha))
+					else
+						@statTest.distrib.cdf(statTestQuantile.distrib.quantile(alpha))
+					end
+				when "!="
+					if %x{Math.abs(#{param - @context[:ref]})} < 0.0001
+						2*@statTest.distrib.cdf(statTestQuantile.distrib.quantile(alpha/2.0))
+					else
+						@statTest.distrib.cdf(statTestQuantile.distrib.quantile(1-alpha/2.0))-@statTest.distrib.cdf(statTestQuantile.distrib.quantile(alpha/2.0))
+					end
+				end
+			end
+			(area*100).to_s+"%"
+		end
 	end
 
 	class Play
@@ -958,7 +1042,6 @@ module Cqls
 
 			## styles
 			@paramLim.style=@deltaLim.style=@styles[:lim]
-			@paramEst[1].meanStyle[:thickness]=6
 			@paramEstLim.style=@deltaEstLim.style=@styles[:estLim]
 			@paramPvalRisk.style=@deltaPvalRisk.style=@styles[:estLim]
 
@@ -1042,7 +1125,9 @@ module Cqls
 			@styles={} unless @styles
 			@styles[:estLim]={fill: "rgba(240,130,40,.3)",stroke: "rgba(240,130,40,.8)"  ,thickness: 6}
 			@styles[:known]={close: true, fill: "rgba(50,100,250,.1)",stroke: "rgba(50,150,250,.8)"  ,thickness: 3}
+			@styles[:knownMovable]={close: true, fill: "rgba(50,100,250,.1)",stroke: "rgba(50,150,250,.8)"  ,thickness: 6}
 			@styles[:unknown]={close: true, fill: "rgba(250,50,100,.1)",stroke: "rgba(250,50,100,.8)"  ,thickness: 3}
+			@styles[:unknownMovable]={close: true, fill: "rgba(250,50,100,.1)",stroke: "rgba(250,50,100,.8)"  ,thickness: 6}
 			@styles[:lim]={close: true, fill: "rgba(20,150,20,.1)",stroke: "rgba(20,150,20,.8)"  ,thickness: 6}
 		end
 
@@ -1105,18 +1190,30 @@ module Cqls
 			case @context[:param]
 			when :p
 				@paramEst[0].style=@styles[:known]
+				@paramEst[0].meanStyle=@styles[:known]
+				@paramEst[0].sdStyle=@styles[:known]
 				@paramEst[1].style=@styles[:unknown]
+				@paramEst[1].meanStyle=@styles[:unknownMovable]
+				@paramEst[1].sdStyle=@styles[:unknownMovable]
 				@deltaEst[0].style=@styles[:known]
+				@deltaEst[0].meanStyle=@styles[:known]
+				@deltaEst[0].sdStyle=@styles[:known]
 				@deltaEst[1].style=@styles[:unknown]
-				@paramEst[0].sdStyle[:thickness]=3
-				@paramEst[1].sdStyle[:thickness]=3
+				@deltaEst[1].meanStyle=@styles[:unknown]
+				@deltaEst[1].sdStyle=@styles[:unknown]
 			when :m
 				@paramEst[0].style=@styles[:unknown]
+				@paramEst[0].meanStyle=@styles[:known]
+				@paramEst[0].sdStyle=@styles[:unknownMovable]
 				@paramEst[1].style=@styles[:unknown]
+				@paramEst[1].meanStyle=@styles[:unknownMovable]
+				@paramEst[1].sdStyle=@styles[:unknownMovable]
 				@deltaEst[0].style=@styles[:known]
+				@deltaEst[0].meanStyle=@styles[:known]
+				@deltaEst[0].sdStyle=@styles[:known]
 				@deltaEst[1].style=@styles[:unknown]
-				@paramEst[0].sdStyle[:thickness]=6
-				@paramEst[1].sdStyle[:thickness]=6
+				@deltaEst[1].meanStyle=@styles[:unknown]
+				@deltaEst[1].sdStyle=@styles[:unknown]
 			end
 		end
 
