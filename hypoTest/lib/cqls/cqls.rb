@@ -1,8 +1,37 @@
 module Cqls
 
+	module Tooltip
+
+		def initTooltip(shape=@shape)
+			#shape needs to be an Array
+			shape.each do|sh|
+				%x{
+					#{sh}.on("rollover",function(evt) {
+						//console.log("mouseover!!!"+evt.stageX/cqls.m.stage.scaleX+":"+evt.stageY/cqls.m.stage.scaleY);
+						cqls.m.tooltip.text=#{tooltipContent(sh,%x{evt})};
+						cqls.m.tooltip.x=evt.stageX/cqls.m.stage.scaleX;
+						cqls.m.tooltip.y=evt.stageY/cqls.m.stage.scaleY;
+						cqls.m.tooltip.visible=true;
+						//console.log("end mouseover");
+						cqls.m.stage.update();
+					});
+					#{sh}.on("rollout",function(evt) {
+						//console.log("mouseout!!!");
+						cqls.m.tooltip.text="";
+						cqls.m.tooltip.visible=false;
+						cqls.m.stage.update();
+					});
+				}
+			end
+		end
+
+	end
+
 	class Plot
 
 		attr_accessor :parent, :frame, :style, :graph, :dim
+
+		include Tooltip
 
 		def initialize(dim={x:0,y:0,w:%x{cqls.i.dim.w},h:%x{cqls.i.dim.h}},style={bg:"#88FF88"})
 			@dim,@style=dim,style
@@ -14,6 +43,10 @@ module Cqls
     		%x{#{@frame}.graphics.beginLinearGradientFill(["#FFF",#{@style[:bg]}], [0, 1], 0, #{@dim[:y]}+20, 0, #{@dim[:y]}+#{@dim[:h]}+20).drawRect(#{@dim[:x]},#{@dim[:y]},#{@dim[:w]},#{@dim[:h]})}
 			addChild(@frame)
 			@axisShape=%x{new createjs.Shape()}
+			initTooltip([@axisShape])
+		end
+
+		def attachAxis
 			addChild(@axisShape,[self,:drawAxis])
 		end
 
@@ -72,6 +105,10 @@ module Cqls
 
     	def drawAxis
     		%x{#{@axisShape}.graphics.ss(3,2).s("#000").mt(#{@dim[:x]},#{@graph.to_Y(0.0)}).lt(#{@dim[:x]+@dim[:w]},#{@graph.to_Y(0.0)}).es()}
+    	end
+
+    	def tooltipContent(shape,evt)
+    		@graph.to_x(%x{#{evt}.stageX/cqls.m.stage.scaleX}).to_f
     	end
 
 	end
@@ -286,9 +323,12 @@ module Cqls
 
 	end
 
+
 	class Child
 
 		attr_accessor :id, :plot, :graph, :shape, :style, :xylim
+
+		include Tooltip
 
 		def initialize
 
@@ -297,29 +337,6 @@ module Cqls
 		def setPlot(plot)
 			@plot=plot
 			@graph=@plot.graph
-		end
-
-		def initTooltip(shape=@shape)
-			shape=[shape] unless shape.is_a? Array
-			shape.each do|sh|
-				%x{
-					#{sh}.on("rollover",function(evt) {
-						//console.log("mouseover!!!"+evt.stageX/cqls.m.stage.scaleX+":"+evt.stageY/cqls.m.stage.scaleY);
-						cqls.m.tooltip.text=#{tooltipContent(sh)};
-						cqls.m.tooltip.x=evt.stageX/cqls.m.stage.scaleX;
-						cqls.m.tooltip.y=evt.stageY/cqls.m.stage.scaleY;
-						cqls.m.tooltip.visible=true;
-						//console.log("end mouseover");
-						cqls.m.stage.update();
-					});
-					#{sh}.on("rollout",function(evt) {
-						//console.log("mouseout!!!");
-						cqls.m.tooltip.text="";
-						cqls.m.tooltip.visible=false;
-						cqls.m.stage.update();
-					});
-				}
-			end
 		end
 
 	end
@@ -352,6 +369,7 @@ module Cqls
 			@kind=:density
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
 			@axisShape=%x{new createjs.Shape()}
+			initTooltip(@summaryShapes)
 			
 		end
 
@@ -547,6 +565,14 @@ module Cqls
 			%x{#{shape}.graphics.lt(#{graph.to_X(@x[to])}-#{shape}.x,#{graph.to_Y(0.0)})}
 			%x{#{shape}.graphics.cp()}
 
+		end
+
+		def tooltipContent(shape,evt)
+			if %x{#{shape} == #{@summaryShapes[0]}}
+				@distrib.mean.to_s
+			elsif %x{#{shape}==#{@summaryShapes[1]}}
+				@distrib.stdDev.to_s
+			end
 		end
 
 	end
@@ -828,7 +854,7 @@ module Cqls
 			@plot.addChild(@shapes[1],[self,:draw])
 		end
 
-		def tooltipContent(shape)
+		def tooltipContent(shape,evt)
 			@graph.to_x(%x{#{shape}.x}).to_s
 		end
 
@@ -929,7 +955,7 @@ module Cqls
 			@plot.addChild(@shapes[1],[self,:draw])
 		end
 
-		def tooltipContent(shape=nil)
+		def tooltipContent(shape,evt)
 			alpha=case @alpha
 			when :context
 				@context[:alpha]
@@ -950,7 +976,7 @@ module Cqls
 			end
 
 			area=alpha #default
-			if @statTest!=statTestQuantile
+			if statTestQuantile and @statTest != statTestQuantile
 				# value of parameter of interest
 				param=case @statTest.typeStatTest
 				when :dp0,:dm0,:dp1,:dm1
@@ -958,7 +984,7 @@ module Cqls
 				else
 					@statTest.paramsFrame[1]
 				end
-				
+
 				side= @side == :context ? @context[:side] : @side
 				area=case side
 				when ">"
@@ -1108,6 +1134,7 @@ module Cqls
 			@paramPvalRisk.attachShapes;@deltaPvalRisk.attachShapes
 			@paramEst[0].attachShapes;@paramEst[1].attachShapes
 			@deltaEst[0].attachShapes;@deltaEst[1].attachShapes
+			@plotParam.attachAxis;@plotDelta.attachAxis
 
 			@n01=Distribution.new("normal",[0,1]);
 			setAlpha(0.05)
