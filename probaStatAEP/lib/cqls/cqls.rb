@@ -239,30 +239,36 @@ module Cqls
 			end
 			return select if select==:none
 
-			step=0.1/2
+			updateZoom(select)
 
-			case select
-			when :xposmore
-				@zoom[:x1]+=step*(@xylim[:x][1]-@xylim[:x][0])
-			when :xposless
-				@zoom[:x1]=@zoom[:x1]-step*(@xylim[:x][1]-@xylim[:x][0]) unless @zoom[:x1] < (step-1/2)*(@xylim[:x][1]-@xylim[:x][0])
-			when :xnegmore
-				@zoom[:x0]=@zoom[:x0]-step*(@xylim[:x][1]-@xylim[:x][0])
-			when :xnegless
-				@zoom[:x0]+=step*(@xylim[:x][1]-@xylim[:x][0]) unless @zoom[:x0] > (1/2-step)*(@xylim[:x][1]-@xylim[:x][0])
-			when :yposmore
-				@zoom[:y1]+=step*(@xylim[:y][1]-@xylim[:y][0])
-			when :yposless
-				@zoom[:y1]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y1] < (step-1/2)*(@xylim[:y][1]-@xylim[:y][0])
-			when :ynegmore
-				@zoom[:y0]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) 
-			when :ynegless
-				@zoom[:y0]+=step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y0] > (1/2-step)*(@xylim[:y][1]-@xylim[:y][0])
-			when :reset
-				@zoom[:x0]=@zoom[:x1]=@zoom[:y0]=@zoom[:y1]=0.0
+			return select
+		end
+
+		def updateZoom(mode,times=1)
+			step=0.1/2
+			(0...times).each do
+				case mode
+				when :xposmore
+					@zoom[:x1]+=step*(@xylim[:x][1]-@xylim[:x][0])
+				when :xposless
+					@zoom[:x1]=@zoom[:x1]-step*(@xylim[:x][1]-@xylim[:x][0]) unless @zoom[:x1] < (step-1/2)*(@xylim[:x][1]-@xylim[:x][0])
+				when :xnegmore
+					@zoom[:x0]=@zoom[:x0]-step*(@xylim[:x][1]-@xylim[:x][0])
+				when :xnegless
+					@zoom[:x0]+=step*(@xylim[:x][1]-@xylim[:x][0]) unless @zoom[:x0] > (1/2-step)*(@xylim[:x][1]-@xylim[:x][0])
+				when :yposmore
+					@zoom[:y1]+=step*(@xylim[:y][1]-@xylim[:y][0])
+				when :yposless
+					@zoom[:y1]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y1] < (step-1/2)*(@xylim[:y][1]-@xylim[:y][0])
+				when :ynegmore
+					@zoom[:y0]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) 
+				when :ynegless
+					@zoom[:y0]+=step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y0] > (1/2-step)*(@xylim[:y][1]-@xylim[:y][0])
+				when :reset
+					@zoom[:x0]=@zoom[:x1]=@zoom[:y0]=@zoom[:y1]=0.0
+				end
 			end
 			
-			return select
 		end
 
 	end
@@ -926,7 +932,7 @@ module Cqls
 		def setStatMode(transf)
 			@statMode=(transf==:meanIC ? :ic : :none)
 			isModeHidden?
-			p [:setStatMode,transf,@statMode,@modeHidden]
+			# p [:setStatMode,transf,@statMode,@modeHidden]
 		end
 
 		def setAlpha(alpha)
@@ -1049,9 +1055,9 @@ module Cqls
 		end
 
 		def animMode # 3 modes
-			%x{cqls.i.anim=cqls.enyo.app.$.animMode.getValue()}
-			%x{cqls.i.prior=cqls.enyo.app.$.priorMode.getValue()}
-			%x{console.log(cqls.i.anim + ":"+ cqls.i.prior)}
+			%x{cqls.i.anim=cqls.f.getValue("animMode")}
+			%x{cqls.i.prior=cqls.f.getValue("priorMode")}
+			# %x{console.log(cqls.i.anim + ":"+ cqls.i.prior)}
 			if %x{cqls.i.anim}
 				if %x{cqls.i.prior}
 					"prior"
@@ -1065,7 +1071,7 @@ module Cqls
 
 		def transfMode
 			unless @transf
-				"none"
+				:none
 			else
 				@transf[:mode]
 			end
@@ -1405,6 +1411,7 @@ module Cqls
 		end
 
 		def transitionFallPts(cur,fall=2000*%x{cqls.i.scaleTime},wait=1000*%x{cqls.i.scaleTime})
+			%x{cqls.durations.ptsBeforeFall=#{@time}}
 			(0...@x[cur].length).each do |i|
 				%x{
 					cqls.tweens.pt[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
@@ -1665,9 +1672,9 @@ module Cqls
 			## AEP only since the others do not change
 			@hist[cur].drawMean
 			@hist[cur].drawSD
-			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			#%x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
-			#%x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
+			state=%x{cqls.f.getValue("checkSummary")}
+			# %x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
+			# %x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
 		end
 
 		# def showSummary
@@ -1697,35 +1704,36 @@ module Cqls
 			isTransf = transfMode != :none
 			isSample = transfMode == :sample
 			%x{
-				#{@exp[0]}.shape.visible=cqls.enyo.app.$.checkExp0Curve.getValue();
-				#{@exp[1]}.shape.visible=#{isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue();
+				#{@exp[0]}.shape.visible=cqls.f.getValue("checkExp0Curve");
+				#{@exp[1]}.shape.visible=#{isTransf} & cqls.f.getValue("checkExp1Curve");
 				#{@hist[0]}.shape.visible=#{!isTransf};
 				#{@hist[1]}.shape.visible=#{isTransf};
-				#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
-				#{@hist[1]}.curveShape.visible=#{isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
+				#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.f.getValue("checkHistCurve");
+				#{@hist[1]}.curveShape.visible=#{isTransf} & cqls.f.getValue("checkHistCurve");
 				#{@hist[0]}.summaryShapes[0].visible=false;
 				#{@hist[1]}.summaryShapes[0].visible=false;
-				#{@checkTCL}.shape.visible=#{isSample} & cqls.enyo.app.$.checkTCL.getValue();
+				#{@hist[0]}.summaryShapes[1].visible=false;
+				#{@hist[1]}.summaryShapes[1].visible=false;
+				#{@checkTCL}.shape.visible=#{isSample} & cqls.f.getValue("checkTCL");
 			}
 
 			## Axis
-			%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
-			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
+			%x{#{@exp[0]}.expAxisShape.visible= !cqls.f.getValue("checkExp0Curve")}
+			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.f.getValue("checkExp0Curve") & #{isTransf}}
 
 			## Summary
-			state=%x{cqls.enyo.app.$.checkSummary.getValue()}
-			%x{#{@exp[0]}.summaryShapes[0].visible=cqls.enyo.app.$.checkExp0Mean.getValue()}
-			%x{#{@exp[0]}.summaryShapes[1].visible=cqls.enyo.app.$.checkExp0SD.getValue()}
-			%x{#{@exp[1]}.summaryShapes[0].visible=#{isTransf} & cqls.enyo.app.$.checkExp1Mean.getValue()}
-			%x{#{@exp[1]}.summaryShapes[1].visible=#{isTransf} & cqls.enyo.app.$.checkExp1SD.getValue()}
-			%x{#{@histCur}.summaryShapes[0].visible=cqls.enyo.app.$.checkHistMean.getValue()}
-			%x{#{@histCur}.summaryShapes[1].visible=cqls.enyo.app.$.checkHistSD.getValue()}
+			state=%x{cqls.f.getValue("checkSummary")}
+			%x{#{@exp[0]}.summaryShapes[0].visible=cqls.f.getValue("checkExp0Mean")}
+			%x{#{@exp[0]}.summaryShapes[1].visible=cqls.f.getValue("checkExp0SD")}
+			%x{#{@exp[1]}.summaryShapes[0].visible=#{isTransf} & cqls.f.getValue("checkExp1Mean")}
+			%x{#{@exp[1]}.summaryShapes[1].visible=#{isTransf} & cqls.f.getValue("checkExp1SD")}
+			%x{#{@histCur}.summaryShapes[0].visible=cqls.f.getValue("checkHistMean")}
+			%x{#{@histCur}.summaryShapes[1].visible=cqls.f.getValue("checkHistSD")}
 			## TCL
-			updateTCL(%x{cqls.enyo.app.$.checkTCL.getValue()})
+			updateTCL(%x{cqls.f.getValue("checkTCL")})
 			# update stage since possible change of visibility
 			%x{cqls.m.stage.update()}
 		end
-
 
 
 		####### Reset play
@@ -1739,6 +1747,7 @@ module Cqls
 
 		def playShort(cur=@curIndHist,duration=500)
 			hideAll(cur) # todo resetAll instead
+			animMode
 			@time=0
 			if @transf and (@transf[:dist]!=:exact or @statMode==:ic)
 				x=[]
@@ -1881,7 +1890,9 @@ module Cqls
 		def playNextAfter(duration)
 			%x{
 				createjs.Tween.get(cqls.m.stage,{override:true}).wait(#{duration}).call(
-					function(tween) {if(cqls.i.loop) cqls.f.updateDemo();}
+					function(tween) {
+						if(cqls.i.loop) cqls.f.updateDemo();
+					}
 				);
 			}
 		end

@@ -1,0 +1,13 @@
+:doc_list=>["local","web"],
+:docs=>{
+  "local"=>{
+    :cmd=>[:save],
+    :tag=>["local","opal","createjs-cdn"],
+    :filename_doc=>"aep_local.html"
+  },
+  "web"=>{
+    :cmd=>[:save],
+    :tag=>["web","opal-cdn","createjs-cdn"],
+    :filename_doc=>"aep_web.html"
+  }
+}

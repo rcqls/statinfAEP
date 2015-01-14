@@ -1,0 +1,165 @@
+[#??]local[#=]cqlsPath[lib/cqls][#=]jqueryEasyPath[jquery-easy]
+[#??]web[#=]cqlsPath[/tools/StatInfJS/probaAEP][#=]jqueryEasyPath[/tools/StatInfJS/probaAEP][#??]end
+[#class]<!DOCTYPE html>
+<html>
+[#header]
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>StatInf AEP</title>
+		<link rel="shortcut icon" href="assets/favicon.ico"/>
+		<!-- -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+[#??]createjs[#>]
+		<script src="../../lib/easeljs-NEXT.min.js"></script>
+		<script src="../../lib/tweenjs-NEXT.min.js"></script>
+[#??]createjs-cdn[#>]
+		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
+[#??]all[#>]
+		<script src="#{cqlsPath}/distributions.js"></script>
+		
+[#??]opal[#>]
+		<script src="#{cqlsPath}/opal.min.js"></script>
+[#??]opal-cdn[#>]
+		<script src="http://cdn.opalrb.org/opal/0.6.3/opal.min.js"></script>
+[#??]all[#>]
+		<script src="#{cqlsPath}/cqls.js"></script>
+		<script src="#{cqlsPath}/main.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/default/easyui.css">
+    	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
+    	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.min.js"></script>
+    	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.easyui.min.js"></script>	
+	</head>
+[#main]
+		<div style="margin:20px 0 10px 0;"></div>
+			<div id="tabs" class="easyui-tabs" style="width:auto;height:auto" fit="true">
+				<div title="Experience" style="padding:10px">
+    				<div style="margin:20px 0 10px 0;"></div>
+    				<div class="easyui-accordion" style="width:auto;height:auto;">
+        				<div title="Loi de variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+        					<div style="margin:20px 0"></div>
+        					<table>
+        					<tr><td>Distribution</td><!--td>Transform</td--><td></td></tr>
+        					<tr><td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
+    							cqls.i.loop=false;
+    							cqls.f.setDistrib(item.value);
+    							cqls.f.updateStage();
+    						}">
+        						<option value="discreteUniform">Uniform Discrete</option>
+								<option value="bernoulli">Bernoulli</option>
+								<option value="binomial">Binomial</option>
+								<option value="birthday">Birthday</option>
+								<option value="stdNormal">N(0,1)</option>
+								<option value="uniform">Uniform</option>
+								<option value="normal">Normal</option>
+								<option value="t">Student</option>
+								<option value="chi2">Chi2</option>
+								<option value="cauchy">Cauchy</option>
+								<option value="saljus">Salaire Juste</option>
+    						</select></td>
+        					<!--td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
+    							cqls.f.setTransf(item.value);
+    							cqls.f.updateStage();
+    						}">
+        						<option value="none">None</option>
+								<option value="center">Centring</option>
+								<option value="locationScale">Centring-Reducing</option>
+								<option value="square">Square</option>
+    						</select></td-->
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#tabs').tabs('select', 'Stage');cqls.f.initSim();cqls.f.updateStage();cqls.m.play.$animMode();cqls.f.updateDemo();">Run</a></td></tr>
+    						</table>
+        				</div>
+        				<div title="Clonage et transformation de variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+        					<div style="margin:20px 0"></div>
+    
+    						<table>
+        					<tr><td>Distribution</td><td>Transform</td><td></td></tr>
+        					<tr><td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
+    							cqls.i.loop=false;
+    							cqls.f.setDistrib(item.value);
+    							cqls.f.updateStage();
+    						}">
+        						<option value="discreteUniform">Uniform Discrete</option>
+								<option value="bernoulli">Bernoulli</option>
+								<option value="binomial">Binomial</option>
+								<option value="birthday">Birthday</option>
+								<option value="stdNormal">N(0,1)</option>
+								<option value="uniform">Uniform</option>
+								<option value="normal">Normal</option>
+								<option value="t">Student</option>
+								<option value="chi2">Chi2</option>
+								<option value="cauchy">Cauchy</option>
+								<option value="saljus">Salaire Juste</option>
+    						</select></td>
+        					<td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
+    							cqls.f.setTransf(item.value);
+    							cqls.f.updateStage();
+    						}">
+        						<option value="none">None</option>
+								<option value="center">Centring</option>
+								<option value="locationScale">Centring-Reducing</option>
+								<option value="square">Square</option>
+    						</select></td>
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#tabs').tabs('select', 'Stage');
+    							cqls.f.initSim();
+    							cqls.f.setValue('priorMode',true);
+    							cqls.f.setValue('checkExp0Curve',true);
+    							cqls.f.updateStage();
+    							cqls.m.play.$animMode();cqls.f.updateDemo();
+    						">Run</a></td></tr>
+    						</table>
+        				</div>
+        				<div title="Loi échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;">       
+        				</div>
+        				<div title="Intervalle de confiance" data-options="iconCls:'icon-ok'" style="padding:10px;">
+
+        				</div>
+    				</div>
+				</div>
+				<div title="Stage" style="padding:10px">
+					<canvas id="createjsCanvas" width="1200" height="600"></canvas>
+				</div>
+			</div>
+		<script>
+			cqls.f.initSim=function() {
+				console.log("initSim");
+				//init stage parameters
+				cqls.staticValues.animMode=true;
+				cqls.staticValues.priorMode=false;
+				cqls.staticValues.checkSummary=false;
+				cqls.staticValues.checkExp0Curve=false;
+				cqls.staticValues.checkExp1Curve=false;
+				cqls.staticValues.checkHistCurve=false;
+				cqls.staticValues.checkTCL=false;
+				cqls.staticValues.checkExp0Mean=false;
+				cqls.staticValues.checkExp1Mean=false;
+				cqls.staticValues.checkExp0SD=false;
+				cqls.staticValues.checkExp1SD=false;
+				cqls.staticValues.checkHistMean=false;
+				cqls.staticValues.checkHistSD=false;
+				cqls.i.keepAspectRatio=false;
+				cqls.i.loop=true;cqls.i.paused=false;
+				//prepare before or after cycle autoscript
+				cqls.autoPreCycle[2]="{cqls.m.play.histCur.$level(7,\"set\");}";
+				cqls.autoPreCycle[3]="cqls.m.play.histCur.$level(6,\"set\");";
+				cqls.autoPreCycle[4]="cqls.f.setValue('animMode',false);";
+				cqls.autoPreCycle[10]="cqls.f.setValue('checkHistCurve',true);";
+				cqls.autoPostCycle[20]="cqls.i.loop=false;";
+			}
+			cqls.mode="static";
+			cqls.f.initSim();
+			
+			
+			//init experiment
+			aep();
+			cqls.m.play.$setDistrib("normal");
+			cqls.f.setTransf("none");
+			//cqls.f.addCount(2);
+			cqls.m.play.$setMLevel(5,"set");
+			cqls.m.play.histCur.$level(5,"set");
+			//cqls.m.play.graphExp.$updateZoom("yposmore",10);
+			cqls.f.updateStage();
+			//cqls.f.updateDemo();
+		</script>

@@ -3,7 +3,7 @@ enyo.kind({
 	kind: "FittableRows",
 	fit: true,
 	components:[	 
-		{kind: "onyx.MoreToolbar", style:"height:"+cqls.enyo.top+"px;" ,components: [
+		{kind: "onyx.MoreToolbar", style:"height:"+cqls.win.top+"px;" ,components: [
 			{kind: "onyx.Button", content: "Add", name: "addButton", ontap: "simTap"},
 			{kind: "onyx.Button", content: "Pause", name: "pauseButton", ontap: "pauseTap"},
 			{kind: "onyx.MenuDecorator", name: "distMenu", onSelect: "distribSelected", components: [
@@ -84,7 +84,7 @@ enyo.kind({
 			{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqls.i.dim.w, height: cqls.i.dim.h*2}}
 		//]}
 		,
-		{kind: "onyx.MoreToolbar",style:"height:"+cqls.enyo.bottom+"px;" ,components: [
+		{kind: "onyx.MoreToolbar",style:"height:"+cqls.win.bottom+"px;" ,components: [
 			{kind: "onyx.ToggleButton", name: "animMode", ontap: "toggleAnimMode",value:true},
 			{kind: "onyx.ToggleButton", name: "priorMode", ontap: "toggleAnimMode",value:false},
 			{kind: "onyx.ToggleButton", name: "demoMode", ontap: "toggleDemoMode",value:false},
@@ -177,7 +177,7 @@ enyo.kind({
 	},
 	onTapCanvas: function(inSender, inEvent) {
 		var p = enyo.getPosition();
-		cqls.f.onTap(p["clientX"]/cqls.m.stage.scaleX,(p["clientY"]-cqls.enyo.top)/cqls.m.stage.scaleY);
+		cqls.f.onTap(p["clientX"]/cqls.m.stage.scaleX,(p["clientY"]-cqls.win.top)/cqls.m.stage.scaleY);
 	}
 
 	//,
