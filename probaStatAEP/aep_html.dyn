@@ -41,12 +41,8 @@
         				<div title="Loi de variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
         					<div style="margin:20px 0"></div>
         					<table>
-        					<tr><td>Distribution</td><!--td>Transform</td--><td></td></tr>
-        					<tr><td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
-    							cqls.i.loop=false;
-    							cqls.f.setDistrib(item.value);
-    							cqls.f.updateStage();
-    						}">
+        					<tr><th>Distribution</th><!--th>Transform</th--><th></th></tr>
+        					<tr><td><select id="loi-va-distrib" class="easyui-combobox" name="state" style="width:200px;">
         						<option value="discreteUniform">Uniform Discrete</option>
 								<option value="bernoulli">Bernoulli</option>
 								<option value="binomial">Binomial</option>
@@ -59,28 +55,33 @@
 								<option value="cauchy">Cauchy</option>
 								<option value="saljus">Salaire Juste</option>
     						</select></td>
-        					<!--td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
-    							cqls.f.setTransf(item.value);
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+    							cqls.i.loop=false;
+    							$('#tabs').tabs('select', 'Stage');
+    							var distrib=$('#loi-va-distrib').combobox('getValue');
+    							console.log('va: dist='+distrib);
+    							
+    							//cqls.f.initSim();
+    							//cqls.f.updateStage();
+    							//cqls.m.play.$animMode();
+    							//cqls.f.updateDemo();
+
+    							cqls.f.initSim();
+    							cqls.f.setDistrib(distrib);
+    							cqls.f.setTransf('none');
+    							cqls.f.setSimMode(true,false);
+    							cqls.f.setValue('checkExp0Curve',true);
     							cqls.f.updateStage();
-    						}">
-        						<option value="none">None</option>
-								<option value="center">Centring</option>
-								<option value="locationScale">Centring-Reducing</option>
-								<option value="square">Square</option>
-    						</select></td-->
-    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#tabs').tabs('select', 'Stage');cqls.f.initSim();cqls.f.updateStage();cqls.m.play.$animMode();cqls.f.updateDemo();">Run</a></td></tr>
+    							cqls.f.updateDemo();
+    						">Run</a></td></tr>
     						</table>
         				</div>
         				<div title="Clonage et transformation de variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
         					<div style="margin:20px 0"></div>
     
     						<table>
-        					<tr><td>Distribution</td><td>Transform</td><td></td></tr>
-        					<tr><td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
-    							cqls.i.loop=false;
-    							cqls.f.setDistrib(item.value);
-    							cqls.f.updateStage();
-    						}">
+        					<tr><th>Distribution</th><th>Transform</th><th></th></tr>
+        					<tr><td><select id="loi-clone-distrib" class="easyui-combobox" name="state" style="width:200px;">
         						<option value="discreteUniform">Uniform Discrete</option>
 								<option value="bernoulli">Bernoulli</option>
 								<option value="binomial">Binomial</option>
@@ -93,28 +94,167 @@
 								<option value="cauchy">Cauchy</option>
 								<option value="saljus">Salaire Juste</option>
     						</select></td>
-        					<td><select class="easyui-combobox" name="state" style="width:200px;" data-options="onSelect: function(item){
-    							cqls.f.setTransf(item.value);
-    							cqls.f.updateStage();
-    						}">
+        					<td><select id="loi-clone-transf" class="easyui-combobox" name="state" style="width:200px;">
         						<option value="none">None</option>
 								<option value="center">Centring</option>
 								<option value="locationScale">Centring-Reducing</option>
 								<option value="square">Square</option>
     						</select></td>
-    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="$('#tabs').tabs('select', 'Stage');
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+    							cqls.i.loop=false;
+    							$('#tabs').tabs('select', 'Stage');
+    							//cqls.f.initSim();
+    							//cqls.f.setValue('priorMode',true);
+    							//cqls.f.setValue('checkExp0Curve',true);
+    							//cqls.f.updateStage();
+    							//cqls.m.play.$animMode();cqls.f.updateDemo();
+
+    							var distrib=$('#loi-clone-distrib').combobox('getValue');
+    							var transf=$('#loi-clone-transf').combobox('getValue');
+    							console.log('dist='+distrib+', transf='+transf);
     							cqls.f.initSim();
-    							cqls.f.setValue('priorMode',true);
+    							cqls.f.setDistrib(distrib);
+    							cqls.f.setTransf(transf);
+    							cqls.f.setSimMode(true,true);
     							cqls.f.setValue('checkExp0Curve',true);
     							cqls.f.updateStage();
-    							cqls.m.play.$animMode();cqls.f.updateDemo();
+    							cqls.f.updateDemo();
     						">Run</a></td></tr>
     						</table>
         				</div>
-        				<div title="Loi échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;">       
+        				<div title="Loi échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
+        				<table>
+        					<tr><th>Distribution</th><th>Transform</th><th>n</th><th></th></tr>
+        					<tr><td><select id="loi-ech-distrib" class="easyui-combobox" name="state" style="width:150px;">
+        						<option value="discreteUniform">Uniform Discrete</option>
+								<option value="bernoulli">Bernoulli</option>
+								<option value="binomial">Binomial</option>
+								<option value="birthday">Birthday</option>
+								<option value="stdNormal">N(0,1)</option>
+								<option value="uniform">Uniform</option>
+								<option value="normal">Normal</option>
+								<option value="t">Student</option>
+								<option value="chi2">Chi2</option>
+								<option value="cauchy">Cauchy</option>
+								<option value="saljus">Salaire Juste</option>
+    						</select></td>
+        					<td><select id="loi-ech-transf" class="easyui-combobox" name="state" style="width:200px;">
+        						<option value="sum">Sample Sum</option>
+								<option value="mean">Sample Mean</option>
+								<option value="stdMean">Standardized Mean Error</option>
+    						</select></td>
+    						<td><select id="loi-ech-n" class="easyui-combobox" name="state" style="width:80px;">
+        						<option value="2">2</option>
+								<option value="4">4</option>
+								<option value="8">8</option>
+								<option value="10">10</option>
+								<option value="16">16</option>
+								<option value="30">30</option>
+								<option value="32">32</option>
+								<option value="50">50</option>
+								<option value="64">64</option>
+								<option value="100">100</option>
+								<option value="128">128</option>
+								<option value="200">200</option>
+								<option value="256">256</option>
+								<option value="500">500</option>
+								<option value="512">512</option>
+								<option value="1000">1000</option>
+								<option value="1024">1024</option>
+    						</select></td>
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+    							cqls.i.loop=false;
+    							$('#tabs').tabs('select', 'Stage');
+    							var distrib=$('#loi-ech-distrib').combobox('getValue');
+    							var transf=$('#loi-ech-transf').combobox('getValue');
+    							var n=$('#loi-ech-n').combobox('getValue');
+    							console.log('loi-ech: dist='+distrib+', transf='+transf+', n='+parseInt(n));
+    							cqls.f.initSim();
+    							cqls.f.setDistrib(distrib);
+    							cqls.f.setTransf(transf);
+    							cqls.f.setN(parseInt(n));
+    							cqls.f.setSimMode(true,true);
+    							cqls.f.setValue('checkExp0Curve',true);
+    							cqls.f.updateStage();
+    							cqls.f.updateDemo();
+    						">Run</a></td></tr>
+    						<!--tr><th colspan="3">n</th></tr>
+    						<tr><td colspan="3">
+    						<input class="easyui-slider" style="width:300px" data-options="
+                				showTip:true,
+                				min: 2,
+                				max:1000,
+                				rule: [2,'|',20,'|',30,'|',50,'|',75,'|',100,'|',200,'|',500,'|',1000],
+                				tipFormatter: function(value){
+                					if(value < 200) value=Math.round(value/10);
+                					else if(value < 500) value=Math.round(value/50)*5;
+                					else if(value<=600) value = Math.round(value/5)*5;
+                					else if(value<=1000) value = Math.round(value/10)*10;
+                					return value;
+            					},
+                				onComplete: function(value){
+    								cqls.f.setN(parseInt(value));
+    								alert(parseInt(value));
+    								cqls.f.updateStage();
+            					}" fit="true"></td></tr-->
+    						</table>      
         				</div>
         				<div title="Intervalle de confiance" data-options="iconCls:'icon-ok'" style="padding:10px;">
-
+        				<table>
+        					<tr><th>Distribution</th><th>Parameter</th><th>n</th><th></th></tr>
+        					<tr><td><select id="ic-distrib" class="easyui-combobox" name="state" style="width:150px;">
+        						<option value="discreteUniform">Uniform Discrete</option>
+								<option value="bernoulli">Bernoulli</option>
+								<option value="binomial">Binomial</option>
+								<option value="birthday">Birthday</option>
+								<option value="stdNormal">N(0,1)</option>
+								<option value="uniform">Uniform</option>
+								<option value="normal">Normal</option>
+								<option value="t">Student</option>
+								<option value="chi2">Chi2</option>
+								<option value="cauchy">Cauchy</option>
+								<option value="saljus">Salaire Juste</option>
+    						</select></td>
+        					<td><select id="ic-param" class="easyui-combobox" name="state" style="width:200px;">
+        						<option value="mean">Mean</option>
+								<option value="var">Variance</option>
+    						</select></td>
+    						<td><select id="ic-n" class="easyui-combobox" name="state" style="width:80px;">
+        						<option value="2">2</option>
+								<option value="4">4</option>
+								<option value="8">8</option>
+								<option value="10">10</option>
+								<option value="16">16</option>
+								<option value="30">30</option>
+								<option value="32">32</option>
+								<option value="50">50</option>
+								<option value="64">64</option>
+								<option value="100">100</option>
+								<option value="128">128</option>
+								<option value="200">200</option>
+								<option value="256">256</option>
+								<option value="500">500</option>
+								<option value="512">512</option>
+								<option value="1000">1000</option>
+								<option value="1024">1024</option>
+    						</select></td>
+    						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+    							cqls.i.loop=false;
+    							$('#tabs').tabs('select', 'Stage');
+    							var distrib=$('#ic-distrib').combobox('getValue');
+    							var param=$('#ic-param').combobox('getValue');
+    							var n=$('#ic-n').combobox('getValue');
+    							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
+    							cqls.f.initSim();
+    							cqls.f.setDistrib(distrib);
+    							cqls.f.setTransf('meanIC');
+    							cqls.f.setN(parseInt(n));
+    							cqls.f.setSimMode(true,true);
+    							cqls.f.setValue('checkExp0Curve',true);
+    							cqls.f.updateStage();
+    							cqls.f.updateDemo();
+    						">Run</a></td></tr>
+    						</table> 
         				</div>
     				</div>
 				</div>

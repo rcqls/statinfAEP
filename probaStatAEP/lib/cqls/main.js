@@ -174,6 +174,7 @@
 	//sum,mean,stdMean
 	//meanIC
 	cqls.f.setTransf=function(transf) {
+		console.log("transf:"+transf);
 		cqls.m.play.$setStatMode(transf);
 		if(transf=="meanIC") transf="mean";
 		cqls.m.play.$setTransf(transf);
@@ -181,6 +182,12 @@
 
 	cqls.f.setN=function(n) {
 		cqls.m.play.$setN(n);
+	}
+
+	cqls.f.setSimMode=function(anim,prior) {//booleans
+		cqls.f.setValue('animMode',anim);
+    	cqls.f.setValue('priorMode',prior);
+    	cqls.m.play.$animMode();
 	}
 
 	cqls.f.setAlpha=function(alpha) {
