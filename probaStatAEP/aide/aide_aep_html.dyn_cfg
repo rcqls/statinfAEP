@@ -1,0 +1,34 @@
+:doc_list=>["va","va_en"],
+:docs=>{
+  "all"=>["va","va_en","brique","clone","ech","ic"],
+  "va"=>{
+    :cmd=>[:save],
+    :tag=>["va","fr"],
+    :filename_doc=>"va_dist.html"
+  },
+   "va_en"=>{
+    :cmd=>[:save],
+    :tag=>["va","en"],
+    :filename_doc=>"va_dist_en.html"
+  },
+  "clone"=>{
+    :cmd=>[:save],
+    :tag=>["clone","fr"],
+    :filename_doc=>"clone_dist.html"
+  },
+  "ech"=>{
+    :cmd=>[:save],
+    :tag=>["ech","fr"],
+    :filename_doc=>"ech_dist.html"
+  },
+  "ic"=>{
+    :cmd=>[:save],
+    :tag=>["ic","fr"],
+    :filename_doc=>"ic.html"
+  },
+  "brique" =>{
+    :cmd=>[:save],
+    :tag=>["brique","fr"],
+    :filename_doc=>"brique.html"
+  }
+}
