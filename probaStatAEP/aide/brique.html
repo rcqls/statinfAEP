@@ -22,17 +22,17 @@
 
  
 
-<h2>Rappel sur histogramme (v.a. continu) et extension au v.a. discrète</h2>
+<h2>Rappel sur histogramme (v.a. continue) et extension au cas de v.a. discrète</h2>
 
 <ul>
-<li> <b>Motivation</b> : l'un des objectif principal étant l'illustration par une animation graphique du théorème de la limite centrale, une représentation graphique commune pour représenter les répartitions des v.a. discrètes et continues est donc nécessaires. Cela nous a conduit à adopter l'histogramme comme représentation commune des répartitions de v.a. discrètes et continues.
-Une adaptation de la notion d'histogramme au cas discret est donc nécessaire puisqu'il est plus usuel de représenter la répartition de v.a. discrète par des diagrammes en bâtons.
+<li> <b>Motivation</b> : l'un des objectifs principal étant l'illustration par une animation graphique du théorème de la limite centrale, une représentation graphique commune pour représenter les répartitions des v.a. discrètes et continues est donc nécessaire. Cela nous a conduit à adopter l'histogramme comme représentation commune des répartitions de v.a. discrètes et continues.
+La notion d'histogramme au cas discret doit donc être envisagée puisqu'il est plus usuel de représenter la répartition de v.a. discrète par des diagrammes en bâtons.
 <div class="p"><!----></div>
 </li>
 
-<li> <b>Représentation individuelle des réalisations par des briques</b> : chaque réalisation d'une variable aléatoire sera représentée par une brique. L'accumulation de toutes les briques formera un mur dont la surface totale sera de 
+<li> <b>Représentation individuelle des réalisations par des briques</b> : chaque réalisation d'une v.a. sera représentée par une brique (i.e. un rectangle). L'accumulation de toutes les briques formera un mur dont la surface totale sera de 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mn>100</mn><mi>%</mi></mrow></math>.  Puisque toutes les briques ont la même importance, elles sont de même surface 
+<mrow><mn>100</mn><mi>%</mi></mrow></math>. Puisque toutes les briques ont la même importance, elles sont de même surface 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow>
 <mfrac><mrow><mn>1</mn></mrow>
@@ -40,24 +40,56 @@ Une adaptation de la notion d'histogramme au cas discret est donc nécessaire pu
 </mfrac>
 </mrow></math> où 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> correspond au nombre total de réalisations. Toute brique sera alors plus particulièrement appelée <b>
+<mrow><mi>m</mi></mrow></math> correspond au nombre total de réalisations. Nous proposons de se fixer un language commun pour nous aider à décrire la scène après un empilement de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math> briques associées à 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math> réalisations de la v.a. étudiée&nbsp;: 
+
+<ol type="1">
+<li> Toute brique sera plus particulièrement appelée <b>
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-brique</b>.
 <div class="p"><!----></div>
 </li>
 
+<li> Le mur construit après empilement des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques sera appelé <b>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-histogramme</b>.
+<div class="p"><!----></div>
+</li>
+
+<li> Pour le cas limite 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi><mo>&rarr;</mo><mo>+</mo><mi>&infin;</mi></mrow></math>, on notera <b>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-histogramme</b> l'empilement d'une infinité de <b>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques</b> associées à une infinité de réalisations de la v.a. étudiée.
+<div class="p"><!----></div>
+</li>
+</ol>
+<div class="p"><!----></div>
+</li>
+
 <li> <b>Différence entre 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-brique discrète ou continue</b>
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques discrète et continue</b>
 
 <ol type="1">
 <li> Pour le cas usuel de v.a. continue, la largeur d'une 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-brique (dite continue) correspond à la largeur de l'intervalle de la partition qui contient la réalisation. Lorque le nombre de réalisations 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> augmente, le nombre d'intervalles formant la partition peut alors augmenter de sorte à diminuer les largeurs des intervalles. Pour le cas limite 
+<mrow><mi>m</mi></mrow></math> augmente, le nombre d'intervalles formant la partition peut alors augmenter de sorte à diminuer les largeurs des intervalles et ainsi des 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi><mo>&rarr;</mo><mo>+</mo><mi>&infin;</mi></mrow></math>, tous les intervalles sont de largeur nulle.
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques. Pour le cas limite 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi><mo>&rarr;</mo><mo>+</mo><mi>&infin;</mi></mrow></math>, tous les intervalles (et ainsi les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques) sont de largeur nulle.
 <div class="p"><!----></div>
 </li>
 
@@ -69,25 +101,34 @@ Une adaptation de la notion d'histogramme au cas discret est donc nécessaire pu
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques discrètes sont de même largeur (dite fixe) lorsque le nombre 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> de réalisations augmentent. Par un choix arbitraire qui nous apparaît cependant naturel, les abscisses des centres des  
+<mrow><mi>m</mi></mrow></math> de réalisations augmentent. En clair, pour tout 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques discrètes correspondent aux valeurs des réalisations.
+<mrow><mi>m</mi></mrow></math> et pour une réalisation particulière de la v.a., <b>la largeur de sa 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-brique discrète associée sera la même que sa 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-brique discrète associée</b>.
+Notons au passage que (par un choix arbitraire qui nous apparaît cependant naturel) <b>les abscisses des centres des  
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques discrètes correspondent aux valeurs des réalisations</b>.
 <div class="p"><!----></div>
 </li>
 </ol>
 <div class="p"><!----></div>
 </li>
 
-<li> <b>Objectif visé</b> : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'approche probabiliste expérimentale (utilisée ici) repose sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
+<li> <b>Objectif visé</b> : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'Approche Expérimentale des Probabilités (utilisée ici) ne repose que sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
 
 <ol type="1">
 <li> A la différence de l'Approche Mathématique de Probabilités, l'Approche Expérimentale des Probabilités aborde la notion de probabilité d'événement de manière comparable et donc unifiée dans les deux cadres de v.a. discrète et continue. En effet, une telle probabilité correspond à une fréquence d'apparition du dit événement parmi l'infinité des réalisations.
 <div class="p"><!----></div>
 </li>
 
-<li> La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme <i>l'histogramme à pas zéro d'une infinité de ses réalisations</i>. Elle décrit ainsi la répartition de l'ensemble de tous les résultats possibles de la v.a. comme un empilement (de surface 1) d'une infinité 
+<li> La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme <i>l'histogramme à pas zéro d'une infinité de ses réalisations</i> appelé ici 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques devenues "crêpes" dans le cas discret ou continues "points" dans le cas continu.
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme. Elle décrit ainsi la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100%) d'une infinité 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques devenues "crêpes" dans le cas discret et devenues "points" dans le cas continu.
 <div class="p"><!----></div>
 </li>
 </ol>

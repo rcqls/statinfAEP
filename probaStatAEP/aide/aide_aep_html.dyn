@@ -19,8 +19,15 @@
 [#main][#>]
 {#case]#{docs}
 [#when]va_dist[#ttm>]
+\section*{Répartition d'une infinité de réalisations d'une v.a.}
 \begin{itemize}
-\item Toutes les $m$ réalisations consécutives $y_{[1]},...,y_{[m]}$ de la variable aléatoire (ou "future" réalisation) $Y$ sont représentées par des {#aide][#link]brique[#name]$[m]$-briques[#} ayant pour caractéristique principale d'avoir une surface $\frac1m$. 
+\item Toutes les $m$ réalisations consécutives $y_{[1]},...,y_{[m]}$ de la variable aléatoire (ou "future" réalisation) $Y$ sont représentées par des {#aide][#link]brique[#name]$[m]$-briques[#} ayant pour caractéristique principale d'avoir une surface $\frac1m$.
+\item Décrivons l'Approche Expérimentale des Probabilités appliquée dans cet éducatif. Une distribution discrète ou continue a été choisie dont on considère disposer d'un générateur. Plaçons-nous alors à une étape $i$ de la simulation en supposant donc que le nombre de réalisations de $Y$ déjà obtenues est $m:=nbExpTot_{i-1}$ (avec pour convention que $nbExpTot_0=0$).
+\begin{enumerate}
+\item \textbf{Nouvelles réalisations}~: on se propose à chaque étape $i$ de générer $nbExp$ nouvelles réalisations $y_{[nbExpTot_{i-1}+1]}$, $\cdots$, $y_{[nbExpTot_{i-1}+nbExp]}$ de la v.a. $Y$. 
+\item \textbf{Répartition de ces nouvelles réalisations}~: ces $nbExp$ réalisations sont représentées (partie du haut) par des $[nbExp]$-briques dont l'empilement constitue un $[nbExp]$-histogramme. A partir de la deuxième étape, ce $[nbExp]$-histogramme pourra être comparé au $[nbExpTot_{i-1}]$-histogramme (partie du bas).
+\item \textbf{Mise en commun}~: les $[nbExp]$-briques (partie du haut) et l'empilement des $[nbExpTot_{i-1}]$-briques (partie du bas) sont alors transformées en des $[nbExpTot_i]$-briques où $nbExpTot_i=nbExpTot_{i-1}+nbExp$ correspondant à la nouvelle valeur de $m$. \item \textbf{Répartition de toutes les réalisations}~: il ne reste plus qu'à empiler les $nbExp$ nouvelles $[nbExpTot_i]$-briques (partie du haut) avec les $nbExpTot_{i-1}$ anciennes $[nbExpTot_i]$-briques (partie du bas) pour obtenir le nouvel $[nbExpTot-i]$-histogramme. 
+\end{enumerate}
 \item L'un des objectifs de cet éducatif est de comprendre l'évolution de l'ensemble de ces $[m]$-briques lorsque $m$ tend vers $+\infty$. En particulier, on pourra déterminer~:\\
 \begin{enumerate} 
 \item la forme géométrique des $[\infty]$-briques discrète et continue
@@ -28,43 +35,62 @@
 \item comment mesurer à partir de cet empilement la probabilité que la v.a. soit comprise dans un intervalle donné
 \item dans le cas particulier de v.a. continue, la relation entre cet empilement et la densité de probabilité
 \item comment obtenir une nouvelle réalisation lorsqu'on suppose connu cet empilement (et notamment son contour supérieur)
-\end{enumerate} 
+\end{enumerate}  
 \end{itemize}
 [#when]clone_dist[#ttm>]
 \section*{Concept de v.a. clonée}
 A partir du constat précédent que le $[\infty]$-histogramme discret ou continu peut être vu comme l'empilement de tous les résultats possibles de la v.a. originale étudiée, il est alors naturel de penser que la v.a. dite clonée correspondant au choix au hasard d'une $[\infty]$-brique parmi l'infinité de "toutes" les $[\infty]$-briques a la même loi de probabilité que la v.a. originale. L'éducatif proposé ici a pour objectif la vérification expérimentale de ce résultat~:
 \begin{enumerate}
-\item Après s'être fixé une distribution discrète ou continue représentée par un empilement d'une infinité de $[\infty]$-briques, on se propose à chaque étape d'en choisir $nbExp$ au hasard (voir graphique du haut) et de les empiler sur les $m$ précédentes accumlées aux étapes précédentes. 
-\item Les $nbExp$ nouvelles $[m+nbExp]$-briques accumulées aux $m$ précedentes $[m+nbExp]$-briques composent le $[nbExpTot]$-histogramme où $nbExpTot=m+nbExp$ devenant la nouvelle valeur de $m$ (voir graphique du bas).
-\item A la limite $m=nbExpTot\rightarrow\infty$, pensez-vous que la répartition initiale du graphique du haut coïncidera avec l'empilement des $[\infty]$-briques.
-\item Dorénavant, il sera important de comprendre l'équivalence en termes de répartition (ou loi de probabilité sur un plan mathématique) entre la v.a. originale et sa version clonée construite à partir de l'$[\infty]$-histogramme associé à la v.a. originale.   
+\item Après s'être fixé une distribution discrète ou continue représentée par un empilement d'une infinité de $[\infty]$-briques, on se propose à chaque étape $i$ d'en choisir $nbExp$ au hasard (partie du haut) et de les empiler sur les $nbExpTot_{i-1}$ précédentes accumlées aux étapes précédentes.
+\item Puisque $nbExpTot_i=nbExpTot_{i-1}+nbExp$, les $nbExp$ nouvelles $[nbExpTot_i]$-briques accumulées aux $nbExpTot_{i-1}$ précedentes $[nbExpTot_i]$-briques composent le $[nbExpTot_i]$-histogramme où $nbExpTot_i$ devient la nouvelle valeur de $m$.
+\item A la limite $m=nbExpTot_i\rightarrow\infty$, pensez-vous que la répartition initiale du graphique du haut coïncidera avec l'empilement des $[\infty]$-briques.
+\item Dorénavant, il sera important de comprendre l'équivalence en termes de répartition (i.e. appelée loi de probabilité dans un cadre mathématique) entre la v.a. originale et sa version clonée construite à partir de l'$[\infty]$-histogramme associé à la v.a. originale.   
 \end{enumerate}
 \section*{Transformation de v.a.}
-L'objectif est ici de se fixer une même transformation à appliquer à chaque nouvelle réalisation de la v.a. considérée. Pour faciliter la compréhension, nous considèrerons de manière équivalente sa v.a. clonée~: 
+L'objectif est ici de se fixer une même transformation à appliquer à chaque nouvelle réalisation de la v.a. considérée. Pour faciliter la représentation graphique et ainsi la compréhension, nous considèrerons sa v.a. clonée équivalente en termes de répartition (voir section précédente)~: 
 \begin{enumerate}
-\item soit $nbExp$ nouvelles réalisations vues comme $nbExp$ $[\infty]$-briques choisies au hasard dans le $[\infty]$-histogramme associé
-\item appliquons à ces $nbExp$ réalisations la transformation représentée par le déplacement dans la partie du haut
-\item ensuite comme précédemment, les $nbExp$ réalisations transformées sont représentées par des $[nbExp+m]$-briques à empiler sur les $m$ $[nbExp+m]$-briques obtenues aux étapes précédentes composant ainsi le $[nbExpTot]$-histogramme où $nbExpTot=m+nbExp$ devenant la nouvelle valeur de $m$ (voir graphique du bas).
-\item A la limite $m=nbExpTot\rightarrow\infty$, on obtient sans trop de surprise le $[\infty]$-histogramme qui consiste à simultanément modifier toutes les $[\infty]$-briques du $[\infty]$-histogramme initial via la transformation.
+\item Soit $nbExp$ nouvelles réalisations vues comme $nbExp$ $[\infty]$-briques choisies au hasard dans le $[\infty]$-histogramme associé.
+\item Appliquons à ces $nbExp$ réalisations la transformation représentée par le déplacement dans la partie du haut.
+\item Ensuite, comme dans la section précédente, les $nbExp$ réalisations transformées sont représentées par $nbExp$ $[nbExpTot_i]$-briques à empiler sur les $nbExpTot_{i-1}$ $[nbExpTot_i]$-briques obtenues aux étapes précédentes composant ainsi le $[nbExpTot_i]$-histogramme où $nbExpTot_i=nbExpTot_{i-1}+nbExp$ devenant la nouvelle valeur de $m$.
+\item A la limite $m=nbExpTot_i\rightarrow\infty$, on obtient sans trop de surprise le $[\infty]$-histogramme qui peut être vu directement comme la transformation simultanée de toutes les $[\infty]$-briques du $[\infty]$-histogramme initial.
 \end{enumerate}
 [#when]ech_dist[#ttm>]
-
-[#when]ic[#>]
-[#when]brique[#ttm>]
-\section*{Rappel sur histogramme (v.a. continu) et extension au v.a. discrète}
-\begin{itemize}
-\item \textbf{Motivation} : l'un des objectif principal étant l'illustration par une animation graphique du théorème de la limite centrale, une représentation graphique commune pour représenter les répartitions des v.a. discrètes et continues est donc nécessaires. Cela nous a conduit à adopter l'histogramme comme représentation commune des répartitions de v.a. discrètes et continues.
-Une adaptation de la notion d'histogramme au cas discret est donc nécessaire puisqu'il est plus usuel de représenter la répartition de v.a. discrète par des diagrammes en bâtons.
-\item \textbf{Représentation individuelle des réalisations par des briques} : chaque réalisation d'une variable aléatoire sera représentée par une brique. L'accumulation de toutes les briques formera un mur dont la surface totale sera de $100\%$.  Puisque toutes les briques ont la même importance, elles sont de même surface $\frac1m$ où $m$ correspond au nombre total de réalisations. Toute brique sera alors plus particulièrement appelée \textbf{$[m]$-brique}. 
-\item \textbf{Différence entre $[m]$-brique discrète ou continue}
+\section*{Loi de probabilités d'estimateur vue comme répartition de toutes les estimations possibles}
+L'expérience aléatoire consiste ici à construire un "futur" échantillon $\boldmath{Y}$$=(Y_1,\cdots,Y_n)$ où les v.a. $Y_j$ sont toutes issues du même procédé de fabrication et ce indépendamment des autres $Y_k$ avec $k\neq j$. Sur un plan mathématique, on dit qu'elles sont des copies indépendantes d'une v.a. $Y$ servant de modèle.
+Via l'Approche Expérimentale des Probabilités, décrivons une étape de simulation~:
 \begin{enumerate}
-\item Pour le cas usuel de v.a. continue, la largeur d'une $[m]$-brique (dite continue) correspond à la largeur de l'intervalle de la partition qui contient la réalisation. Lorque le nombre de réalisations $m$ augmente, le nombre d'intervalles formant la partition peut alors augmenter de sorte à diminuer les largeurs des intervalles. Pour le cas limite $m\rightarrow +\infty$, tous les intervalles sont de largeur nulle.
-\item Pour le cas moins usuel de v.a. discrète, les largeurs des $[m]$-briques (dites discrètes) sont fixées de sorte à produire un mur le plus compact possible. Il est à noter qu'à la différence des $[m]$-briques continues, les $[m]$-briques discrètes sont de même largeur (dite fixe) lorsque le nombre $m$ de réalisations augmentent. Par un choix arbitraire qui nous apparaît cependant naturel, les abscisses des centres des  $[m]$-briques discrètes correspondent aux valeurs des réalisations.
+\item Nous génèrerons $nbTot$ échantillons $\boldmath{y_{[k]}}$ ($k=1,\cdots,nbExp$). Cela correspond à la génération de $nbTot\times n$ réalisations de la v.a. $Y$ regroupées par paquet de $n$. Toutes les $n$ réalisations d'un  même paquet correspondant à un même échantillon $\boldmath{y_{[k]}}$ sont représentées graphiquement par une même couleur. Il y a donc $nbExp$ couleurs différentes associées aux $nbExp$ échantillons $\boldmath{y_{[k]}}$ générés à chaque étape.
+\item Puis, à partir de chaque échantillon $\boldmath{y_{[k]}}$ on détermine la statistique associée (moyenne, somme, écart moyen standardisé, ...) notée $t(\boldmath{y_{[k]}})$ qui est donc une réalisation de $t(\boldmath{Y})$. Cette transformation est représentée par un regroupement de toutes les réalisations d'un même échantillon $\boldmath{y_{[k]}}$ vers un même point dont l'abscisse correspond à la valeur de $t(\boldmath{y_{[k]}})$ de la statistique. Nous obtenons ainsi $nbExp$ réalisations de la statistique $t(\boldmath{Y})$ ayant toutes des couleurs différentes.\\
+Au passage, on pourra se demander à quoi correspondent les ordonnées des points représentant les $t(\boldmath{y_{[k]}})$. 
+\item Puisque nous sommes intéressés par la loi de probabilités de cette statistique $t(Y)$, nous enchaînons alors par la représentation $[nbExpTot_i]$-briques de ces $nbExp$ réalisations s'empilant sur les $nbExpTot_{i-1}$ $[nbExpTot_i]$-briques obtenues aux étapes précédentes. Nous obtenons un $[nbExpTot_i]$-histogramme avec $nbExpTot_i=nbExpTot_{i-1}+nbExp$ devenant la nouvelle valeur de $m$.
 \end{enumerate}
-\item \textbf{Objectif visé} : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'approche probabiliste expérimentale (utilisée ici) repose sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
+
+[#when]ic[#ttm>]
+\section*{Interprétation de l'intervalle de confiance via l'Approche Expérimentale des Probabilités}
+Nous nous plaçons encore dans le cadre où l'expérience consiste à construire un échantillon  $\boldmath{Y}$$=(Y_1,\cdots,Y_n)$. L'objectif est d'estimer un \textbf{paramètre inconnu} $\theta$. Ici, nous ne considèrerons que la moyenne théorique notée $\mu=E(Y_j)$ mais l'extension à d'autres paramètres se fait de façon complètement analogue. L'estimateur de la moyenne est donnée par $\hat{\mu}(\boldmath{Y})=\overline{Y}$. 
+ 
+
+[#when]brique[#ttm>]
+\section*{Rappel sur histogramme (v.a. continue) et extension au cas de v.a. discrète}
+\begin{itemize}
+\item \textbf{Motivation} : l'un des objectifs principal étant l'illustration par une animation graphique du théorème de la limite centrale, une représentation graphique commune pour représenter les répartitions des v.a. discrètes et continues est donc nécessaire. Cela nous a conduit à adopter l'histogramme comme représentation commune des répartitions de v.a. discrètes et continues.
+La notion d'histogramme au cas discret doit donc être envisagée puisqu'il est plus usuel de représenter la répartition de v.a. discrète par des diagrammes en bâtons.
+\item \textbf{Représentation individuelle des réalisations par des briques} : chaque réalisation d'une v.a. sera représentée par une brique (i.e. un rectangle). L'accumulation de toutes les briques formera un mur dont la surface totale sera de $100\%$. Puisque toutes les briques ont la même importance, elles sont de même surface $\frac1m$ où $m$ correspond au nombre total de réalisations. Nous proposons de se fixer un language commun pour nous aider à décrire la scène après un empilement de $m$ briques associées à $m$ réalisations de la v.a. étudiée~: 
+\begin{enumerate}
+\item Toute brique sera plus particulièrement appelée \textbf{$[m]$-brique}.
+\item Le mur construit après empilement des $[m]$-briques sera appelé \textbf{$[m]$-histogramme}.
+\item Pour le cas limite $m\rightarrow +\infty$, on notera \textbf{$[m]$-histogramme} l'empilement d'une infinité de \textbf{$[\infty]$-briques} associées à une infinité de réalisations de la v.a. étudiée.
+\end{enumerate} 
+\item \textbf{Différence entre $[m]$-briques discrète et continue}
+\begin{enumerate}
+\item Pour le cas usuel de v.a. continue, la largeur d'une $[m]$-brique (dite continue) correspond à la largeur de l'intervalle de la partition qui contient la réalisation. Lorque le nombre de réalisations $m$ augmente, le nombre d'intervalles formant la partition peut alors augmenter de sorte à diminuer les largeurs des intervalles et ainsi des $[m]$-briques. Pour le cas limite $m\rightarrow +\infty$, tous les intervalles (et ainsi les $[\infty]$-briques) sont de largeur nulle.
+\item Pour le cas moins usuel de v.a. discrète, les largeurs des $[m]$-briques (dites discrètes) sont fixées de sorte à produire un mur le plus compact possible. Il est à noter qu'à la différence des $[m]$-briques continues, les $[m]$-briques discrètes sont de même largeur (dite fixe) lorsque le nombre $m$ de réalisations augmentent. En clair, pour tout $m$ et pour une réalisation particulière de la v.a., \textbf{la largeur de sa $[m]$-brique discrète associée sera la même que sa $[\infty]$-brique discrète associée}.
+Notons au passage que (par un choix arbitraire qui nous apparaît cependant naturel) \textbf{les abscisses des centres des  $[m]$-briques discrètes correspondent aux valeurs des réalisations}.
+\end{enumerate}
+\item \textbf{Objectif visé} : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'Approche Expérimentale des Probabilités (utilisée ici) ne repose que sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
 \begin{enumerate}
 \item A la différence de l'Approche Mathématique de Probabilités, l'Approche Expérimentale des Probabilités aborde la notion de probabilité d'événement de manière comparable et donc unifiée dans les deux cadres de v.a. discrète et continue. En effet, une telle probabilité correspond à une fréquence d'apparition du dit événement parmi l'infinité des réalisations. 
-\item La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme \textit{l'histogramme à pas zéro d'une infinité de ses réalisations}. Elle décrit ainsi la répartition de l'ensemble de tous les résultats possibles de la v.a. comme un empilement (de surface 1) d'une infinité $[\infty]$-briques devenues "crêpes" dans le cas discret ou continues "points" dans le cas continu.
+\item La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme \textit{l'histogramme à pas zéro d'une infinité de ses réalisations} appelé ici $[\infty]$-histogramme. Elle décrit ainsi la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100\%) d'une infinité $[\infty]$-briques devenues "crêpes" dans le cas discret et devenues "points" dans le cas continu.
 \end{enumerate}
 \end{itemize}
 [#case}

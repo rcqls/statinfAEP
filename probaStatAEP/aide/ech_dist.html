@@ -20,6 +20,148 @@
 
 
 
+ 
+
+<h2>Loi de probabilités d'estimateur vue comme répartition de toutes les estimations possibles</h2>
+L'expérience aléatoire consiste ici à construire un "futur" échantillon 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi fontweight="bold">Y</mi></mrow></math>
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo>=</mo><mo stretchy="false">(</mo>
+<msub><mrow><mi>Y</mi></mrow><mrow><mn>1</mn></mrow>
+</msub>
+<mo>,</mo><mo>&#x2026;</mo><mo>,</mo>
+<msub><mrow><mi>Y</mi></mrow><mrow><mi>n</mi></mrow>
+</msub>
+<mo stretchy="false">)</mo></mrow></math> où les v.a. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>Y</mi></mrow><mrow><mi>j</mi></mrow>
+</msub>
+</mrow></math> sont toutes issues du même procédé de fabrication et ce indépendamment des autres 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>Y</mi></mrow><mrow><mi>k</mi></mrow>
+</msub>
+</mrow></math> avec 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>k</mi><mo>&ne;</mo><mi>j</mi></mrow></math>. Sur un plan mathématique, on dit qu'elles sont des copies indépendantes d'une v.a. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> servant de modèle.
+Via l'Approche Expérimentale des Probabilités, décrivons une étape de simulation&nbsp;:
+
+<ol type="1">
+<li> Nous génèrerons 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbTot</mi></mrow></math> échantillons 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> (
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mo>&#x2026;</mo><mo>,</mo><mi>nbExp</mi></mrow></math>). Cela correspond à la génération de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbTot</mi><mo>&times;</mo><mi>n</mi></mrow></math> réalisations de la v.a. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> regroupées par paquet de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>n</mi></mrow></math>. Toutes les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>n</mi></mrow></math> réalisations d'un  même paquet correspondant à un même échantillon 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> sont représentées graphiquement par une même couleur. Il y a donc 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> couleurs différentes associées aux 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> échantillons 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> générés à chaque étape.
+<div class="p"><!----></div>
+</li>
+
+<li> Puis, à partir de chaque échantillon 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> on détermine la statistique associée (moyenne, somme, écart moyen standardisé, ...) notée 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+<mo fontweight="bold" stretchy="false">)</mo></mrow></math> qui est donc une réalisation de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo><mi fontweight="bold">Y</mi><mo fontweight="bold" stretchy="false">)</mo></mrow></math>. Cette transformation est représentée par un regroupement de toutes les réalisations d'un même échantillon 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> vers un même point dont l'abscisse correspond à la valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+<mo fontweight="bold" stretchy="false">)</mo></mrow></math> de la statistique. Nous obtenons ainsi 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> réalisations de la statistique 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo><mi fontweight="bold">Y</mi><mo fontweight="bold" stretchy="false">)</mo></mrow></math> ayant toutes des couleurs différentes.<br />
+Au passage, on pourra se demander à quoi correspondent les ordonnées des points représentant les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo>
+<msub><mrow><mi fontweight="bold">y</mi></mrow><mrow><mo fontweight="bold" stretchy="false">[</mo><mi fontweight="bold">k</mi><mo fontweight="bold" stretchy="false">]</mo></mrow>
+</msub>
+<mo fontweight="bold" stretchy="false">)</mo></mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> Puisque nous sommes intéressés par la loi de probabilités de cette statistique 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>t</mi><mo stretchy="false">(</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow></math>, nous enchaînons alors par la représentation 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques de ces 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> réalisations s'empilant sur les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques obtenues aux étapes précédentes. Nous obtenons un 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme avec 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math> devenant la nouvelle valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math>.
+<div class="p"><!----></div>
+</li>
+</ol>
+
+<div class="p"><!----></div>
 
 
 </body>

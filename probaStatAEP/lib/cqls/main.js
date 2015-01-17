@@ -82,6 +82,13 @@
 		if(cqls.i.count>4) cqls.i.count=4;
 	}
 
+	//MLevel correspondance: [1,3,5,10,30,100,1000,3000]
+	cqls.f.setMLevel=function(lev,mode) {
+		if(!mode) mode="set";
+		if(mode=="add") mode="inc";
+		cqls.m.play.$setMLevel(lev,mode);
+	}
+
 	cqls.f.onTap=function(x,y) {
 		if(cqls.m.play.graphExp.$zoomActive()) {
 			if(cqls.m.play.graphExp.$hitZoom(x,y)!="none") {
@@ -192,6 +199,55 @@
 
 	cqls.f.setAlpha=function(alpha) {
 		cqls.m.play.$setAlpha(alpha);
+	}
+
+	//jquery-easyui
+	cqls.f.aide=function(topic) {
+		$('#window-aide').window('refresh','aide/'+topic+'.html');
+		$('#window-aide').window('open');
+	}
+
+	//mode static
+	cqls.f.initSim=function() {
+		console.log("initSim");
+		//init stage parameters
+		cqls.staticValues.animMode=true;
+		cqls.staticValues.priorMode=false;
+		cqls.staticValues.checkSummary=false;
+		cqls.staticValues.checkExp0Curve=false;
+		cqls.staticValues.checkExp1Curve=false;
+		cqls.staticValues.checkHistCurve=false;
+		cqls.staticValues.checkTCL=false;
+		cqls.staticValues.checkExp0Mean=false;
+		cqls.staticValues.checkExp1Mean=false;
+		cqls.staticValues.checkExp0SD=false;
+		cqls.staticValues.checkExp1SD=false;
+		cqls.staticValues.checkHistMean=false;
+		cqls.staticValues.checkHistSD=false;
+		cqls.i.keepAspectRatio=false;
+		cqls.i.loop=true;cqls.i.paused=false;
+	}
+
+	cqls.f.autoSim=function(scenario) {
+		switch(scenario) {
+			case "va":
+			//prepare before or after cycle autoscript
+			cqls.autoPreCycle[1]="{cqls.f.setMLevel(2);}";
+			cqls.autoPreCycle[2]="{cqls.m.play.histCur.$level(5,'set');}";
+			cqls.autoPreCycle[3]="cqls.f.setMLevel(5);cqls.m.play.histCur.$level(6,'set');";
+			cqls.autoPreCycle[4]="cqls.f.setValue('animMode',false);";
+			cqls.autoPreCycle[10]="cqls.f.setValue('checkHistCurve',true);";
+			cqls.autoPostCycle[10]="cqls.f.addCount(2);";
+			cqls.autoPostCycle[20]="cqls.i.loop=false;";
+			break;
+			case "transf":
+			//prepare before or after cycle autoscript
+			cqls.autoPreCycle[2]="{cqls.m.play.histCur.$level(7,'set');}";
+			cqls.autoPreCycle[3]="cqls.m.play.histCur.$level(6,'set');";
+			cqls.autoPreCycle[4]="cqls.f.setValue('animMode',false);";
+			cqls.autoPreCycle[10]="cqls.f.setValue('checkHistCurve',true);";
+			cqls.autoPostCycle[20]="cqls.i.loop=false;";
+		}
 	}
 
 	///////////////////////////

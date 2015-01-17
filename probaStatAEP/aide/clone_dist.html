@@ -34,41 +34,72 @@ A partir du constat précédent que le
 <ol type="1">
 <li> Après s'être fixé une distribution discrète ou continue représentée par un empilement d'une infinité de 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques, on se propose à chaque étape d'en choisir 
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques, on se propose à chaque étape 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>nbExp</mi></mrow></math> au hasard (voir graphique du haut) et de les empiler sur les 
+<mrow><mi>i</mi></mrow></math> d'en choisir 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> précédentes accumlées aux étapes précédentes.
+<mrow><mi>nbExp</mi></mrow></math> au hasard (partie du haut) et de les empiler sur les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> précédentes accumlées aux étapes précédentes.
 <div class="p"><!----></div>
 </li>
 
-<li> Les 
+<li> Puisque 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math>, les 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>nbExp</mi></mrow></math> nouvelles 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>m</mi><mo>+</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-briques accumulées aux 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques accumulées aux 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> précedentes 
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> précedentes 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>m</mi><mo>+</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-briques composent le 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques composent le 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>nbExpTot</mi><mo stretchy="false">]</mo></mrow></math>-histogramme où 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme où 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>nbExpTot</mi><mo>=</mo><mi>m</mi><mo>+</mo><mi>nbExp</mi></mrow></math> devenant la nouvelle valeur de 
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+</mrow></math> devient la nouvelle valeur de 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> (voir graphique du bas).
+<mrow><mi>m</mi></mrow></math>.
 <div class="p"><!----></div>
 </li>
 
 <li> A la limite 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi><mo>=</mo><mi>nbExpTot</mi><mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, pensez-vous que la répartition initiale du graphique du haut coïncidera avec l'empilement des 
+<mrow><mi>m</mi><mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, pensez-vous que la répartition initiale du graphique du haut coïncidera avec l'empilement des 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques.
 <div class="p"><!----></div>
 </li>
 
-<li> Dorénavant, il sera important de comprendre l'équivalence en termes de répartition (ou loi de probabilité sur un plan mathématique) entre la v.a. originale et sa version clonée construite à partir de l'
+<li> Dorénavant, il sera important de comprendre l'équivalence en termes de répartition (i.e. appelée loi de probabilité dans un cadre mathématique) entre la v.a. originale et sa version clonée construite à partir de l'
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme associé à la v.a. originale.
 <div class="p"><!----></div>
@@ -76,10 +107,10 @@ A partir du constat précédent que le
 </ol>
 
 <h2>Transformation de v.a.</h2>
-L'objectif est ici de se fixer une même transformation à appliquer à chaque nouvelle réalisation de la v.a. considérée. Pour faciliter la compréhension, nous considèrerons de manière équivalente sa v.a. clonée&nbsp;: 
+L'objectif est ici de se fixer une même transformation à appliquer à chaque nouvelle réalisation de la v.a. considérée. Pour faciliter la représentation graphique et ainsi la compréhension, nous considèrerons sa v.a. clonée équivalente en termes de répartition (voir section précédente)&nbsp;: 
 
 <ol type="1">
-<li> soit 
+<li> Soit 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mi>nbExp</mi></mrow></math> nouvelles réalisations vues comme 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -87,43 +118,66 @@ L'objectif est ici de se fixer une même transformation à appliquer à chaque n
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques choisies au hasard dans le 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme associé
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme associé.
 <div class="p"><!----></div>
 </li>
 
-<li> appliquons à ces 
+<li> Appliquons à ces 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>nbExp</mi></mrow></math> réalisations la transformation représentée par le déplacement dans la partie du haut
+<mrow><mi>nbExp</mi></mrow></math> réalisations la transformation représentée par le déplacement dans la partie du haut.
 <div class="p"><!----></div>
 </li>
 
-<li> ensuite comme précédemment, les 
+<li> Ensuite, comme dans la section précédente, les 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>nbExp</mi></mrow></math> réalisations transformées sont représentées par des 
+<mrow><mi>nbExp</mi></mrow></math> réalisations transformées sont représentées par 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo>+</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques à empiler sur les 
+<mrow><mi>nbExp</mi></mrow></math> 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques à empiler sur les 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo>+</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques obtenues aux étapes précédentes composant ainsi le 
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>nbExpTot</mi><mo stretchy="false">]</mo></mrow></math>-histogramme où 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques obtenues aux étapes précédentes composant ainsi le 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>nbExpTot</mi><mo>=</mo><mi>m</mi><mo>+</mo><mi>nbExp</mi></mrow></math> devenant la nouvelle valeur de 
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme où 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi></mrow></math> (voir graphique du bas).
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math> devenant la nouvelle valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math>.
 <div class="p"><!----></div>
 </li>
 
 <li> A la limite 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mi>m</mi><mo>=</mo><mi>nbExpTot</mi><mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, on obtient sans trop de surprise le 
+<mrow><mi>m</mi><mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, on obtient sans trop de surprise le 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme qui consiste à simultanément modifier toutes les 
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme qui peut être vu directement comme la transformation simultanée de toutes les 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
 <mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques du 
 <math xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme initial via la transformation.
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme initial.
 <div class="p"><!----></div>
 </li>
 </ol>

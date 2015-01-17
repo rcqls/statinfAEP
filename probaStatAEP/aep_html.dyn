@@ -75,17 +75,14 @@ Copy and paste: {#lang][#fr][#en][#}
 							$('#tabs').tabs('select', '#{stage}');
 							var distrib=$('#loi-va-distrib').combobox('getValue');
 							console.log('va: dist='+distrib);
-							
-							//cqls.f.initSim();
-							//cqls.f.updateStage();
-							//cqls.m.play.$animMode();
-							//cqls.f.updateDemo();
 
 							cqls.f.initSim();
+							cqls.f.autoSim('va');
 							cqls.f.setDistrib(distrib);
 							cqls.f.setTransf('none');
 							cqls.f.setSimMode(true,false);
-							cqls.f.setValue('checkExp0Curve',true);
+							cqls.f.setValue('checkExp0Curve',false);
+							cqls.f.setValue('checkExp1Curve',false);
 							cqls.f.updateStage();
 							cqls.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a>{#aide]va_dist[#}</td></tr>
@@ -118,20 +115,16 @@ Copy and paste: {#lang][#fr][#en][#}
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqls.i.loop=false;
 							$('#tabs').tabs('select', '#{stage}');
-							//cqls.f.initSim();
-							//cqls.f.setValue('priorMode',true);
-							//cqls.f.setValue('checkExp0Curve',true);
-							//cqls.f.updateStage();
-							//cqls.m.play.$animMode();cqls.f.updateDemo();
-
 							var distrib=$('#loi-clone-distrib').combobox('getValue');
 							var transf=$('#loi-clone-transf').combobox('getValue');
 							console.log('dist='+distrib+', transf='+transf);
 							cqls.f.initSim();
+							cqls.f.autoSim('va');
 							cqls.f.setDistrib(distrib);
 							cqls.f.setTransf(transf);
 							cqls.f.setSimMode(true,true);
 							cqls.f.setValue('checkExp0Curve',true);
+							cqls.f.setValue('checkExp1Curve',false);
 							cqls.f.updateStage();
 							cqls.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]clone_dist[#}</td></tr>
@@ -185,11 +178,13 @@ Copy and paste: {#lang][#fr][#en][#}
 							var n=$('#loi-ech-n').combobox('getValue');
 							console.log('loi-ech: dist='+distrib+', transf='+transf+', n='+parseInt(n));
 							cqls.f.initSim();
+							cqls.f.autoSim('va');
 							cqls.f.setDistrib(distrib);
 							cqls.f.setTransf(transf);
 							cqls.f.setN(parseInt(n));
 							cqls.f.setSimMode(true,true);
 							cqls.f.setValue('checkExp0Curve',true);
+							cqls.f.setValue('checkExp1Curve',false);
 							cqls.f.updateStage();
 							cqls.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ech_dist[#}</td></tr>
@@ -261,11 +256,13 @@ Copy and paste: {#lang][#fr][#en][#}
 							var n=$('#ic-n').combobox('getValue');
 							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
 							cqls.f.initSim();
+							cqls.f.autoSim('va');
 							cqls.f.setDistrib(distrib);
 							cqls.f.setTransf('meanIC');
 							cqls.f.setN(parseInt(n));
 							cqls.f.setSimMode(true,true);
 							cqls.f.setValue('checkExp0Curve',true);
+							cqls.f.setValue('checkExp1Curve',false);
 							cqls.f.updateStage();
 							cqls.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
@@ -278,35 +275,7 @@ Copy and paste: {#lang][#fr][#en][#}
 			</div>
 		</div>
 		<script>
-			cqls.f.aide=function(topic) {
-				$('#window-aide').window('refresh','aide/'+topic+'.html');
-    			$('#window-aide').window('open');
-			}
-			cqls.f.initSim=function() {
-				console.log("initSim");
-				//init stage parameters
-				cqls.staticValues.animMode=true;
-				cqls.staticValues.priorMode=false;
-				cqls.staticValues.checkSummary=false;
-				cqls.staticValues.checkExp0Curve=false;
-				cqls.staticValues.checkExp1Curve=false;
-				cqls.staticValues.checkHistCurve=false;
-				cqls.staticValues.checkTCL=false;
-				cqls.staticValues.checkExp0Mean=false;
-				cqls.staticValues.checkExp1Mean=false;
-				cqls.staticValues.checkExp0SD=false;
-				cqls.staticValues.checkExp1SD=false;
-				cqls.staticValues.checkHistMean=false;
-				cqls.staticValues.checkHistSD=false;
-				cqls.i.keepAspectRatio=false;
-				cqls.i.loop=true;cqls.i.paused=false;
-				//prepare before or after cycle autoscript
-				cqls.autoPreCycle[2]="{cqls.m.play.histCur.$level(7,\"set\");}";
-				cqls.autoPreCycle[3]="cqls.m.play.histCur.$level(6,\"set\");";
-				cqls.autoPreCycle[4]="cqls.f.setValue('animMode',false);";
-				cqls.autoPreCycle[10]="cqls.f.setValue('checkHistCurve',true);";
-				cqls.autoPostCycle[20]="cqls.i.loop=false;";
-			}
+
 			cqls.mode="static";
 			cqls.f.initSim();
 			
