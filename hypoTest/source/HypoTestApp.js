@@ -3,7 +3,7 @@ enyo.kind({
 	kind: "FittableRows",
 	fit: true,
 	components:[	 
-		{kind: "onyx.MoreToolbar", style:"height:"+cqlsHypo.enyo.top+"px;" ,components: [
+		{kind: "onyx.MoreToolbar", style:"height:"+cqlsHypo.win.top+"px;" ,components: [
 			{content: "H1: "},
 			{kind: "onyx.MenuDecorator", name: "paramMenu", onSelect: "paramSelected", components: [
 				{name: "paramMenuName", content: "p"},
@@ -52,7 +52,7 @@ enyo.kind({
 		]},
 		{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqlsHypo.i.dim.w, height: cqlsHypo.i.dim.h*2}},
 		//{id: "trigger-opentip",content: "opentip", attributes: {width: cqlsHypo.i.dim.w, height: 20}},
-		{kind: "onyx.MoreToolbar",style:"height:"+cqlsHypo.enyo.bottom+"px;" ,components: [
+		{kind: "onyx.MoreToolbar",style:"height:"+cqlsHypo.win.bottom+"px;" ,components: [
 			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkParam0Curve", onchange:"toggleVisible"},
 				{kind: "onyx.Checkbox", name: "checkParam0Mean", onchange:"toggleVisible",checked: true},
@@ -122,7 +122,7 @@ enyo.kind({
 	},
 	onTapCanvas: function(inSender, inEvent) {
 		var p = enyo.getPosition();
-		//cqlsHypo.f.onTap(p["clientX"]/cqlsHypo.m.stage.scaleX,(p["clientY"]-cqlsHypo.enyo.top)/cqlsHypo.m.stage.scaleY);
+		//cqlsHypo.f.onTap(p["clientX"]/cqlsHypo.m.stage.scaleX,(p["clientY"]-cqlsHypo.win.top)/cqlsHypo.m.stage.scaleY);
 	}
 
 	//,

@@ -1176,25 +1176,27 @@ module CqlsHypo
 		end
 
 		def getContext
-			@context[:param]= %x{cqlsHypo.enyo.app.$.paramMenuName.getContent()}
-			@context[:side]=%x{cqlsHypo.enyo.app.$.sideMenuName.getContent()}
-			@context[:ref]=%x{parseFloat(cqlsHypo.enyo.app.$.refValue.getValue())}
-			@context[:n]=%x{parseInt(cqlsHypo.enyo.app.$.nValue.getValue())}
+			@context[:param]= %x{cqlsHypo.f.getValue('param')}
+			@context[:side]=%x{cqlsHypo.f.getValue('side')}
+			@context[:ref]=%x{parseFloat(cqlsHypo.f.getValue('refValue'))}
+			@context[:n]=%x{parseInt(cqlsHypo.f.getValue('nValue'))}
 			@context[:alpha]=@alpha
 			@context[:sigma]=1
+
+			%x{console.log('param:' + #{@context[:param]})}
 
 			case @context[:param]
 			when "p"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref]]
 				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5)]
-				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.enyo.app.$.meanValue.getValue())}
+				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.f.getValue('meanValue'))}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(%x{Math.sqrt(#{@context[:ref]*(1-@context[:ref])/@context[:n]})})
 			when "mu"
 				@context[:param]="m"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref],@context[:sigma]]
 				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5),@context[:sigma]]
-				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.enyo.app.$.meanValue.getValue())}
-				sd=%x{parseFloat(cqlsHypo.enyo.app.$.sdValue.getValue())}
+				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.f.getValue('meanValue'))}
+				sd=%x{parseFloat(cqlsHypo.f.getValue('sdValue'))}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(sd/%x{Math.sqrt(#{@context[:n]})})
 			end
 
@@ -1275,51 +1277,51 @@ module CqlsHypo
 		end
 
 
-		def updateVisible #from enyo interface
+		def updateVisible #from interface
 		
 			%x{
-				#{@paramEst[0]}.shape.visible=cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramEst[1]}.shape.visible=cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
-				#{@deltaEst[0]}.shape.visible=cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaEst[1]}.shape.visible=cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
+				#{@paramEst[0]}.shape.visible=cqlsHypo.f.getValue('checkParam0Curve');
+				#{@paramEst[1]}.shape.visible=cqlsHypo.f.getValue('checkParam1Curve');
+				#{@deltaEst[0]}.shape.visible=cqlsHypo.f.getValue('checkDelta0Curve');
+				#{@deltaEst[1]}.shape.visible=cqlsHypo.f.getValue('checkDelta1Curve');
 			 	
 
 				// Lim
-				#{@paramLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkParamLim.getValue();
-				#{@paramLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkParamLim.getValue();
-				#{@deltaLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkDeltaLim.getValue();
-				#{@deltaLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkDeltaLim.getValue();
-				#{@paramEstLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkData.getValue();
-				#{@paramEstLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkData.getValue();
-				#{@deltaEstLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkData.getValue();
-				#{@deltaEstLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkData.getValue();
+				#{@paramLim}.shapes[0].visible= cqlsHypo.f.getValue('checkParamLim');
+				#{@paramLim}.shapes[1].visible= cqlsHypo.f.getValue('checkParamLim');
+				#{@deltaLim}.shapes[0].visible= cqlsHypo.f.getValue('checkDeltaLim');
+				#{@deltaLim}.shapes[1].visible= cqlsHypo.f.getValue('checkDeltaLim');
+				#{@paramEstLim}.shapes[0].visible= cqlsHypo.f.getValue('checkData');
+				#{@paramEstLim}.shapes[1].visible= cqlsHypo.f.getValue('checkData');
+				#{@deltaEstLim}.shapes[0].visible= cqlsHypo.f.getValue('checkData');
+				#{@deltaEstLim}.shapes[1].visible= cqlsHypo.f.getValue('checkData');
 
 				//Risk
-				#{@paramTypeIRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramTypeIRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
-				#{@deltaTypeIRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaTypeIRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
+				#{@paramTypeIRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');
+				#{@paramTypeIRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');
+				#{@deltaTypeIRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkDelta0Curve');
+				#{@deltaTypeIRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkDelta0Curve');
 
-				#{@paramTypeGenRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
-				#{@paramTypeGenRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
-				#{@deltaTypeGenRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
-				#{@deltaTypeGenRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
+				#{@paramTypeGenRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkParam1Curve');
+				#{@paramTypeGenRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkParam1Curve');
+				#{@deltaTypeGenRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkDelta1Curve');
+				#{@deltaTypeGenRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkDelta1Curve');
 
-				#{@paramPvalRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramPvalRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
-				#{@deltaPvalRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaPvalRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
+				#{@paramPvalRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkParam0Curve');
+				#{@paramPvalRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkParam0Curve');
+				#{@deltaPvalRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkDelta0Curve');
+				#{@deltaPvalRisk}.shapes[1].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkDelta0Curve');
 
 
-				#{@paramEst[0]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkParam0Mean.getValue();
-				#{@paramEst[0]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkParam0SD.getValue();
-				#{@paramEst[1]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkParam1Mean.getValue();
-				#{@paramEst[1]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkParam1SD.getValue();
+				#{@paramEst[0]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkParam0Mean');
+				#{@paramEst[0]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam0SD');
+				#{@paramEst[1]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkParam1Mean');
+				#{@paramEst[1]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam1SD');
 				
-				#{@deltaEst[0]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkDelta0Mean.getValue();
-				#{@deltaEst[0]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkDelta0SD.getValue();
-				#{@deltaEst[1]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkDelta1Mean.getValue();
-				#{@deltaEst[1]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkDelta1SD.getValue();
+				#{@deltaEst[0]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta0Mean');
+				#{@deltaEst[0]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta0SD');
+				#{@deltaEst[1]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta1Mean');
+				#{@deltaEst[1]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta1SD');
 				
 				// update stage since possible change of visibility
 				cqlsHypo.m.stage.update();

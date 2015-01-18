@@ -1,5 +1,9 @@
 	// m: main, s: sim, h: hist, i: interface, f: functions
 	var cqlsHypo={
+				mode: "static",
+				enyo: {},
+				win: {top: 60, bottom:60},
+				staticValues: {},
 				m: {
 					xylimMore:0.01,
 					xmin:-5.0,xmax:5.0,ymax:0.5,qmin:0.0001,qmax:0.9999,
@@ -22,7 +26,6 @@
 					zoom: {},
 					scaleTime: 1.0
 				},
-				enyo: {top: 60, bottom:60},
 				f: {}
 			};
 
@@ -31,7 +34,7 @@
 	cqlsHypo.f.resizeCanvas=function() { 
 		// browser viewport size
 		var w = window.innerWidth;
-		var h = window.innerHeight-cqlsHypo.enyo.top-cqlsHypo.enyo.bottom;
+		var h = window.innerHeight-cqlsHypo.win.top-cqlsHypo.win.bottom;
 
 
 		if (cqlsHypo.i.keepAspectRatio) {
@@ -88,6 +91,66 @@
 	    
 	}
 
+	cqlsHypo.f.getValue=function(key) {
+		if(cqlsHypo.mode=="enyo") {
+			if (key=="param" || key == "side") {
+				console.log("key:" + key + "," + cqlsHypo.enyo.app.$[key+"MenuName"].getContent());
+				return cqlsHypo.enyo.app.$[key+"MenuName"].getContent();
+			} else {
+				return cqlsHypo.enyo.app.$[key].getValue();
+			}
+		} else if(cqlsHypo.mode == "static") {
+			//console.log("static["+key+"]="+cqlsHypo.staticValues[key]);
+			return cqlsHypo.staticValues[key];
+		}
+	}
+
+	cqlsHypo.f.setValue=function(key,value) {
+		if(cqlsHypo.mode == "static") {
+			cqlsHypo.staticValues[key]=value;
+		}
+	}
+
+	cqlsHypo.f.setValueWithReset=function(key,value) {
+	 	cqlsHypo.f.setValue(key,value);
+		cqlsHypo.m.play.$reset();
+	}
+
+	
+
+	//mode static
+	cqlsHypo.f.initHypo=function(param,side,refValue,nValue,meanValue,sdValue) {
+		console.log("initSim");
+		//init stage parameters
+		cqlsHypo.f.setValue('param',param);
+		cqlsHypo.f.setValue('side',side);
+		cqlsHypo.f.setValue('refValue',refValue);
+		cqlsHypo.f.setValue('nValue',nValue);
+		cqlsHypo.f.setValue('meanValue',meanValue);
+		cqlsHypo.f.setValue('sdValue',sdValue);
+
+		cqlsHypo.f.setValue('checkParam0Curve',false);
+		cqlsHypo.f.setValue('checkParam1Curve',false);
+		cqlsHypo.f.setValue('checkDelta0Curve',false);
+		cqlsHypo.f.setValue('checkDelta1Curve',false);
+
+		cqlsHypo.f.setValue('checkParamLim',false);
+		cqlsHypo.f.setValue('checkDeltaLim',false);
+		cqlsHypo.f.setValue('checkData',false);
+		cqlsHypo.f.setValue('checkRiskTypeI',false);
+
+		cqlsHypo.f.setValue('checkRiskTypeGen',false);
+		cqlsHypo.f.setValue('checkPval',false);
+		cqlsHypo.f.setValue('checkParam0Mean',false);
+		cqlsHypo.f.setValue('checkParam0SD',false);
+		cqlsHypo.f.setValue('checkParam1Mean',false);
+		cqlsHypo.f.setValue('checkParam1SD',false);
+		cqlsHypo.f.setValue('checkDelta0Mean',false);
+		cqlsHypo.f.setValue('checkDelta0SD',false);
+		cqlsHypo.f.setValue('checkDelta1Mean',false);
+		cqlsHypo.f.setValue('checkDelta1SD',false);
+	}
+
 	///////////////////////////
 	// Main function to call
 	function aep() {
@@ -110,25 +173,25 @@
 		// cqlsHypo.m.dist=Opal.CqlsHypo.Convolution.$power(cqlsHypo.m.exp,3);
 		
 		//cqlsHypo.m.dist=new BinomialDistribution(5,.15);
-		cqlsHypo.m.dist=new LocationScaleDistribution(new BernoulliDistribution(.15),-.15/Math.sqrt(.15*.85),1/Math.sqrt(.15*.85));
-		console.log(cqlsHypo.m.dist.minValue());
-		console.log(cqlsHypo.m.dist.maxValue());
-		console.log(cqlsHypo.m.dist.type()==CONT);
-		console.log(cqlsHypo.m.dist.step());
-		console.log(cqlsHypo.m.dist.values());
-		cqlsHypo.m.dist2 = new PowerDistribution(cqlsHypo.m.dist,2);
-		console.log(cqlsHypo.m.dist2.minValue());
-		console.log(cqlsHypo.m.dist2.maxValue());
-		console.log(cqlsHypo.m.dist2.type()==CONT);
-		console.log(cqlsHypo.m.dist2.step());
-		console.log(cqlsHypo.m.dist2.values());
+		// cqlsHypo.m.dist=new LocationScaleDistribution(new BernoulliDistribution(.15),-.15/Math.sqrt(.15*.85),1/Math.sqrt(.15*.85));
+		// console.log(cqlsHypo.m.dist.minValue());
+		// console.log(cqlsHypo.m.dist.maxValue());
+		// console.log(cqlsHypo.m.dist.type()==CONT);
+		// console.log(cqlsHypo.m.dist.step());
+		// console.log(cqlsHypo.m.dist.values());
+		// cqlsHypo.m.dist2 = new PowerDistribution(cqlsHypo.m.dist,2);
+		// console.log(cqlsHypo.m.dist2.minValue());
+		// console.log(cqlsHypo.m.dist2.maxValue());
+		// console.log(cqlsHypo.m.dist2.type()==CONT);
+		// console.log(cqlsHypo.m.dist2.step());
+		// console.log(cqlsHypo.m.dist2.values());
 
-		cqlsHypo.m.dist3=Opal.CqlsHypo.Convolution.$power(cqlsHypo.m.dist2,4);
-		console.log(cqlsHypo.m.dist3.values());
-		console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density));
-		console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density).reduce(function(a, b) {
-		    return a + b;
-		}));
+		// cqlsHypo.m.dist3=Opal.CqlsHypo.Convolution.$power(cqlsHypo.m.dist2,4);
+		// console.log(cqlsHypo.m.dist3.values());
+		// console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density));
+		// console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density).reduce(function(a, b) {
+		//     return a + b;
+		// }));
 				// d2=Distribution.new
 				// d2.setAsTransfOf(d,{name: :square, args: []})
 
@@ -235,8 +298,10 @@
 		
 		//Initial call 
 		cqlsHypo.f.resizeCanvas();
-		cqlsHypo.enyo.app.$.sdInput.hide();cqlsHypo.enyo.app.$.sdLeft.hide();
-		//cqlsHypo.enyo.app.$.alphaMenu.hide();
-		//cqlsHypo.enyo.app.$.pauseButton.hide();
+		if(cqlsHypo.mode=="enyo") {
+			cqlsHypo.enyo.app.$.sdInput.hide();cqlsHypo.enyo.app.$.sdLeft.hide();
+			//cqlsHypo.enyo.app.$.alphaMenu.hide();
+			//cqlsHypo.enyo.app.$.pauseButton.hide();
+		}
 	}
 

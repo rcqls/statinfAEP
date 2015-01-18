@@ -173,7 +173,7 @@
 							var n=$('#loi-ech-n').combobox('getValue');
 							console.log('loi-ech: dist='+distrib+', transf='+transf+', n='+parseInt(n));
 							cqlsAEP.f.initSim();
-							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.autoSim('ech');
 							cqlsAEP.f.setDistrib(distrib);
 							cqlsAEP.f.setTransf(transf);
 							cqlsAEP.f.setN(parseInt(n));
