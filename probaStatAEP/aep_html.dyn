@@ -143,7 +143,7 @@
 						</select></td>
     					<td><select id="loi-ech-transf" class="easyui-combobox" name="state" style="width:200px;">
     						<option value="sum">{#lang][#fr]Somme (échantillonnale)[#en]Sample Sum[#}</option>
-							<option value="mean">{#lang][#fr]Moyenne (échantillonnale)[#en]Sample Mean[#}</option>
+							<option value="mean"  selected="true">{#lang][#fr]Moyenne (échantillonnale)[#en]Sample Mean[#}</option>
 							<option value="stdMean">{#lang][#fr]Ecart moyen standardisé[#en]Standardized Mean Error[#}</option>
 						</select></td>
 						<td><select id="loi-ech-n" class="easyui-combobox" name="state" style="width:80px;">
@@ -152,7 +152,7 @@
 							<option value="8">8</option>
 							<option value="10">10</option>
 							<option value="16">16</option>
-							<option value="30">30</option>
+							<option value="30" selected="true">30</option>
 							<option value="32">32</option>
 							<option value="50">50</option>
 							<option value="64">64</option>
@@ -213,7 +213,7 @@
 							<option value="binomial">{#lang][#fr]Binomiale[#en]Binomial[#} B(5,0.15)</option>
 							<option value="birthday">{#lang][#fr]Anniversaire[#en]Birthday[#}</option>
 							<option value="stdNormal">Normal(0,1)</option>
-							<option value="uniform">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
+							<option value="uniform"  selected="true">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
 							<option value="normal">Normal(2,0.5)</option>
 							<option value="t">Student(10)</option>
 							<option value="chi2">Chi2(10)</option>
@@ -221,7 +221,7 @@
 							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
 						</select></td>
     					<td><select id="ic-param" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="mean">{#lang][#fr]Moyenne[#en]Mean[#}</option>
+    						<option value="mean" selected="true">{#lang][#fr]Moyenne[#en]Mean[#}</option>
 							<option value="var">Variance</option>
 						</select></td>
 						<td><select id="ic-n" class="easyui-combobox" name="state" style="width:80px;">
@@ -230,7 +230,7 @@
 							<option value="8">8</option>
 							<option value="10">10</option>
 							<option value="16">16</option>
-							<option value="30">30</option>
+							<option value="30" selected="true">30</option>
 							<option value="32">32</option>
 							<option value="50">50</option>
 							<option value="64">64</option>
@@ -251,7 +251,7 @@
 							var n=$('#ic-n').combobox('getValue');
 							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
 							cqlsAEP.f.initSim();
-							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.autoSim('ic');
 							cqlsAEP.f.setDistrib(distrib);
 							cqlsAEP.f.setTransf('meanIC');
 							cqlsAEP.f.setN(parseInt(n));

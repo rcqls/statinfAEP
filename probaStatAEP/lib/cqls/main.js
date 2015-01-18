@@ -89,6 +89,20 @@
 		cqlsAEP.m.play.$setMLevel(lev,mode);
 	}
 
+	cqlsAEP.f.setLevelOfHist=function(lev,hist,mode) {
+		if(!mode) mode="set";
+		if(mode=="add") mode="inc";
+		if(hist==1) {
+			histo=cqlsAEP.m.play.hist[1];
+			console.log("hist[1] active")
+		} else if(hist==0) {
+			histo=cqlsAEP.m.play.hist[0];
+		} else if(!hist || hist=="cur") {
+			histo=cqlsAEP.m.play.histCur;
+		}
+		histo.$level(lev,mode);
+	}
+
 	cqlsAEP.f.onTap=function(x,y) {
 		if(cqlsAEP.m.play.graphExp.$zoomActive()) {
 			if(cqlsAEP.m.play.graphExp.$hitZoom(x,y)!="none") {
@@ -232,20 +246,56 @@
 		switch(scenario) {
 			case "va":
 			//prepare before or after cycle autoscript
-			cqlsAEP.autoPreCycle[1]="{cqlsAEP.f.setMLevel(2);}";
-			cqlsAEP.autoPreCycle[2]="{cqlsAEP.m.play.histCur.$level(5,'set');}";
-			cqlsAEP.autoPreCycle[3]="cqlsAEP.f.setMLevel(5);cqlsAEP.m.play.histCur.$level(6,'set');";
-			cqlsAEP.autoPreCycle[4]="cqlsAEP.f.setValue('animMode',false);";
-			cqlsAEP.autoPreCycle[10]="cqlsAEP.f.setValue('checkHistCurve',true);";
-			cqlsAEP.autoPostCycle[10]="cqlsAEP.f.addCount(2);";
+			cqlsAEP.autoPreCycle[1]="{\
+				cqlsAEP.i.scaleTime=2.0;\
+				cqlsAEP.f.setMLevel(4);\
+				cqlsAEP.f.setLevelOfHist(3);\
+			}";
+			cqlsAEP.autoPreCycle[3]="{cqlsAEP.i.scaleTime=1.0;}";
+			cqlsAEP.autoPreCycle[4]="{cqlsAEP.f.setMLevel(5);cqlsAEP.f.setLevelOfHist(4);}";
+			cqlsAEP.autoPreCycle[6]="{cqlsAEP.f.setValue('animMode',false);}";
+			cqlsAEP.autoPreCycle[10]="{\
+				cqlsAEP.f.setLevelOfHist(5);\
+			 	cqlsAEP.f.addCount(3);\
+			}";
+			cqlsAEP.autoPreCycle[15]="{\
+				cqlsAEP.f.addCount(4);\
+				cqlsAEP.f.setLevelOfHist(6);\
+				cqlsAEP.f.setValue('checkHistCurve',true);\
+			}";
 			cqlsAEP.autoPostCycle[20]="cqlsAEP.i.loop=false;";
 			break;
 			case "transf":
 			//prepare before or after cycle autoscript
-			cqlsAEP.autoPreCycle[2]="{cqlsAEP.m.play.histCur.$level(7,'set');}";
-			cqlsAEP.autoPreCycle[3]="cqlsAEP.m.play.histCur.$level(6,'set');";
-			cqlsAEP.autoPreCycle[4]="cqlsAEP.f.setValue('animMode',false);";
+			cqlsAEP.autoPreCycle[2]="{cqlsAEP.f.setMLevel(3);cqlsAEP.f.setLevelOfHist(3);}";
+			cqlsAEP.autoPreCycle[3]="cqlsAEP.f.setLevelOfHist(4);";
+			cqlsAEP.autoPreCycle[5]="cqlsAEP.f.setValue('animMode',false);";
 			cqlsAEP.autoPreCycle[10]="cqlsAEP.f.setValue('checkHistCurve',true);";
+			cqlsAEP.autoPostCycle[20]="cqlsAEP.i.loop=false;";
+			break;
+			case "ic":
+			//prepare before or after cycle autoscript
+			cqlsAEP.autoPreCycle[1]="{\
+					cqlsAEP.f.setMLevel(3);\
+					cqlsAEP.f.setLevelOfHist(3);\
+					cqlsAEP.f.setValue('checkSummary',true);\
+					cqlsAEP.f.setValue('checkExp1Mean',true);\
+				}";
+			cqlsAEP.autoPreCycle[3]="cqlsAEP.f.setLevelOfHist(5);";
+			cqlsAEP.autoPreCycle[5]="{\
+				cqlsAEP.f.addCount(3);\
+				cqlsAEP.f.setValue('animMode',false);\
+				cqlsAEP.f.setValue('checkHistCurve',true);\
+			}";
+			cqlsAEP.autoPreCycle[10]="{\
+				cqlsAEP.f.setValue('animMode',true);\
+				cqlsAEP.f.setMLevel(5);\
+			}";
+			cqlsAEP.autoPreCycle[15]="{\
+				cqlsAEP.f.addCount(3);\
+				cqlsAEP.f.setLevelOfHist(7);\
+				cqlsAEP.f.setValue('animMode',false);\
+			}";
 			cqlsAEP.autoPostCycle[20]="cqlsAEP.i.loop=false;";
 		}
 	}
