@@ -1,10 +1,11 @@
-[#??]va[#=]docs[va_dist]
+[#require]tools_html
+[#main][#??]va[#=]docs[va_dist]
 [#??]clone[#=]docs[clone_dist]
 [#??]ech[#=]docs[ech_dist]
 [#??]ic[#=]docs[ic]
 [#??]brique[#=]docs[brique]
+[#??]intro[#=]docs[intro]
 [#??]end
-[#<]{#def]aide[#,]link[][#,]name[][#>]\begin{html}<a href="#" onclick="cqls.f.aide('#{link}')">\end{html}#{name}\begin{html}</a>\end{html}[#def}
 [#class]<!DOCTYPE html>
 <html>
 [#header]
@@ -17,11 +18,24 @@
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 [#main][#>]
+<div class="easyui-layout" fit="true">
+<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;">
+<h2>Approche Expérimentale des Probabilités</h2>
+<h4>Documentation</h4>
+{#aide]intro[#name]Objectif[#icon]ok[#}
+{#aide]brique[#name]Histogrammes discret et continu[#icon]ok[#}
+<h4>Descriptifs des éducatifs</h4>
+{#aide]va_dist[#name]Variables aléatoires[#icon]ok[#}
+{#aide]clone_dist[#name]Clonage et Transformation[#icon]ok[#}
+{#aide]ech_dist[#name]Lois échantillonnales[#icon]ok[#}
+{#aide]ic[#name]Intervalle de confiance[#icon]ok[#}
+</div>
+<div region="center" border="false" border="false">
 {#case]#{docs}
 [#when]va_dist[#ttm>]
 \section*{Répartition d'une infinité de réalisations d'une v.a.}
 \begin{itemize}
-\item Toutes les $m$ réalisations consécutives $y_{[1]},...,y_{[m]}$ de la variable aléatoire (ou "future" réalisation) $Y$ sont représentées par des {#aide][#link]brique[#name]$[m]$-briques[#} ayant pour caractéristique principale d'avoir une surface $\frac1m$.
+\item Toutes les $m$ réalisations consécutives $y_{[1]},...,y_{[m]}$ de la variable aléatoire (ou "future" réalisation) $Y$ sont représentées par des {#aideTtm][#link]brique[#name]$[m]$-briques[#} ayant pour caractéristique principale d'avoir une surface $\frac1m$.
 \item Décrivons l'Approche Expérimentale des Probabilités appliquée dans cet éducatif. Une distribution discrète ou continue a été choisie dont on considère disposer d'un générateur. Plaçons-nous alors à une étape $i$ de la simulation en supposant donc que le nombre de réalisations de $Y$ déjà obtenues est $m:=nbExpTot_{i-1}$ (avec pour convention que $nbExpTot_0=0$).
 \begin{enumerate}
 \item \textbf{Nouvelles réalisations}~: on se propose à chaque étape $i$ de générer $nbExp$ nouvelles réalisations $y_{[nbExpTot_{i-1}+1]}$, $\cdots$, $y_{[nbExpTot_{i-1}+nbExp]}$ de la v.a. $Y$. 
@@ -69,7 +83,13 @@ Au passage, on pourra se demander à quoi correspondent les ordonnées des point
 \section*{Interprétation de l'intervalle de confiance via l'Approche Expérimentale des Probabilités}
 Nous nous plaçons encore dans le cadre où l'expérience consiste à construire un échantillon  $\boldmath{Y}$$=(Y_1,\cdots,Y_n)$. L'objectif est d'estimer un \textbf{paramètre inconnu} $\theta$. Ici, nous ne considèrerons que la moyenne théorique notée $\mu=E(Y_j)$ mais l'extension à d'autres paramètres se fait de façon complètement analogue. L'estimateur de la moyenne est donnée par $\hat{\mu}(\boldmath{Y})=\overline{Y}$. 
  
-
+[#when]intro[#ttm>]
+\textbf{Objectif visé} : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'Approche Expérimentale des Probabilités (utilisée ici) ne repose que sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
+\begin{enumerate}
+\item A la différence de l'Approche Mathématique de Probabilités, l'Approche Expérimentale des Probabilités aborde la notion de probabilité d'événement de manière comparable et donc unifiée dans les deux cadres de v.a. discrète et continue. En effet, une telle probabilité correspond à une fréquence d'apparition du dit événement parmi l'infinité des réalisations. 
+\item La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme \textit{l'histogramme à pas zéro d'une infinité de ses réalisations} appelé ici $[\infty]$-histogramme (continu). Celui-ci décrit ainsi la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100\%) d'une infinité de $[\infty]$-briques devenues "points".
+\item Dans le cas alternatif discret, le $[\infty]$-histogramme discret est introduit et représente un empilement (de surface 100\%) d'une infinité de $[\infty]$-briques devenues "crêpes".\\ \textit{N.B.~: une approche similaire peut être menée sur les diagrammes en bâtons mais elle n'a pas été développée ici car ayant moins d'intérêt dans l'appréhension du Théorème de la limite centrale.   
+\end{enumerate}
 [#when]brique[#ttm>]
 \section*{Rappel sur histogramme (v.a. continue) et extension au cas de v.a. discrète}
 \begin{itemize}
@@ -87,10 +107,8 @@ La notion d'histogramme au cas discret doit donc être envisagée puisqu'il est 
 \item Pour le cas moins usuel de v.a. discrète, les largeurs des $[m]$-briques (dites discrètes) sont fixées de sorte à produire un mur le plus compact possible. Il est à noter qu'à la différence des $[m]$-briques continues, les $[m]$-briques discrètes sont de même largeur (dite fixe) lorsque le nombre $m$ de réalisations augmentent. En clair, pour tout $m$ et pour une réalisation particulière de la v.a., \textbf{la largeur de sa $[m]$-brique discrète associée sera la même que sa $[\infty]$-brique discrète associée}.
 Notons au passage que (par un choix arbitraire qui nous apparaît cependant naturel) \textbf{les abscisses des centres des  $[m]$-briques discrètes correspondent aux valeurs des réalisations}.
 \end{enumerate}
-\item \textbf{Objectif visé} : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'Approche Expérimentale des Probabilités (utilisée ici) ne repose que sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
-\begin{enumerate}
-\item A la différence de l'Approche Mathématique de Probabilités, l'Approche Expérimentale des Probabilités aborde la notion de probabilité d'événement de manière comparable et donc unifiée dans les deux cadres de v.a. discrète et continue. En effet, une telle probabilité correspond à une fréquence d'apparition du dit événement parmi l'infinité des réalisations. 
-\item La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme \textit{l'histogramme à pas zéro d'une infinité de ses réalisations} appelé ici $[\infty]$-histogramme. Elle décrit ainsi la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100\%) d'une infinité $[\infty]$-briques devenues "crêpes" dans le cas discret et devenues "points" dans le cas continu.
-\end{enumerate}
+\item \textbf{Point-clé}~: Un $[\infty]$-histogramme aussi bien discret que continu permet de décrire la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100\%) d'une infinité $[\infty]$-briques devenues "crêpes" dans le cas discret et devenues "points" dans le cas continu. Cela permet donc une représentation graphique instantanée de tous les résultats possibles de la v.a. étudiée.
 \end{itemize}
 [#case}
+
+</div></div>

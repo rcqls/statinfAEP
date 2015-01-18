@@ -3,7 +3,7 @@ enyo.kind({
 	kind: "FittableRows",
 	fit: true,
 	components:[	 
-		{kind: "onyx.MoreToolbar", style:"height:"+cqls.enyo.top+"px;" ,components: [
+		{kind: "onyx.MoreToolbar", style:"height:"+cqlsHypo.enyo.top+"px;" ,components: [
 			{content: "H1: "},
 			{kind: "onyx.MenuDecorator", name: "paramMenu", onSelect: "paramSelected", components: [
 				{name: "paramMenuName", content: "p"},
@@ -50,9 +50,9 @@ enyo.kind({
 				]}
 			]}
 		]},
-		{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqls.i.dim.w, height: cqls.i.dim.h*2}},
-		//{id: "trigger-opentip",content: "opentip", attributes: {width: cqls.i.dim.w, height: 20}},
-		{kind: "onyx.MoreToolbar",style:"height:"+cqls.enyo.bottom+"px;" ,components: [
+		{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqlsHypo.i.dim.w, height: cqlsHypo.i.dim.h*2}},
+		//{id: "trigger-opentip",content: "opentip", attributes: {width: cqlsHypo.i.dim.w, height: 20}},
+		{kind: "onyx.MoreToolbar",style:"height:"+cqlsHypo.enyo.bottom+"px;" ,components: [
 			{classes: "onyx-sample-tools", components: [
 				{kind: "onyx.Checkbox", name: "checkParam0Curve", onchange:"toggleVisible"},
 				{kind: "onyx.Checkbox", name: "checkParam0Mean", onchange:"toggleVisible",checked: true},
@@ -93,36 +93,36 @@ enyo.kind({
 		//console.log("param -> "+inEvent.selected.id);
 		this.$.paramMenuName.setContent(inEvent.selected.content);
 		if(inEvent.selected.content=="p") {
-			cqls.enyo.app.$.sdInput.hide();
-			cqls.enyo.app.$.sdLeft.hide();
+			cqlsHypo.enyo.app.$.sdInput.hide();
+			cqlsHypo.enyo.app.$.sdLeft.hide();
 		} else {
-			cqls.enyo.app.$.sdInput.show();
-			cqls.enyo.app.$.sdLeft.show();
+			cqlsHypo.enyo.app.$.sdInput.show();
+			cqlsHypo.enyo.app.$.sdLeft.show();
 		}
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
-		console.log("H1:"+cqls.enyo.app.$.paramMenuName.content+cqls.enyo.app.$.sideMenuName.content+cqls.enyo.app.$.refValue.getValue());
+		cqlsHypo.m.play.$reset();
+		cqlsHypo.m.stage.update();
+		console.log("H1:"+cqlsHypo.enyo.app.$.paramMenuName.content+cqlsHypo.enyo.app.$.sideMenuName.content+cqlsHypo.enyo.app.$.refValue.getValue());
 	},
 	sideSelected: function(inSender,inEvent) {
 		 this.$.sideMenuName.setContent(inEvent.selected.content);
-		 cqls.m.play.$reset();
-		cqls.m.stage.update();
-		 console.log("H1:"+cqls.enyo.app.$.paramMenuName.content+cqls.enyo.app.$.sideMenuName.content+cqls.enyo.app.$.refValue.getValue());
+		 cqlsHypo.m.play.$reset();
+		cqlsHypo.m.stage.update();
+		 console.log("H1:"+cqlsHypo.enyo.app.$.paramMenuName.content+cqlsHypo.enyo.app.$.sideMenuName.content+cqlsHypo.enyo.app.$.refValue.getValue());
 	},
 	refChanged: function(inSender,inEvent) {
-		console.log("H1:"+cqls.enyo.app.$.paramMenuName.content+cqls.enyo.app.$.sideMenuName.content+cqls.enyo.app.$.refValue.getValue());
+		console.log("H1:"+cqlsHypo.enyo.app.$.paramMenuName.content+cqlsHypo.enyo.app.$.sideMenuName.content+cqlsHypo.enyo.app.$.refValue.getValue());
 	},
 	alphaSelected: function(inSender,inEvent) {
-		cqls.m.play.$setAlpha(parseFloat(inEvent.selected.id));
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
+		cqlsHypo.m.play.$setAlpha(parseFloat(inEvent.selected.id));
+		cqlsHypo.m.play.$reset();
+		cqlsHypo.m.stage.update();
 	},
 	toggleVisible: function(inSender, inEvent) {
-		cqls.m.play.$updateVisible();
+		cqlsHypo.m.play.$updateVisible();
 	},
 	onTapCanvas: function(inSender, inEvent) {
 		var p = enyo.getPosition();
-		//cqls.f.onTap(p["clientX"]/cqls.m.stage.scaleX,(p["clientY"]-cqls.enyo.top)/cqls.m.stage.scaleY);
+		//cqlsHypo.f.onTap(p["clientX"]/cqlsHypo.m.stage.scaleX,(p["clientY"]-cqlsHypo.enyo.top)/cqlsHypo.m.stage.scaleY);
 	}
 
 	//,

@@ -1,6 +1,6 @@
 :doc_list=>["va","va_en"],
 :docs=>{
-  "all"=>["va","va_en","brique","clone","ech","ic"],
+  "all"=>["va","va_en","brique","intro","clone","ech","ic"],
   "va"=>{
     :cmd=>[:save],
     :tag=>["va","fr"],
@@ -25,6 +25,11 @@
     :cmd=>[:save],
     :tag=>["ic","fr"],
     :filename_doc=>"ic.html"
+  },
+  "intro" =>{
+    :cmd=>[:save],
+    :tag=>["intro","fr"],
+    :filename_doc=>"intro.html"
   },
   "brique" =>{
     :cmd=>[:save],

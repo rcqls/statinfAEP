@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>StatInf AEP</title>
+		<link rel="shortcut icon" href="assets/favicon.ico"/>
+		<!-- -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- Preamble -->
+
+<!-- Styles -->
+
+<!-- Javascript -->
+
+<body>
+
+
+
+<div class="easyui-layout" fit="true">
+<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;">
+<h2>Approche Expérimentale des Probabilités</h2>
+<h4>Documentation</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('intro')">Objectif</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('brique')">Histogrammes discret et continu</a>
+<h4>Descriptifs des éducatifs</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('va_dist')">Variables aléatoires</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('clone_dist')">Clonage et Transformation</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ech_dist')">Lois échantillonnales</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ic')">Intervalle de confiance</a>
+</div>
+<div region="center" border="false" border="false">
+ 
+<b>Objectif visé</b> : les animations proposées ici ont pour intérêt de faciliter la compréhension de la notion de loi de probabilité d'une v.a. (discrète ou continue) puisque l'Approche Expérimentale des Probabilités (utilisée ici) ne repose que sur les outils de la statistique descriptive. Les principaux avantages sont donc que :
+
+<ol type="1">
+<li> A la différence de l'Approche Mathématique de Probabilités, l'Approche Expérimentale des Probabilités aborde la notion de probabilité d'événement de manière comparable et donc unifiée dans les deux cadres de v.a. discrète et continue. En effet, une telle probabilité correspond à une fréquence d'apparition du dit événement parmi l'infinité des réalisations.
+<div class="p"><!----></div>
+</li>
+
+<li> La densité de probabilité d'une v.a. continue sera tout simplement interprétée comme <i>l'histogramme à pas zéro d'une infinité de ses réalisations</i> appelé ici 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme (continu). Celui-ci décrit ainsi la répartition de l'ensemble de tous les résultats possibles obtenus de la v.a. comme un empilement (de surface 100%) d'une infinité de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques devenues "points".
+<div class="p"><!----></div>
+</li>
+
+<li> Dans le cas alternatif discret, le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme discret est introduit et représente un empilement (de surface 100%) d'une infinité de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques devenues "crêpes".<br /><i>N.B.&nbsp;: une approche similaire peut être menée sur les diagrammes en bâtons mais elle n'a pas été développée ici car ayant moins d'intérêt dans l'appréhension du Théorème de la limite centrale.</i></ol>
+
+<div class="p"><!----></div>
+</li>
+
+
+</div></div>
+
+</body>
+
+
+</html>

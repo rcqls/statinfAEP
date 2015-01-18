@@ -1,4 +1,4 @@
-module Cqls
+module CqlsHypo
 
 	module Tooltip
 
@@ -7,19 +7,19 @@ module Cqls
 			shape.each do|sh|
 				%x{
 					#{sh}.on("rollover",function(evt) {
-						//console.log("mouseover!!!"+evt.stageX/cqls.m.stage.scaleX+":"+evt.stageY/cqls.m.stage.scaleY);
-						cqls.m.tooltip.text=#{tooltipContent(sh,%x{evt})};
-						cqls.m.tooltip.x=evt.stageX/cqls.m.stage.scaleX;
-						cqls.m.tooltip.y=evt.stageY/cqls.m.stage.scaleY;
-						cqls.m.tooltip.visible=true;
+						//console.log("mouseover!!!"+evt.stageX/cqlsHypo.m.stage.scaleX+":"+evt.stageY/cqlsHypo.m.stage.scaleY);
+						cqlsHypo.m.tooltip.text=#{tooltipContent(sh,%x{evt})};
+						cqlsHypo.m.tooltip.x=evt.stageX/cqlsHypo.m.stage.scaleX;
+						cqlsHypo.m.tooltip.y=evt.stageY/cqlsHypo.m.stage.scaleY;
+						cqlsHypo.m.tooltip.visible=true;
 						//console.log("end mouseover");
-						cqls.m.stage.update();
+						cqlsHypo.m.stage.update();
 					});
 					#{sh}.on("rollout",function(evt) {
 						//console.log("mouseout!!!");
-						cqls.m.tooltip.text="";
-						cqls.m.tooltip.visible=false;
-						cqls.m.stage.update();
+						cqlsHypo.m.tooltip.text="";
+						cqlsHypo.m.tooltip.visible=false;
+						cqlsHypo.m.stage.update();
 					});
 				}
 			end
@@ -33,11 +33,11 @@ module Cqls
 
 		include Tooltip
 
-		def initialize(dim={x:0,y:0,w:%x{cqls.i.dim.w},h:%x{cqls.i.dim.h}},style={bg:"#88FF88"})
+		def initialize(dim={x:0,y:0,w:%x{cqlsHypo.i.dim.w},h:%x{cqlsHypo.i.dim.h}},style={bg:"#88FF88"})
 			@dim,@style=dim,style
 			@parent=%x{new createjs.Container()}
 			@frame=	%x{new createjs.Shape()}		
-    		@graph=Cqls::Graph.new(@dim)
+    		@graph=CqlsHypo::Graph.new(@dim)
     		@updateCalls=[]
     		# init frame
     		%x{#{@frame}.graphics.beginLinearGradientFill(["#FFF",#{@style[:bg]}], [0, 1], 0, #{@dim[:y]}+20, 0, #{@dim[:y]}+#{@dim[:h]}+20).drawRect(#{@dim[:x]},#{@dim[:y]},#{@dim[:w]},#{@dim[:h]})}
@@ -108,7 +108,7 @@ module Cqls
     	end
 
     	def tooltipContent(shape,evt)
-    		@graph.to_x(%x{#{evt}.stageX/cqls.m.stage.scaleX}).to_f
+    		@graph.to_x(%x{#{evt}.stageX/cqlsHypo.m.stage.scaleX}).to_f
     	end
 
 	end
@@ -365,7 +365,7 @@ module Cqls
 			@sdStyle={thickness: 3,stroke: "#000"}
 
 			@shape=%x{new createjs.Shape()}
-			@x=Cqls.seq(@bounds[0],@bounds[1],@length)
+			@x=CqlsHypo.seq(@bounds[0],@bounds[1],@length)
 			@kind=:density
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
 			@axisShape=%x{new createjs.Shape()}
@@ -469,7 +469,7 @@ module Cqls
 			# p [:bounds,@bounds]
 			case @type
 			when :cont
-				@x=Cqls.seq(@bounds[0],@bounds[1],@length)
+				@x=CqlsHypo.seq(@bounds[0],@bounds[1],@length)
 			when :disc
 				initStep
 				# p @step
@@ -626,7 +626,7 @@ module Cqls
 				when :mean
 					%x{
 						#{@summaryShapes[0]}.on("pressmove", function(evt) {
-							var x=evt.stageX/cqls.m.stage.scaleX;
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							if(#{@typeStatTest==:p}){
 								#{@paramsFrame[1]=@graph.to_x(%x{x})} 
 								#{updateStatTestDistrib}
@@ -635,7 +635,7 @@ module Cqls
 								#{drawMean()};
 								#{drawSD()};
 								#{playCallables};
-								cqls.m.stage.update();
+								cqlsHypo.m.stage.update();
 						    } else if(#{@typeStatTest==:m}) {
 						    	//console.log("MEAN pressed");
 						    	#{@paramsFrame[1]=@graph.to_x(%x{x})}
@@ -648,10 +648,10 @@ module Cqls
 								#{playCallables};
 								//console.log("MEAN OUT");
 							}
-						    cqls.m.stage.update();
+						    cqlsHypo.m.stage.update();
 						});
 						#{@summaryShapes[0]}.on("pressup", function(evt) { 
-							var x=evt.stageX/cqls.m.stage.scaleX;
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							//console.log("TTTTTypeStatTest:"+#{@typeStatTest})
 							if(#{@typeStatTest==:p}){
 								//console.log("prop up");
@@ -666,7 +666,7 @@ module Cqls
 								#{updateStatTestDistrib}
 								//console.log("mean="+#{@distrib.mean}+",sd="+#{@distrib.stdDev})
 							} 
-							cqls.m.stage.update();
+							cqlsHypo.m.stage.update();
 						});
 					}
 				when :sd
@@ -674,12 +674,12 @@ module Cqls
 						#{@summaryShapes[1]}.on("mousedown", function(evt) {
 							if(#{@typeStatTest==:m}) {
 								//console.log("sd down");
-								#{@sdX}=evt.stageX/cqls.m.stage.scaleX;
+								#{@sdX}=evt.stageX/cqlsHypo.m.stage.scaleX;
 								#{@oldSD=@graph.to_X(@distrib.stdDev)-@graph.to_X(0.0)};
 							}
 						});
 						#{@summaryShapes[1]}.on("pressmove", function(evt) {
-							var x=evt.stageX/cqls.m.stage.scaleX;
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							if(#{@typeStatTest==:m}) {
 								//console.log("sd pressed");
 								
@@ -693,7 +693,7 @@ module Cqls
 						    	#{drawSD};
 						    	#{playCallables(:sd)};
 						    	//console.log("mean="+#{@distrib.mean}+",sd="+#{@distrib.stdDev})
-						    	cqls.m.stage.update();
+						    	cqlsHypo.m.stage.update();
 						    }
 						});
 					}
@@ -766,21 +766,21 @@ module Cqls
 			%x{
 
 				#{@shapes[0]}.on("pressmove", function(evt) {
-					var x=evt.stageX/cqls.m.stage.scaleX;
+					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 					 
 					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:left)} 
 					#{draw}
 					#{playCallables};
-					cqls.m.stage.update();
+					cqlsHypo.m.stage.update();
 			     });
 
 				#{@shapes[1]}.on("pressmove", function(evt) {
-					var x=evt.stageX/cqls.m.stage.scaleX;
+					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 					 
 					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:right)} 
 					#{draw}
 					#{playCallables};
-					cqls.m.stage.update();
+					cqlsHypo.m.stage.update();
 			     });
 			}
 		end
@@ -1015,9 +1015,9 @@ module Cqls
 
 		attr_accessor :exp
 
-		def initialize(plotParam=%x{cqls.s.plot},plotDelta=%x{cqls.h.plot})
+		def initialize(plotParam=%x{cqlsHypo.s.plot},plotDelta=%x{cqlsHypo.h.plot})
 			 
-			@stage=%x{cqls.m.stage}
+			@stage=%x{cqlsHypo.m.stage}
 			@plotParam,@plotDelta=plotParam,plotDelta
 			@graphParam,@graphDelta=@plotParam.graph,@plotDelta.graph
 
@@ -1176,10 +1176,10 @@ module Cqls
 		end
 
 		def getContext
-			@context[:param]= %x{cqls.enyo.app.$.paramMenuName.getContent()}
-			@context[:side]=%x{cqls.enyo.app.$.sideMenuName.getContent()}
-			@context[:ref]=%x{parseFloat(cqls.enyo.app.$.refValue.getValue())}
-			@context[:n]=%x{parseInt(cqls.enyo.app.$.nValue.getValue())}
+			@context[:param]= %x{cqlsHypo.enyo.app.$.paramMenuName.getContent()}
+			@context[:side]=%x{cqlsHypo.enyo.app.$.sideMenuName.getContent()}
+			@context[:ref]=%x{parseFloat(cqlsHypo.enyo.app.$.refValue.getValue())}
+			@context[:n]=%x{parseInt(cqlsHypo.enyo.app.$.nValue.getValue())}
 			@context[:alpha]=@alpha
 			@context[:sigma]=1
 
@@ -1187,14 +1187,14 @@ module Cqls
 			when "p"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref]]
 				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5)]
-				@context[:paramEstLim]=%x{parseFloat(cqls.enyo.app.$.meanValue.getValue())}
+				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.enyo.app.$.meanValue.getValue())}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(%x{Math.sqrt(#{@context[:ref]*(1-@context[:ref])/@context[:n]})})
 			when "mu"
 				@context[:param]="m"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref],@context[:sigma]]
 				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5),@context[:sigma]]
-				@context[:paramEstLim]=%x{parseFloat(cqls.enyo.app.$.meanValue.getValue())}
-				sd=%x{parseFloat(cqls.enyo.app.$.sdValue.getValue())}
+				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.enyo.app.$.meanValue.getValue())}
+				sd=%x{parseFloat(cqlsHypo.enyo.app.$.sdValue.getValue())}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(sd/%x{Math.sqrt(#{@context[:n]})})
 			end
 
@@ -1278,51 +1278,51 @@ module Cqls
 		def updateVisible #from enyo interface
 		
 			%x{
-				#{@paramEst[0]}.shape.visible=cqls.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramEst[1]}.shape.visible=cqls.enyo.app.$.checkParam1Curve.getValue();
-				#{@deltaEst[0]}.shape.visible=cqls.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaEst[1]}.shape.visible=cqls.enyo.app.$.checkDelta1Curve.getValue();
+				#{@paramEst[0]}.shape.visible=cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
+				#{@paramEst[1]}.shape.visible=cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
+				#{@deltaEst[0]}.shape.visible=cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
+				#{@deltaEst[1]}.shape.visible=cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
 			 	
 
 				// Lim
-				#{@paramLim}.shapes[0].visible= cqls.enyo.app.$.checkParamLim.getValue();
-				#{@paramLim}.shapes[1].visible= cqls.enyo.app.$.checkParamLim.getValue();
-				#{@deltaLim}.shapes[0].visible= cqls.enyo.app.$.checkDeltaLim.getValue();
-				#{@deltaLim}.shapes[1].visible= cqls.enyo.app.$.checkDeltaLim.getValue();
-				#{@paramEstLim}.shapes[0].visible= cqls.enyo.app.$.checkData.getValue();
-				#{@paramEstLim}.shapes[1].visible= cqls.enyo.app.$.checkData.getValue();
-				#{@deltaEstLim}.shapes[0].visible= cqls.enyo.app.$.checkData.getValue();
-				#{@deltaEstLim}.shapes[1].visible= cqls.enyo.app.$.checkData.getValue();
+				#{@paramLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkParamLim.getValue();
+				#{@paramLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkParamLim.getValue();
+				#{@deltaLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkDeltaLim.getValue();
+				#{@deltaLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkDeltaLim.getValue();
+				#{@paramEstLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkData.getValue();
+				#{@paramEstLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkData.getValue();
+				#{@deltaEstLim}.shapes[0].visible= cqlsHypo.enyo.app.$.checkData.getValue();
+				#{@deltaEstLim}.shapes[1].visible= cqlsHypo.enyo.app.$.checkData.getValue();
 
 				//Risk
-				#{@paramTypeIRisk}.shapes[0].visible= cqls.enyo.app.$.checkRiskTypeI.getValue() & cqls.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramTypeIRisk}.shapes[1].visible= cqls.enyo.app.$.checkRiskTypeI.getValue() & cqls.enyo.app.$.checkParam0Curve.getValue();
-				#{@deltaTypeIRisk}.shapes[0].visible= cqls.enyo.app.$.checkRiskTypeI.getValue() & cqls.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaTypeIRisk}.shapes[1].visible= cqls.enyo.app.$.checkRiskTypeI.getValue() & cqls.enyo.app.$.checkDelta0Curve.getValue();
+				#{@paramTypeIRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
+				#{@paramTypeIRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
+				#{@deltaTypeIRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
+				#{@deltaTypeIRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeI.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
 
-				#{@paramTypeGenRisk}.shapes[0].visible= cqls.enyo.app.$.checkRiskTypeGen.getValue() & cqls.enyo.app.$.checkParam1Curve.getValue();
-				#{@paramTypeGenRisk}.shapes[1].visible= cqls.enyo.app.$.checkRiskTypeGen.getValue() & cqls.enyo.app.$.checkParam1Curve.getValue();
-				#{@deltaTypeGenRisk}.shapes[0].visible= cqls.enyo.app.$.checkRiskTypeGen.getValue() & cqls.enyo.app.$.checkDelta1Curve.getValue();
-				#{@deltaTypeGenRisk}.shapes[1].visible= cqls.enyo.app.$.checkRiskTypeGen.getValue() & cqls.enyo.app.$.checkDelta1Curve.getValue();
+				#{@paramTypeGenRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
+				#{@paramTypeGenRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkParam1Curve.getValue();
+				#{@deltaTypeGenRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
+				#{@deltaTypeGenRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkRiskTypeGen.getValue() & cqlsHypo.enyo.app.$.checkDelta1Curve.getValue();
 
-				#{@paramPvalRisk}.shapes[0].visible= cqls.enyo.app.$.checkPval.getValue() & cqls.enyo.app.$.checkParam0Curve.getValue();
-				#{@paramPvalRisk}.shapes[1].visible= cqls.enyo.app.$.checkPval.getValue() & cqls.enyo.app.$.checkParam0Curve.getValue();
-				#{@deltaPvalRisk}.shapes[0].visible= cqls.enyo.app.$.checkPval.getValue() & cqls.enyo.app.$.checkDelta0Curve.getValue();
-				#{@deltaPvalRisk}.shapes[1].visible= cqls.enyo.app.$.checkPval.getValue() & cqls.enyo.app.$.checkDelta0Curve.getValue();
+				#{@paramPvalRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
+				#{@paramPvalRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkParam0Curve.getValue();
+				#{@deltaPvalRisk}.shapes[0].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
+				#{@deltaPvalRisk}.shapes[1].visible= cqlsHypo.enyo.app.$.checkPval.getValue() & cqlsHypo.enyo.app.$.checkDelta0Curve.getValue();
 
 
-				#{@paramEst[0]}.summaryShapes[0].visible=cqls.enyo.app.$.checkParam0Mean.getValue();
-				#{@paramEst[0]}.summaryShapes[1].visible=cqls.enyo.app.$.checkParam0SD.getValue();
-				#{@paramEst[1]}.summaryShapes[0].visible=cqls.enyo.app.$.checkParam1Mean.getValue();
-				#{@paramEst[1]}.summaryShapes[1].visible=cqls.enyo.app.$.checkParam1SD.getValue();
+				#{@paramEst[0]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkParam0Mean.getValue();
+				#{@paramEst[0]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkParam0SD.getValue();
+				#{@paramEst[1]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkParam1Mean.getValue();
+				#{@paramEst[1]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkParam1SD.getValue();
 				
-				#{@deltaEst[0]}.summaryShapes[0].visible=cqls.enyo.app.$.checkDelta0Mean.getValue();
-				#{@deltaEst[0]}.summaryShapes[1].visible=cqls.enyo.app.$.checkDelta0SD.getValue();
-				#{@deltaEst[1]}.summaryShapes[0].visible=cqls.enyo.app.$.checkDelta1Mean.getValue();
-				#{@deltaEst[1]}.summaryShapes[1].visible=cqls.enyo.app.$.checkDelta1SD.getValue();
+				#{@deltaEst[0]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkDelta0Mean.getValue();
+				#{@deltaEst[0]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkDelta0SD.getValue();
+				#{@deltaEst[1]}.summaryShapes[0].visible=cqlsHypo.enyo.app.$.checkDelta1Mean.getValue();
+				#{@deltaEst[1]}.summaryShapes[1].visible=cqlsHypo.enyo.app.$.checkDelta1SD.getValue();
 				
 				// update stage since possible change of visibility
-				cqls.m.stage.update();
+				cqlsHypo.m.stage.update();
 			}
 		end
  
@@ -1343,22 +1343,22 @@ module Cqls
 					normal: {
 						type: :cont,
 						dist: ["NormalDistribution"], 
-						qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+						qbounds: [%x{cqlsHypo.m.qmin},%x{cqlsHypo.m.qmax}]
 					},
 					t: {
 						type: :cont,
 						dist:["StudentDistribution"], 
-						qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+						qbounds: [%x{cqlsHypo.m.qmin},%x{cqlsHypo.m.qmax}]
 					},
 					chi2: {
 						type: :cont,
 						dist: ["ChiSquareDistribution"], 
-						qbounds: [0,%x{cqls.m.qmax}]
+						qbounds: [0,%x{cqlsHypo.m.qmax}]
 					},
 					exp: {
 						type: :cont,
 						dist: ["ExponentialDistribution"], 
-						qbounds: [0,%x{cqls.m.qmax}]
+						qbounds: [0,%x{cqlsHypo.m.qmax}]
 					},
 					cauchy: {
 						type: :cont,
@@ -1576,7 +1576,7 @@ module Cqls
 			#p ["prep0",@b1,@b2]
 			@b1.each_with_index {|v1,i1|
 				@b2.each_with_index{|v2,i2|
-					v=Cqls.quantize(v1+v2)
+					v=CqlsHypo.quantize(v1+v2)
 					#p ["prep",v1+v2,v]
 					if ind.keys.include? v
 						ind[v] << [i1,i2]
@@ -1601,15 +1601,15 @@ module Cqls
 
 	PREC4DISC=0
 
-	def Cqls.quantize(x,prec=PREC4DISC)
+	def CqlsHypo.quantize(x,prec=PREC4DISC)
 		%x{parseFloat(#{x}.toFixed(#{prec}))} 
 	end
 
-	def Cqls.equal(a,b)
+	def CqlsHypo.equal(a,b)
 		%x{a.toFixed(#{PREC4DISC})===b.toFixed(#{PREC4DISC})}
 	end
 
-	def Cqls.range(low, high, step) # from http://phpjs.org/functions/range/
+	def CqlsHypo.range(low, high, step) # from http://phpjs.org/functions/range/
 		%x{
 			// From: http://phpjs.org/functions
 			// +   original by: Waldo Malqui Silva
@@ -1655,7 +1655,7 @@ module Cqls
 		}
 	end
 
-	def Cqls.seq(min, max, length) #from jStat
+	def CqlsHypo.seq(min, max, length) #from jStat
 		%x{
 			var arr = [],
 			hival = Math.pow(10, 17 - ~~(Math.log(((max > 0) ? max : -max)) * Math.LOG10E)),

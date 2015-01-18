@@ -4,7 +4,7 @@
 
   $opal.add_stubs(['$attr_accessor', '$new', '$[]', '$addChild', '$<<', '$shape', '$plot=', '$graph=', '$add', '$>=', '$each', '$call', '$method', '$to_Y', '$+', '$*', '$-', '$<', '$[]=', '$empty?', '$xylim', '$zoom', '$syncedChildren', '$synced?', '$select', '$include?', '$min', '$map', '$==', '$max', '$/', '$update', '$===', '$id', '$!', '$each_key', '$showZoom', '$updateZoom', '$>', '$to_s', '$length', '$initStep', '$seq', '$dim', '$to_X', '$mean', '$maxPdf', '$stdDev', '$sample', '$pdf', '$type', '$map!', '$step', '$y', '$to_f', '$abs', '$set', '$initDistrib', '$setAsTransfOf', '$regular?', '$bounds', '$initXYLim', '$adjust', '$drawCont', '$drawDisc', '$**', '$init', '$draw', '$distrib', '$each_with_index', '$floor', '$quantize', '$updateBounds', '$reset', '$drawCurve', '$<=', '$index', '$inject', '$acceptLevelNext', '$dup', '$counts', '$density', '$partBounds', '$graph', '$syncTo', '$setDistrib', '$style', '$attachCurve', '$attachSummary', '$marg', '$attachExpAxis', '$setAlpha', '$setStatMode', '$isModeHidden?', '$setTransf', '$setMLevel', '$setN', '$active=', '$setCurHist', '$setTCL', '$updateTCL', '$updateVisible', '$style=', '$variance', '$setDistribAs', '$setDistribAsTransf', '$xy', '$setNbSim', '$initTransfList', '$name', '$setTransfDistrib', '$-@', '$transfMode', '$quantile', '$applyTransfByIndex', '$seMean_transf_by_index', '$applyTransfByValue', '$allowLevelChange', '$updateHistAEP', '$aep', '$hideAll', '$drawSummary', '$incCptIC', '$drawMean', '$drawSD', '$animMode', '$seMean_transf', '$cptICTot=', '$cptICTot', '$playNextAfter', '$addXY', '$transitionInitHist', '$transitionInitPts', '$transitionInitRects', '$transitionInitTime', '$transitionDrawPts', '$transitionFallPts', '$transitionHistPtsAndRects', '$transitionInitExpRects', '$transitionExpPtsAndRects', '$transitionDrawRectsHidden', '$transitionHistPtsAndRectsHidden', '$transitionInitTransf', '$transitionInitPtsTransf', '$transitionPtsTransf', '$transitionDrawIC', '$playLongDensityWithTransfHidden', '$playLongDensityForIC', '$playLongDensityWithTransf', '$playLongDensityBasicHidden', '$playLongDensityBasic', '$join', '$power', '$p', '$qbounds', '$to_a', '$prepare', '$keys', '$sort']);
   return (function($base) {
-    var self = $module($base, 'Cqls');
+    var self = $module($base, 'CqlsAEP');
 
     var def = self._proto, $scope = self._scope;
 
@@ -21,7 +21,7 @@
         var $a, self = this;
 
         if (dim == null) {
-          dim = $hash2(["x", "y", "w", "h"], {"x": 0, "y": 0, "w": cqls.i.dim.w, "h": cqls.i.dim.h})
+          dim = $hash2(["x", "y", "w", "h"], {"x": 0, "y": 0, "w": cqlsAEP.i.dim.w, "h": cqlsAEP.i.dim.h})
         }
         if (style == null) {
           style = $hash2(["bg"], {"bg": "#88FF88"})
@@ -29,7 +29,7 @@
         $a = [dim, style], self.dim = $a[0], self.style = $a[1];
         self.parent = new createjs.Container();
         self.frame = new createjs.Shape();
-        self.graph = ($scope.Cqls)._scope.Graph.$new(self.dim);
+        self.graph = ($scope.CqlsAEP)._scope.Graph.$new(self.dim);
         self.updateCalls = [];
         self.frame.graphics.beginLinearGradientFill(["#FFF",self.style['$[]']("bg")], [0, 1], 0, self.dim['$[]']("y")+20, 0, self.dim['$[]']("y")+self.dim['$[]']("h")+20).drawRect(self.dim['$[]']("x"),self.dim['$[]']("y"),self.dim['$[]']("w"),self.dim['$[]']("h"));
         self.$addChild(self.frame);
@@ -444,7 +444,7 @@ if (k == null) k = nil;
         self.$initStep();};
         self.style = style;
         self.shape = new createjs.Shape();
-        self.x = $scope.Cqls.$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length);
+        self.x = $scope.CqlsAEP.$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length);
         self.kind = "density";
         self.summaryShapes = [new createjs.Shape(), new createjs.Shape()];
         return self.expAxisShape = new createjs.Shape();
@@ -573,7 +573,7 @@ if (i == null) i = nil;
 
         self.type = self.distrib.$type();
         self.bounds = self.distrib.$bounds();
-        $case = self.type;if ("cont"['$===']($case)) {self.x = $scope.Cqls.$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length)}else if ("disc"['$===']($case)) {self.$initStep();
+        $case = self.type;if ("cont"['$===']($case)) {self.x = $scope.CqlsAEP.$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length)}else if ("disc"['$===']($case)) {self.$initStep();
         self.x = self.bounds;};
         self.y = self.distrib.$pdf(self.x);
         if (self.type['$==']("disc")) {
@@ -808,7 +808,7 @@ if (v == null) v = nil;if (i == null) i = nil;
         if ((($a = self['$regular?']()) !== nil && (!$a._isBoolean || $a == true))) {
           return ((x['$-'](self.bounds['$[]'](0)))['$/'](step)).$floor()
           } else {
-          return self.ind['$[]']($scope.Cqls.$quantize(x))
+          return self.ind['$[]']($scope.CqlsAEP.$quantize(x))
         };
       };
 
@@ -921,7 +921,7 @@ if (e == null) e = nil;if (e2 == null) e2 = nil;
       def.$acceptLevelNext = function() {
         var $a, self = this;
 
-        if ((($a = cqls.i.allowLevelChange) !== nil && (!$a._isBoolean || $a == true))) {
+        if ((($a = cqlsAEP.i.allowLevelChange) !== nil && (!$a._isBoolean || $a == true))) {
           return self.level = self.levelNext
           } else {
           return nil
@@ -1105,37 +1105,37 @@ if (e == null) e = nil;if (e2 == null) e2 = nil;
         var $a, self = this;
 
         if (plotExp == null) {
-          plotExp = cqls.s.plot
+          plotExp = cqlsAEP.s.plot
         }
         if (plotHist == null) {
-          plotHist = cqls.h.plot
+          plotHist = cqlsAEP.h.plot
         }
         
-				cqls.actors={pt:[],rect:[],line:[]};
-				cqls.tweens={pt:[],rect:[],line:[]};
-	    		cqls.m.nbsSimMax=cqls.m.nbsSim["1000"][cqls.m.nbsSim["1000"].length-1];
-	    		//console.log("nbsSImMax="+cqls.m.nbsSimMax);
-	     		for(i=0;i<cqls.m.nbsSimMax;i++) {
+				cqlsAEP.actors={pt:[],rect:[],line:[]};
+				cqlsAEP.tweens={pt:[],rect:[],line:[]};
+	    		cqlsAEP.m.nbsSimMax=cqlsAEP.m.nbsSim["1000"][cqlsAEP.m.nbsSim["1000"].length-1];
+	    		//console.log("nbsSImMax="+cqlsAEP.m.nbsSimMax);
+	     		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 					var rect=new createjs.Shape();
-	    			cqls.actors.rect.push(rect);
+	    			cqlsAEP.actors.rect.push(rect);
 			    	rect.visible=false;
-			    	cqls.m.stage.addChild(rect);
+			    	cqlsAEP.m.stage.addChild(rect);
 	    		}
-	    		for(i=0;i<cqls.m.nbsSimMax;i++) {
+	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 					var line=new createjs.Shape();
-	    			cqls.actors.line.push(line);
+	    			cqlsAEP.actors.line.push(line);
 			    	line.visible=false;
-			    	cqls.m.stage.addChild(line);
+			    	cqlsAEP.m.stage.addChild(line);
 	    		}
-	    		for(i=0;i<cqls.m.nbsSimMax;i++) {
+	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 	    			var pt=new createjs.Shape();
-	    			cqls.actors.pt.push(pt);
+	    			cqlsAEP.actors.pt.push(pt);
 			    	pt.visible=false;
 			    	pt.x=0;pt.y=0;
-			    	cqls.m.stage.addChild(pt);
+			    	cqlsAEP.m.stage.addChild(pt);
 	    		}
 			
-        self.stage = cqls.m.stage;
+        self.stage = cqlsAEP.m.stage;
         $a = [plotExp, plotHist], self.plotExp = $a[0], self.plotHist = $a[1];
         $a = [self.plotExp.$graph(), self.plotHist.$graph()], self.graphExp = $a[0], self.graphHist = $a[1];
         self.graphHist.$syncTo(self.graphExp);
@@ -1384,7 +1384,7 @@ if (cur == null) cur = nil;
       def.$setNbSim = function() {
         var self = this;
 
-        return self.nbSim = [self.n['$*'](self.mLevels['$[]'](self.mLevel)), cqls.m.nbSimMax].$min();
+        return self.nbSim = [self.n['$*'](self.mLevels['$[]'](self.mLevel)), cqlsAEP.m.nbSimMax].$min();
       };
 
       def.$setTransf = function(transf) {
@@ -1482,10 +1482,10 @@ if (cur == null) cur = nil;
       def.$animMode = function() {
         var $a, self = this;
 
-        cqls.i.anim=cqls.f.getValue("animMode");
-        cqls.i.prior=cqls.f.getValue("priorMode");
-        if ((($a = cqls.i.anim) !== nil && (!$a._isBoolean || $a == true))) {
-          if ((($a = cqls.i.prior) !== nil && (!$a._isBoolean || $a == true))) {
+        cqlsAEP.i.anim=cqlsAEP.f.getValue("animMode");
+        cqlsAEP.i.prior=cqlsAEP.f.getValue("priorMode");
+        if ((($a = cqlsAEP.i.anim) !== nil && (!$a._isBoolean || $a == true))) {
+          if ((($a = cqlsAEP.i.prior) !== nil && (!$a._isBoolean || $a == true))) {
             return "prior"
             } else {
             return "normal"
@@ -1675,7 +1675,7 @@ if (i == null) i = nil;
       def.$allowLevelChange = function(state) {
         var self = this;
 
-        cqls.i.allowLevelChange=state;
+        cqlsAEP.i.allowLevelChange=state;
         if (state !== false && state !== nil) {
           return self.histCur.$acceptLevelNext()
           } else {
@@ -1773,18 +1773,18 @@ if (i == null) i = nil;
 if (i == null) i = nil;
         
 					//draw points
-					cqls.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(self.style['$[]']("fp")).drawCircle(0,0,cqls.i.ptSize);
+					cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(self.style['$[]']("fp")).drawCircle(0,0,cqlsAEP.i.ptSize);
 					//tweens for points
-					cqls.tweens.pt[i]=createjs.Tween.get(cqls.actors.pt[i],{override:true});
+					cqlsAEP.tweens.pt[i]=createjs.Tween.get(cqlsAEP.actors.pt[i],{override:true});
 				;
           if (self.hist['$[]'](cur).$type()['$==']("disc")) {
             
 						//draw lines
-						cqls.actors.line[i].graphics.c().s(self.style['$[]']("sl")).f(self.style['$[]']("fl"))
+						cqlsAEP.actors.line[i].graphics.c().s(self.style['$[]']("sl")).f(self.style['$[]']("fl"))
 						.drawRect(0,0,self.wX['$[]'](cur),0);
-						cqls.actors.line[i].regX=self.wX['$[]'](cur)/2.0;
+						cqlsAEP.actors.line[i].regX=self.wX['$[]'](cur)/2.0;
 						//tweens for lines
-						cqls.tweens.line[i]=createjs.Tween.get(cqls.actors.line[i],{override:true});
+						cqlsAEP.tweens.line[i]=createjs.Tween.get(cqlsAEP.actors.line[i],{override:true});
 					;
             } else {
             return nil
@@ -1808,8 +1808,8 @@ if (s == null) s = nil;if (i2 == null) i2 = nil;
               if (self.wX == null) self.wX = nil;
 if (i == null) i = nil;
             
-							cqls.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqls.i.ptSize);
-							cqls.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
+							cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqlsAEP.i.ptSize);
+							cqlsAEP.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
 						;}, TMP_63._s = self, TMP_63), $a).call($b);}, TMP_62._s = self, TMP_62), $a).call($b)
           } else {
           return ($a = ($c = ($range(0, self.x['$[]'](cur).$length(), true))).$each_with_index, $a._p = (TMP_64 = function(i){var self = TMP_64._s || this, col = nil;
@@ -1820,12 +1820,12 @@ if (i == null) i = nil;
 if (i == null) i = nil;
           col = "rgba(" + (self.col['$[]'](i)['$[]'](0)) + "," + (self.col['$[]'](i)['$[]'](1)) + "," + (self.col['$[]'](i)['$[]'](2)) + "," + (self.col['$[]'](i)['$[]'](3)) + ")";
             
-						cqls.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqls.i.ptSize);
+						cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqlsAEP.i.ptSize);
 					;
             if (self.hist['$[]'](cur).$type()['$==']("disc")) {
               
-							//cqls.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
-							cqls.tweens.line[i].call(function(tween) {
+							//cqlsAEP.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
+							cqlsAEP.tweens.line[i].call(function(tween) {
 					 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
 					 		})
 					;
@@ -1864,10 +1864,10 @@ if (i == null) i = nil;
           }; return nil; })()));
           
 					//draw rect first
-					cqls.actors.rect[i].x=self.graphExp.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqls.actors.rect[i].y=y;
-					cqls.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
-					cqls.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
-					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
+					cqlsAEP.actors.rect[i].x=self.graphExp.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqlsAEP.actors.rect[i].y=y;
+					cqlsAEP.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
+					cqlsAEP.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
+					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
 				;}, TMP_65._s = self, TMP_65), $a).call($b);
       };
 
@@ -1884,10 +1884,10 @@ if (i == null) i = nil;
 if (i == null) i = nil;
         
 					//draw rect first
-					cqls.actors.rect[i].x=self.graphHist.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqls.actors.rect[i].y=self.plotHist.$dim()['$[]']("y");
-					cqls.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
-					cqls.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
-					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
+					cqlsAEP.actors.rect[i].x=self.graphHist.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqlsAEP.actors.rect[i].y=self.plotHist.$dim()['$[]']("y");
+					cqlsAEP.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
+					cqlsAEP.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
+					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
 				;}, TMP_66._s = self, TMP_66), $a).call($b);
       };
 
@@ -1895,7 +1895,7 @@ if (i == null) i = nil;
         var $a, $b, TMP_67, self = this, scale = nil;
 
         if (wait == null) {
-          wait = (1000)['$*'](cqls.i.scaleTime)
+          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if ((($a = self.modeHidden) !== nil && (!$a._isBoolean || $a == true))) {
           scale = (self.graphExp.$dim()['$[]']("h")['$*'](0.2))['$/']((self.x['$[]'](cur).$length()));
@@ -1924,13 +1924,13 @@ if (i == null) i = nil;
           if ((($a = ($b = ($c = self.modeHidden, $c !== false && $c !== nil ?cur['$=='](0) : $c), $b !== false && $b !== nil ?self.transf : $b)) !== nil && (!$a._isBoolean || $a == true))) {
             wait2 = wait2['$-'](i['$*'](self.remember['$[]']("lag")))};
           
-					cqls.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:y})
+					cqlsAEP.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:y})
 					.set({visible:true})
 					.wait(wait2)
 				;
           if ((($a = (($b = self.hist['$[]'](cur).$type()['$==']("disc")) ? self.modeHidden['$!']() : $b)) !== nil && (!$a._isBoolean || $a == true))) {
             
-						cqls.tweens.line[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:self.graphExp.$to_Y(self.y['$[]'](cur)['$[]'](i))})
+						cqlsAEP.tweens.line[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:self.graphExp.$to_Y(self.y['$[]'](cur)['$[]'](i))})
 						.set({visible:true})
 						.wait(wait);
 					;
@@ -1947,10 +1947,10 @@ if (i == null) i = nil;
           t = 1
         }
         if (merge == null) {
-          merge = (1500)['$*'](cqls.i.scaleTime)
+          merge = (1500)['$*'](cqlsAEP.i.scaleTime)
         }
         if (wait == null) {
-          wait = (500)['$*'](cqls.i.scaleTime)
+          wait = (500)['$*'](cqlsAEP.i.scaleTime)
         }
         if ((($a = self.modeHidden) !== nil && (!$a._isBoolean || $a == true))) {
           scale = (self.graphExp.$dim()['$[]']("h")['$*'](0.2))['$/']((self.ind.$length()));
@@ -1988,17 +1988,17 @@ if (i == null) i = nil;
             if ((($a = self.modeHidden) !== nil && (!$a._isBoolean || $a == true))) {
               wait2 = wait2['$-']((self.n['$-'](i))['$*'](self.remember['$[]']("lag")))};
             
-						cqls.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](t)['$[]'](i2)),y:y},merge)
-						if(self.modeHidden) cqls.tweens.pt[i].to({y:self.graphExp.$to_Y(0)},merge)
-						cqls.tweens.pt[i].wait(wait2).set({visible:false})
+						cqlsAEP.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](t)['$[]'](i2)),y:y},merge)
+						if(self.modeHidden) cqlsAEP.tweens.pt[i].to({y:self.graphExp.$to_Y(0)},merge)
+						cqlsAEP.tweens.pt[i].wait(wait2).set({visible:false})
 						if(($a = ($b = ($c = self.transf, $c !== false && $c !== nil ?self.hist['$[]'](0).$type()['$==']("disc") : $c), $b !== false && $b !== nil ?self.hist['$[]'](1).$type()['$==']("disc") : $b), $a !== false && $a !== nil ?self.modeHidden['$!']() : $a)) {
-					 		cqls.tweens.line[i].call(function(tween) {
+					 		cqlsAEP.tweens.line[i].call(function(tween) {
 					 			tween._target.regX=self.wX['$[]'](t)/2.0;
 					 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](t),2);
 					 		})
 					 		.to({x:self.graphExp.$to_X(self.x['$[]'](t)['$[]'](i2)),y:self.graphExp.$to_Y(self.y['$[]'](t)['$[]'](i2))},merge)
 							.wait(wait).set({visible:false})
-					 		//cqls.tweens.line[i].wait(wait['$+'](merge)).set({visible:false});
+					 		//cqlsAEP.tweens.line[i].wait(wait['$+'](merge)).set({visible:false});
 						}
 					;}, TMP_69._s = self, TMP_69), $a).call($b);}, TMP_68._s = self, TMP_68), $a).call($b);
         self.time = self.time['$+'](merge['$+'](wait));
@@ -2013,23 +2013,23 @@ if (i == null) i = nil;
         var $a, $b, TMP_70, self = this;
 
         if (fall == null) {
-          fall = (2000)['$*'](cqls.i.scaleTime)
+          fall = (2000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (wait == null) {
-          wait = (1000)['$*'](cqls.i.scaleTime)
+          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
-        cqls.durations.ptsBeforeFall=self.time;
+        cqlsAEP.durations.ptsBeforeFall=self.time;
         ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a._p = (TMP_70 = function(i){var self = TMP_70._s || this;
           if (self.plotHist == null) self.plotHist = nil;
           if (self.hist == null) self.hist = nil;
 if (i == null) i = nil;
         
-					cqls.tweens.pt[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
+					cqlsAEP.tweens.pt[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
 					.wait(wait)
 				;
           if (self.hist['$[]'](cur).$type()['$==']("disc")) {
             
-						cqls.tweens.line[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
+						cqlsAEP.tweens.line[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
 						.wait(wait).set({visible:false});
 					;
             } else {
@@ -2045,13 +2045,13 @@ if (i == null) i = nil;
           from = self.time
         }
         if (before == null) {
-          before = (2000)['$*'](cqls.i.scaleTime)
+          before = (2000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (fall == null) {
-          fall = (1000)['$*'](cqls.i.scaleTime)
+          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (after == null) {
-          after = (1000)['$*'](cqls.i.scaleTime)
+          after = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         fall = fall['$+'](self.x['$[]'](cur).$length());
         ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a._p = (TMP_71 = function(i){var self = TMP_71._s || this;
@@ -2060,12 +2060,12 @@ if (i == null) i = nil;
           if (self.hY == null) self.hY = nil;
 if (i == null) i = nil;
         
-					cqls.tweens.pt[i].wait(before+i)
+					cqlsAEP.tweens.pt[i].wait(before+i)
 					.to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
 					//rect start here so wait "from" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(from).set({visible:true})
 					.wait(before+i)
 					.to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
@@ -2082,7 +2082,7 @@ if (i == null) i = nil;
           from = self.time
         }
         if (after == null) {
-          after = (500)['$*'](cqls.i.scaleTime)
+          after = (500)['$*'](cqlsAEP.i.scaleTime)
         }
         ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a._p = (TMP_72 = function(i){var self = TMP_72._s || this;
           if (self.graphExp == null) self.graphExp = nil;
@@ -2094,17 +2094,17 @@ if (i == null) i = nil;
 if (i == null) i = nil;
         
 					 
-					cqls.tweens.pt[i].to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0})
+					cqlsAEP.tweens.pt[i].to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0})
 					.wait(after);
 
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
 							self.$allowLevelChange(true);
 						})
 					}
 					//redraw rect first
-					cqls.tweens.rect[i].call(function(tween) {
+					cqlsAEP.tweens.rect[i].call(function(tween) {
 						tween._target.regY=self.hY['$[]'](cur)['$/'](2);
 					 	tween._target.graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
 					})
@@ -2122,13 +2122,13 @@ if (i == null) i = nil;
           from = self.time
         }
         if (before == null) {
-          before = (1000)['$*'](cqls.i.scaleTime)
+          before = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (fall == null) {
-          fall = (1000)['$*'](cqls.i.scaleTime)
+          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (after == null) {
-          after = (1000)['$*'](cqls.i.scaleTime)
+          after = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         fall = fall['$+'](self.x['$[]'](cur).$length());
         ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a._p = (TMP_73 = function(i){var self = TMP_73._s || this;
@@ -2137,18 +2137,18 @@ if (i == null) i = nil;
           if (self.hY == null) self.hY = nil;
 if (i == null) i = nil;
         
-					cqls.tweens.pt[i].wait(before+i)
+					cqlsAEP.tweens.pt[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
-					cqls.tweens.rect[i].wait(before+i)
+					cqlsAEP.tweens.rect[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
 				;}, TMP_73._s = self, TMP_73), $a).call($b);
         
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						self.$hideAll(cur)
         self.hist['$[]'](cur).$add(self.x['$[]'](cur))
         self.hist['$[]'](cur).$draw()
@@ -2165,13 +2165,13 @@ if (i == null) i = nil;
           from = self.time
         }
         if (before == null) {
-          before = (2000)['$*'](cqls.i.scaleTime)
+          before = (2000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (fall == null) {
-          fall = (1000)['$*'](cqls.i.scaleTime)
+          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (after == null) {
-          after = (1000)['$*'](cqls.i.scaleTime)
+          after = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         fall = fall['$+'](self.x['$[]'](cur).$length());
         ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a._p = (TMP_74 = function(i){var self = TMP_74._s || this;
@@ -2181,27 +2181,27 @@ if (i == null) i = nil;
           if (self.hist == null) self.hist = nil;
 if (i == null) i = nil;
         
-					cqls.tweens.pt[i].wait(before+i)
+					cqlsAEP.tweens.pt[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
 					//rect start here so wait "from" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(from).set({visible:true})
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
 							self.$allowLevelChange(true);
 						})
 					}
-					cqls.tweens.rect[i].wait(before+i)
+					cqlsAEP.tweens.rect[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
 				;}, TMP_74._s = self, TMP_74), $a).call($b);
         
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						self.$hideAll(cur)
         self.hist['$[]'](cur).$add(self.x['$[]'](cur))
         self.hist['$[]'](cur).$draw()
@@ -2218,19 +2218,19 @@ if (i == null) i = nil;
           from = self.time
         }
         if (wait == null) {
-          wait = (1000)['$*'](cqls.i.scaleTime)
+          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (pause == null) {
-          pause = (1000)['$*'](cqls.i.scaleTime)
+          pause = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (before == null) {
-          before = (1000)['$*'](cqls.i.scaleTime)
+          before = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (fall == null) {
-          fall = (1000)['$*'](cqls.i.scaleTime)
+          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         if (after == null) {
-          after = (1000)['$*'](cqls.i.scaleTime)
+          after = (1000)['$*'](cqlsAEP.i.scaleTime)
         }
         ($a = ($b = self.ind).$each_with_index, $a._p = (TMP_75 = function(s, i2){var self = TMP_75._s || this, col = nil, y = nil, l = nil;
           if (self.col == null) self.col = nil;
@@ -2245,41 +2245,41 @@ if (s == null) s = nil;if (i2 == null) i2 = nil;
         col = "rgba(" + (self.col['$[]'](i2)['$[]'](0)) + "," + (self.col['$[]'](i2)['$[]'](1)) + "," + (self.col['$[]'](i2)['$[]'](2)) + "," + (self.col['$[]'](i2)['$[]'](3)) + ")";
           y = self.graphExp.$to_Y(self.y['$[]'](1)['$[]'](i2));
           l = self.graphExp.$to_X(self.icSide['$[]'](i2))['$-'](self.graphExp.$to_X(0));
-          cqls.tweens.pt[i2].wait(pause);
+          cqlsAEP.tweens.pt[i2].wait(pause);
           if (self.hist['$[]'](1).$type()['$==']("disc")) {
             
-						cqls.tweens.line[i2]
+						cqlsAEP.tweens.line[i2]
 						.call(function(tween) {
 				 			tween._target.regX=l;
 				 			tween._target.regY=1;
 				 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,(2)['$*'](l),2);
 					 	})
-						.wait(pause)
+						.wait((2)['$*'](pause))
 					 	
 					;
             } else {
             
 						//draw lines
-						cqls.actors.line[i2].graphics.c().s(col).f(self.style['$[]']("fl"))
+						cqlsAEP.actors.line[i2].graphics.c().s(col).f(self.style['$[]']("fl"))
 						.drawRect(0,0,(2)['$*'](l),2);
-						cqls.actors.line[i2].regX=l;
-						cqls.actors.line[i2].regY=1;
+						cqlsAEP.actors.line[i2].regX=l;
+						cqlsAEP.actors.line[i2].regY=1;
 						//tweens for lines
-						cqls.tweens.line[i2]=createjs.Tween.get(cqls.actors.line[i2],{override:true});
-						cqls.tweens.line[i2].set({visible:false}).wait(from+wait)
+						cqlsAEP.tweens.line[i2]=createjs.Tween.get(cqlsAEP.actors.line[i2],{override:true});
+						cqlsAEP.tweens.line[i2].set({visible:false}).wait(from+wait)
 						.to({x:self.graphExp.$to_X(self.x['$[]'](1)['$[]'](i2)),y:y})
 				 		.set({visible:true}).wait(pause)
 				 	;
           };
           if (self.icGood['$[]'](i2)['$=='](0)) {
             
-						cqls.tweens.pt[i2].wait(pause).to({scaleX:2.0,scaleY:2.0},pause) //.to({scaleX:1.0,scaleY:1.0})
-						cqls.tweens.line[i2].to({scaleY:3.0},pause) //.to({scaleY:1.0})
+						cqlsAEP.tweens.pt[i2].wait(pause).to({scaleX:2.0,scaleY:2.0},pause) //.to({scaleX:1.0,scaleY:1.0})
+						cqlsAEP.tweens.line[i2].to({scaleY:3.0},pause).to({scaleY:1.0})
 					;
             } else {
             
-						cqls.tweens.pt[i2].wait((2)['$*'](pause))
-						cqls.tweens.line[i2].wait(pause)
+						cqlsAEP.tweens.pt[i2].wait((2)['$*'](pause))
+						cqlsAEP.tweens.line[i2].wait(pause)
 					;
           };}, TMP_75._s = self, TMP_75), $a).call($b);
         self.time = self.time['$+']((3)['$*'](pause));
@@ -2297,36 +2297,36 @@ if (s == null) s = nil;if (i2 == null) i2 = nil;
 if (i == null) i = nil;
         
 					//rect start here so wait "@time" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(self.time)
 					.to({x:self.graphExp.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i)),y:self.graphExp.$to_Y(self.y['$[]'](1)['$[]'](i))})
 					.set({visible:true})
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
 							self.$allowLevelChange(true);
 						})
 					}
 
-					cqls.tweens.pt[i].wait(before+i)
+					cqlsAEP.tweens.pt[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
-					cqls.tweens.line[i].wait(before+i)
+					cqlsAEP.tweens.line[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 
-					cqls.tweens.rect[i].wait(before+i)
+					cqlsAEP.tweens.rect[i].wait(before+i)
 					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
 					.wait(after);
 					if(self.icGood['$[]'](i)['$=='](0)) {
-						cqls.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
-						cqls.tweens.line[i].to({scaleY:1.0})
+						cqlsAEP.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
+						cqlsAEP.tweens.line[i].to({scaleY:1.0})
 					}
 
 				;}, TMP_76._s = self, TMP_76), $a).call($c);
         
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						self.$hideAll(cur)
         self.hist['$[]'](cur).$add(self.x['$[]'](cur))
         self.hist['$[]'](cur).$incCptIC(self.cptIC)
@@ -2342,10 +2342,10 @@ if (i == null) i = nil;
 
         if ((($a = self.x['$[]'](cur)) !== nil && (!$a._isBoolean || $a == true))) {
           
-					for(i=0;i<cqls.m.nbsSimMax;i++) {
-						cqls.actors.pt[i].visible=false;
-						cqls.actors.line[i].visible=false;
-						cqls.actors.rect[i].visible=false;	
+					for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
+						cqlsAEP.actors.pt[i].visible=false;
+						cqlsAEP.actors.line[i].visible=false;
+						cqlsAEP.actors.rect[i].visible=false;	
 					}
 				
           } else {
@@ -2361,7 +2361,7 @@ if (i == null) i = nil;
         }
         self.hist['$[]'](cur).$drawMean();
         self.hist['$[]'](cur).$drawSD();
-        return state = cqls.f.getValue("checkSummary");
+        return state = cqlsAEP.f.getValue("checkSummary");
       };
 
       def.$updateVisible = function() {
@@ -2370,29 +2370,29 @@ if (i == null) i = nil;
         isTransf = self.$transfMode()['$==']("none")['$!']();
         isSample = self.$transfMode()['$==']("sample");
         
-				self.exp['$[]'](0).shape.visible=cqls.f.getValue("checkExp0Curve");
-				self.exp['$[]'](1).shape.visible=isTransf & cqls.f.getValue("checkExp1Curve");
+				self.exp['$[]'](0).shape.visible=cqlsAEP.f.getValue("checkExp0Curve");
+				self.exp['$[]'](1).shape.visible=isTransf & cqlsAEP.f.getValue("checkExp1Curve");
 				self.hist['$[]'](0).shape.visible=isTransf['$!']();
 				self.hist['$[]'](1).shape.visible=isTransf;
-				self.hist['$[]'](0).curveShape.visible=isTransf['$!']() & cqls.f.getValue("checkHistCurve");
-				self.hist['$[]'](1).curveShape.visible=isTransf & cqls.f.getValue("checkHistCurve");
+				self.hist['$[]'](0).curveShape.visible=isTransf['$!']() & cqlsAEP.f.getValue("checkHistCurve");
+				self.hist['$[]'](1).curveShape.visible=isTransf & cqlsAEP.f.getValue("checkHistCurve");
 				self.hist['$[]'](0).summaryShapes[0].visible=false;
 				self.hist['$[]'](1).summaryShapes[0].visible=false;
 				self.hist['$[]'](0).summaryShapes[1].visible=false;
 				self.hist['$[]'](1).summaryShapes[1].visible=false;
-				self.checkTCL.shape.visible=isSample & cqls.f.getValue("checkTCL");
+				self.checkTCL.shape.visible=isSample & cqlsAEP.f.getValue("checkTCL");
 			;
-        self.exp['$[]'](0).expAxisShape.visible= !cqls.f.getValue("checkExp0Curve");
+        self.exp['$[]'](0).expAxisShape.visible= !cqlsAEP.f.getValue("checkExp0Curve");
         self.exp['$[]'](1).expAxisShape.visible= false;
-        state = cqls.f.getValue("checkSummary");
-        self.exp['$[]'](0).summaryShapes[0].visible=cqls.f.getValue("checkExp0Mean");
-        self.exp['$[]'](0).summaryShapes[1].visible=cqls.f.getValue("checkExp0SD");
-        self.exp['$[]'](1).summaryShapes[0].visible=isTransf & cqls.f.getValue("checkExp1Mean");
-        self.exp['$[]'](1).summaryShapes[1].visible=isTransf & cqls.f.getValue("checkExp1SD");
-        self.histCur.summaryShapes[0].visible=cqls.f.getValue("checkHistMean");
-        self.histCur.summaryShapes[1].visible=cqls.f.getValue("checkHistSD");
-        self.$updateTCL(cqls.f.getValue("checkTCL"));
-        return cqls.m.stage.update();
+        state = cqlsAEP.f.getValue("checkSummary");
+        self.exp['$[]'](0).summaryShapes[0].visible=cqlsAEP.f.getValue("checkExp0Mean");
+        self.exp['$[]'](0).summaryShapes[1].visible=cqlsAEP.f.getValue("checkExp0SD");
+        self.exp['$[]'](1).summaryShapes[0].visible=isTransf & cqlsAEP.f.getValue("checkExp1Mean");
+        self.exp['$[]'](1).summaryShapes[1].visible=isTransf & cqlsAEP.f.getValue("checkExp1SD");
+        self.histCur.summaryShapes[0].visible=cqlsAEP.f.getValue("checkHistMean");
+        self.histCur.summaryShapes[1].visible=cqlsAEP.f.getValue("checkHistSD");
+        self.$updateTCL(cqlsAEP.f.getValue("checkTCL"));
+        return cqlsAEP.m.stage.update();
       };
 
       def.$playShort = function(cur, duration) {
@@ -2411,7 +2411,7 @@ if (i == null) i = nil;
           x = [];
           if (self.statMode['$==']("ic")) {
             $a = [self.n01.$quantile((1)['$-'](self.alpha['$/'](2))), self.exp['$[]'](0).$distrib().$mean()], q = $a[0], mu = $a[1]};
-          ($a = ($b = ($range(0, ((10)['$**'](cqls.i.count)), true))).$each, $a._p = (TMP_77 = function(i){var self = TMP_77._s || this, $a, $b, xx = nil, icSide = nil;
+          ($a = ($b = ($range(0, ((10)['$**'](cqlsAEP.i.count)), true))).$each, $a._p = (TMP_77 = function(i){var self = TMP_77._s || this, $a, $b, xx = nil, icSide = nil;
             if (self.exp == null) self.exp = nil;
             if (self.n == null) self.n = nil;
             if (self.statMode == null) self.statMode = nil;
@@ -2431,11 +2431,11 @@ if (i == null) i = nil;
             };}, TMP_77._s = self, TMP_77), $a).call($b);
           self.hist['$[]'](cur).$add(x);
           } else {
-          self.hist['$[]'](cur).$add(self.exp['$[]'](cur).$sample((10)['$**'](cqls.i.count)))
+          self.hist['$[]'](cur).$add(self.exp['$[]'](cur).$sample((10)['$**'](cqlsAEP.i.count)))
         };
         self.hist['$[]'](cur).$draw();
         self.$drawSummary(cur);
-        cqls.m.stage.update();
+        cqlsAEP.m.stage.update();
         return self.$playNextAfter(duration);
       };
 
@@ -2551,7 +2551,7 @@ if (i == null) i = nil;
         var self = this;
 
         self.$animMode();
-        self.modeHidden = !cqls.i.prior;
+        self.modeHidden = !cqlsAEP.i.prior;
         if (self.statMode['$==']("ic")) {
           self.modeHidden = false};
         return self.modeHidden;
@@ -2582,9 +2582,9 @@ if (i == null) i = nil;
         var self = this;
 
         
-				createjs.Tween.get(cqls.m.stage,{override:true}).wait(duration).call(
+				createjs.Tween.get(cqlsAEP.m.stage,{override:true}).wait(duration).call(
 					function(tween) {
-						if(cqls.i.loop) cqls.f.updateDemo();
+						if(cqlsAEP.i.loop) cqlsAEP.f.updateDemo();
 					}
 				);
 			;
@@ -2614,7 +2614,7 @@ if (i == null) i = nil;
         }
         if ((($a = (($b = $opal.cvars['@@list']) == null ? nil : $b)) !== nil && (!$a._isBoolean || $a == true))) {
           } else {
-          ($opal.cvars['@@list'] = $hash2(["uniform", "normal", "t", "chi2", "exp", "cauchy", "discreteUniform", "bernoulli", "binomial", "birthday", "mean", "sum", "locationScale", "square", "sumOfSq"], {"uniform": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["UniformDistribution"], "qbounds": [0, 1]}), "normal": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["NormalDistribution"], "qbounds": [cqls.m.qmin, cqls.m.qmax]}), "t": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["StudentDistribution"], "qbounds": [cqls.m.qmin, cqls.m.qmax]}), "chi2": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ChiSquareDistribution"], "qbounds": [0, cqls.m.qmax]}), "exp": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ExponentialDistribution"], "qbounds": [0, cqls.m.qmax]}), "cauchy": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["CauchyDistribution"], "qbounds": [0.01, 0.99]}), "discreteUniform": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["DiscreteUniformDistribution"], "qbounds": [0, 1]}), "bernoulli": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BernoulliDistribution"], "qbounds": [0, 1]}), "binomial": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BinomialDistribution"], "qbounds": [0, 1]}), "birthday": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BirthdayDistribution"], "qbounds": [0.01, 1]}), "mean": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sum": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "locationScale": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "square": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sumOfSq": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]})}))
+          ($opal.cvars['@@list'] = $hash2(["uniform", "normal", "t", "chi2", "exp", "cauchy", "discreteUniform", "bernoulli", "binomial", "birthday", "mean", "sum", "locationScale", "square", "sumOfSq"], {"uniform": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["UniformDistribution"], "qbounds": [0, 1]}), "normal": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["NormalDistribution"], "qbounds": [cqlsAEP.m.qmin, cqlsAEP.m.qmax]}), "t": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["StudentDistribution"], "qbounds": [cqlsAEP.m.qmin, cqlsAEP.m.qmax]}), "chi2": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ChiSquareDistribution"], "qbounds": [0, cqlsAEP.m.qmax]}), "exp": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ExponentialDistribution"], "qbounds": [0, cqlsAEP.m.qmax]}), "cauchy": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["CauchyDistribution"], "qbounds": [0.01, 0.99]}), "discreteUniform": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["DiscreteUniformDistribution"], "qbounds": [0, 1]}), "bernoulli": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BernoulliDistribution"], "qbounds": [0, 1]}), "binomial": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BinomialDistribution"], "qbounds": [0, 1]}), "birthday": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BirthdayDistribution"], "qbounds": [0.01, 1]}), "mean": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sum": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "locationScale": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "square": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sumOfSq": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]})}))
         };
         self.list = (($a = $opal.cvars['@@list']) == null ? nil : $a);
         if (name !== false && name !== nil) {
@@ -2821,7 +2821,7 @@ if (i == null) i = nil;
 if (v1 == null) v1 = nil;if (i1 == null) i1 = nil;
         return ($a = ($b = self.b2).$each_with_index, $a._p = (TMP_85 = function(v2, i2){var self = TMP_85._s || this, $a, v = nil;
 if (v2 == null) v2 = nil;if (i2 == null) i2 = nil;
-          v = $scope.Cqls.$quantize(v1['$+'](v2));
+          v = $scope.CqlsAEP.$quantize(v1['$+'](v2));
             if ((($a = ind.$keys()['$include?'](v)) !== nil && (!$a._isBoolean || $a == true))) {
               return ind['$[]'](v)['$<<']([i1, i2])
               } else {
@@ -2846,7 +2846,7 @@ if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
 
     $opal.cdecl($scope, 'PREC4DISC', 0);
 
-    $opal.defs($scope.Cqls, '$quantize', function(x, prec) {
+    $opal.defs($scope.CqlsAEP, '$quantize', function(x, prec) {
       var self = this;
 
       if (prec == null) {
@@ -2855,13 +2855,13 @@ if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
       return parseFloat(x.toFixed(prec));
     });
 
-    $opal.defs($scope.Cqls, '$equal', function(a, b) {
+    $opal.defs($scope.CqlsAEP, '$equal', function(a, b) {
       var self = this;
 
       return a.toFixed($scope.PREC4DISC)===b.toFixed($scope.PREC4DISC);
     });
 
-    $opal.defs($scope.Cqls, '$range', function(low, high, step) {
+    $opal.defs($scope.CqlsAEP, '$range', function(low, high, step) {
       var self = this;
 
       
@@ -2909,7 +2909,7 @@ if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
 		
     });
 
-    $opal.defs($scope.Cqls, '$seq', function(min, max, length) {
+    $opal.defs($scope.CqlsAEP, '$seq', function(min, max, length) {
       var self = this;
 
       

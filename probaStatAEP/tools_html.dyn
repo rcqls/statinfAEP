@@ -1,0 +1,7 @@
+{#def]lang[#,]fr[][#,]en[][#??]fr[#>]#{fr}[#??]en[#>]#{en}[#}
+
+Copy and paste: {#lang][#fr][#en][#} 
+
+{#def]aide[#,]link[][#,]name[][#,]icon[help][#>]<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-#{icon}'" onclick="cqlsAEP.f.aide('#{link}{#lang][#en]_en[#}')">#{name}</a>[#}
+
+{#def]aideTtm[#,]link[][#,]name[][#>]\begin{html}<a href="#" onclick="cqlsAEP.f.aide('#{link}')">\end{html}#{name}\begin{html}</a>\end{html}[#def}

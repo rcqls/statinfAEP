@@ -3137,11 +3137,11 @@ function PowerDistribution(d0, n0){
 	} else {
 		var values,pdf=[];
 		//console.log(["orig",d.values()]);
-		values=d.values().map(function(x) {return Opal.Cqls.$quantize(Math.pow(x,n));}).sort(ascend);
+		values=d.values().map(function(x) {return Opal.CqlsAEP.$quantize(Math.pow(x,n));}).sort(ascend);
 		//console.log(["values:",values]);
 		for(var i=0; i<values.length;i++) pdf[i]=0;
 		var tmp=d.values();
-		for(i=0; i<tmp.length;i++) pdf[values.indexOf(Opal.Cqls.$quantize(Math.pow(tmp[i],n)))]+=d.density(tmp[i]);
+		for(i=0; i<tmp.length;i++) pdf[values.indexOf(Opal.CqlsAEP.$quantize(Math.pow(tmp[i],n)))]+=d.density(tmp[i]);
 		//console.log(["power",values,pdf]);
 		Distribution.call(this, values[0] , values[values.length-1], -1, d.type());
 	}
@@ -3150,7 +3150,7 @@ function PowerDistribution(d0, n0){
 	//only for discrete rv
 	if (this.type() === DISC) {
 		this.index = function(x) {
-			return this.values().indexOf(Opal.Cqls.$quantize(x));
+			return this.values().indexOf(Opal.CqlsAEP.$quantize(x));
 		}
 
 		this.isValue = function(x) {
@@ -3204,7 +3204,7 @@ PowerDistribution.prototype = new Distribution;
 
 function Convolution2(d1, d2, b1, b2) {
 	//console.log("conv2");console.log([d1.density(0),d2.density(0),b1,b2])
-	var conv=Opal.Cqls.Convolution.$new(d1,d2,b1,b2);
+	var conv=Opal.CqlsAEP.Convolution.$new(d1,d2,b1,b2);
 	//console.log(conv);
 	Distribution.call(this, d1.minValue()+d2.minValue(), d1.maxValue()+d2.maxValue(), -1 , DISC);
 	

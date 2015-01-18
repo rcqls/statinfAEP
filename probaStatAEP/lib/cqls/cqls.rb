@@ -1,14 +1,14 @@
-module Cqls
+module CqlsAEP
 
 	class Plot
 
 		attr_accessor :parent, :frame, :style, :graph, :dim
 
-		def initialize(dim={x:0,y:0,w:%x{cqls.i.dim.w},h:%x{cqls.i.dim.h}},style={bg:"#88FF88"})
+		def initialize(dim={x:0,y:0,w:%x{cqlsAEP.i.dim.w},h:%x{cqlsAEP.i.dim.h}},style={bg:"#88FF88"})
 			@dim,@style=dim,style
 			@parent=%x{new createjs.Container()}
 			@frame=	%x{new createjs.Shape()}		
-    		@graph=Cqls::Graph.new(@dim)
+    		@graph=CqlsAEP::Graph.new(@dim)
     		@updateCalls=[]
     		# init frame
     		%x{#{@frame}.graphics.beginLinearGradientFill(["#FFF",#{@style[:bg]}], [0, 1], 0, #{@dim[:y]}+20, 0, #{@dim[:y]}+#{@dim[:h]}+20).drawRect(#{@dim[:x]},#{@dim[:y]},#{@dim[:w]},#{@dim[:h]})}
@@ -307,7 +307,7 @@ module Cqls
 			end
 			@style=style
 			@shape=%x{new createjs.Shape()}
-			@x=Cqls.seq(@bounds[0],@bounds[1],@length)
+			@x=CqlsAEP.seq(@bounds[0],@bounds[1],@length)
 			@kind=:density
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
 			@expAxisShape=%x{new createjs.Shape()}
@@ -403,7 +403,7 @@ module Cqls
 			# p [:bounds,@bounds]
 			case @type
 			when :cont
-				@x=Cqls.seq(@bounds[0],@bounds[1],@length)
+				@x=CqlsAEP.seq(@bounds[0],@bounds[1],@length)
 			when :disc
 				initStep
 				# p @step
@@ -560,7 +560,7 @@ module Cqls
 		end
 
 		def index(x,step=@step)
-			regular? ? ((x-@bounds[0])/step).floor : @ind[Cqls.quantize(x)]
+			regular? ? ((x-@bounds[0])/step).floor : @ind[CqlsAEP.quantize(x)]
 			# TODO: @ind[x] when considering non-equidistant modalities
 		end
 
@@ -629,7 +629,7 @@ module Cqls
 		end
 
 		def acceptLevelNext
-			@level=@levelNext if %x{cqls.i.allowLevelChange}
+			@level=@levelNext if %x{cqlsAEP.i.allowLevelChange}
 		end
 
 		def counts
@@ -741,37 +741,37 @@ module Cqls
 
 		attr_accessor :exp
 
-		def initialize(plotExp=%x{cqls.s.plot},plotHist=%x{cqls.h.plot})
+		def initialize(plotExp=%x{cqlsAEP.s.plot},plotHist=%x{cqlsAEP.h.plot})
 			## Since animation is made in javascript
 			## Anim objects are declared in javascript
 			## Generally, there is only one AEPActors too!
 			%x{
-				cqls.actors={pt:[],rect:[],line:[]};
-				cqls.tweens={pt:[],rect:[],line:[]};
-	    		cqls.m.nbsSimMax=cqls.m.nbsSim["1000"][cqls.m.nbsSim["1000"].length-1];
-	    		//console.log("nbsSImMax="+cqls.m.nbsSimMax);
-	     		for(i=0;i<cqls.m.nbsSimMax;i++) {
+				cqlsAEP.actors={pt:[],rect:[],line:[]};
+				cqlsAEP.tweens={pt:[],rect:[],line:[]};
+	    		cqlsAEP.m.nbsSimMax=cqlsAEP.m.nbsSim["1000"][cqlsAEP.m.nbsSim["1000"].length-1];
+	    		//console.log("nbsSImMax="+cqlsAEP.m.nbsSimMax);
+	     		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 					var rect=new createjs.Shape();
-	    			cqls.actors.rect.push(rect);
+	    			cqlsAEP.actors.rect.push(rect);
 			    	rect.visible=false;
-			    	cqls.m.stage.addChild(rect);
+			    	cqlsAEP.m.stage.addChild(rect);
 	    		}
-	    		for(i=0;i<cqls.m.nbsSimMax;i++) {
+	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 					var line=new createjs.Shape();
-	    			cqls.actors.line.push(line);
+	    			cqlsAEP.actors.line.push(line);
 			    	line.visible=false;
-			    	cqls.m.stage.addChild(line);
+			    	cqlsAEP.m.stage.addChild(line);
 	    		}
-	    		for(i=0;i<cqls.m.nbsSimMax;i++) {
+	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
 	    			var pt=new createjs.Shape();
-	    			cqls.actors.pt.push(pt);
+	    			cqlsAEP.actors.pt.push(pt);
 			    	pt.visible=false;
 			    	pt.x=0;pt.y=0;
-			    	cqls.m.stage.addChild(pt);
+			    	cqlsAEP.m.stage.addChild(pt);
 	    		}
 			}
 
-			@stage=%x{cqls.m.stage}
+			@stage=%x{cqlsAEP.m.stage}
 			@plotExp,@plotHist=plotExp,plotHist
 			@graphExp,@graphHist=@plotExp.graph,@plotHist.graph
 			@graphHist.syncTo(@graphExp)
@@ -949,8 +949,8 @@ module Cqls
 		end
 
 		def setNbSim
-			#p [@n,@mLevel,@mLevels,@n*@mLevels[@mLevel],%x{cqls.m.nbSimMax}]
-			@nbSim=[@n*@mLevels[@mLevel],%x{cqls.m.nbSimMax}].min
+			#p [@n,@mLevel,@mLevels,@n*@mLevels[@mLevel],%x{cqlsAEP.m.nbSimMax}]
+			@nbSim=[@n*@mLevels[@mLevel],%x{cqlsAEP.m.nbSimMax}].min
 		end
 
 		######## Transformation (maybe to put outside)
@@ -1055,11 +1055,11 @@ module Cqls
 		end
 
 		def animMode # 3 modes
-			%x{cqls.i.anim=cqls.f.getValue("animMode")}
-			%x{cqls.i.prior=cqls.f.getValue("priorMode")}
-			# %x{console.log(cqls.i.anim + ":"+ cqls.i.prior)}
-			if %x{cqls.i.anim}
-				if %x{cqls.i.prior}
+			%x{cqlsAEP.i.anim=cqlsAEP.f.getValue("animMode")}
+			%x{cqlsAEP.i.prior=cqlsAEP.f.getValue("priorMode")}
+			# %x{console.log(cqlsAEP.i.anim + ":"+ cqlsAEP.i.prior)}
+			if %x{cqlsAEP.i.anim}
+				if %x{cqlsAEP.i.prior}
 					"prior"
 				else
 					"normal"
@@ -1208,7 +1208,7 @@ module Cqls
 		###### Animation tricks
 
 		def allowLevelChange(state) #state=true or false
-			%x{cqls.i.allowLevelChange=#{state}} #required when starting experiment
+			%x{cqlsAEP.i.allowLevelChange=#{state}} #required when starting experiment
 			@histCur.acceptLevelNext if state
 		end
 
@@ -1264,18 +1264,18 @@ module Cqls
 			(0...@x[cur].length).each do |i|
 				%x{
 					//draw points
-					cqls.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{@style[:fp]}).drawCircle(0,0,cqls.i.ptSize);
+					cqlsAEP.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{@style[:fp]}).drawCircle(0,0,cqlsAEP.i.ptSize);
 					//tweens for points
-					cqls.tweens.pt[i]=createjs.Tween.get(cqls.actors.pt[i],{override:true});
+					cqlsAEP.tweens.pt[i]=createjs.Tween.get(cqlsAEP.actors.pt[i],{override:true});
 				}
 				if @hist[cur].type==:disc
 					%x{
 						//draw lines
-						cqls.actors.line[i].graphics.c().s(#{@style[:sl]}).f(#{@style[:fl]})
+						cqlsAEP.actors.line[i].graphics.c().s(#{@style[:sl]}).f(#{@style[:fl]})
 						.drawRect(0,0,#{@wX[cur]},0);
-						cqls.actors.line[i].regX=#{@wX[cur]}/2.0;
+						cqlsAEP.actors.line[i].regX=#{@wX[cur]}/2.0;
 						//tweens for lines
-						cqls.tweens.line[i]=createjs.Tween.get(cqls.actors.line[i],{override:true});
+						cqlsAEP.tweens.line[i]=createjs.Tween.get(cqlsAEP.actors.line[i],{override:true});
 					}
 				end
 			end
@@ -1288,8 +1288,8 @@ module Cqls
 					col="rgba(#{@col[i2][0]},#{@col[i2][1]},#{@col[i2][2]},#{@col[i2][3]})"
 					s.each do |i|
 						%x{
-							cqls.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{col}).drawCircle(0,0,cqls.i.ptSize);
-							cqls.actors.line[i].graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[cur]},2);
+							cqlsAEP.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{col}).drawCircle(0,0,cqlsAEP.i.ptSize);
+							cqlsAEP.actors.line[i].graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[cur]},2);
 						}
 					end
 				end
@@ -1297,12 +1297,12 @@ module Cqls
 				(0...@x[cur].length).each_with_index do |i|
 					col="rgba(#{@col[i][0]},#{@col[i][1]},#{@col[i][2]},#{@col[i][3]})"
  					%x{
-						cqls.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{col}).drawCircle(0,0,cqls.i.ptSize);
+						cqlsAEP.actors.pt[i].graphics.c().s(#{@style[:sp]}).f(#{col}).drawCircle(0,0,cqlsAEP.i.ptSize);
 					}
 					if @hist[cur].type==:disc
 						%x{
-							//cqls.actors.line[i].graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[cur]},2);
-							cqls.tweens.line[i].call(function(tween) {
+							//cqlsAEP.actors.line[i].graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[cur]},2);
+							cqlsAEP.tweens.line[i].call(function(tween) {
 					 			tween._target.graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[cur]},2);
 					 		})
 					}
@@ -1325,10 +1325,10 @@ module Cqls
 				y=@yExpAxis[0] - (@hist[cur].type==:disc ? (i*scale) : 0)
 				%x{
 					//draw rect first
-					cqls.actors.rect[i].x=#{@graphExp.to_X(@aep[cur][:xRect][i])};cqls.actors.rect[i].y=#{y};
-					cqls.actors.rect[i].regY=#{@hY[cur]/2};
-					cqls.actors.rect[i].graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
-					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
+					cqlsAEP.actors.rect[i].x=#{@graphExp.to_X(@aep[cur][:xRect][i])};cqlsAEP.actors.rect[i].y=#{y};
+					cqlsAEP.actors.rect[i].regY=#{@hY[cur]/2};
+					cqlsAEP.actors.rect[i].graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
+					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
 				}
 			end	
 
@@ -1338,16 +1338,16 @@ module Cqls
 			(0...@x[cur].length).each do |i|
 				%x{
 					//draw rect first
-					cqls.actors.rect[i].x=#{@graphHist.to_X(@aep[cur][:xRect][i])};cqls.actors.rect[i].y=#{@plotHist.dim[:y]};
-					cqls.actors.rect[i].regY=#{@hY[cur]/2};
-					cqls.actors.rect[i].graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
-					cqls.tweens.rect[i]=createjs.Tween.get(cqls.actors.rect[i],{override:true});
+					cqlsAEP.actors.rect[i].x=#{@graphHist.to_X(@aep[cur][:xRect][i])};cqlsAEP.actors.rect[i].y=#{@plotHist.dim[:y]};
+					cqlsAEP.actors.rect[i].regY=#{@hY[cur]/2};
+					cqlsAEP.actors.rect[i].graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
+					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
 				}
 			end	
 		end
 
 		## Timing[0,500,1000,1500]
-		def transitionDrawPts(cur,wait=1000*%x{cqls.i.scaleTime})
+		def transitionDrawPts(cur,wait=1000*%x{cqlsAEP.i.scaleTime})
 			#p [:drawPts,cur,@hist[cur].type]
 			if @modeHidden
 				scale=(@graphExp.dim[:h]*0.2)/(@x[cur].length)
@@ -1361,14 +1361,14 @@ module Cqls
 				wait2=wait
 				wait2 -= i*@remember[:lag] if @modeHidden and cur==0 and @transf #only for transf
 				%x{
-					cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{y}})
+					cqlsAEP.tweens.pt[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{y}})
 					.set({visible:true})
 					.wait(#{wait2})
 				}
 				if @hist[cur].type==:disc and !@modeHidden
 					#p [:drawPt,i,@graphExp.to_X(@x[cur][i]),@graphExp.to_Y(@y[cur][i])]
 					%x{
-						cqls.tweens.line[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{@graphExp.to_Y(@y[cur][i])}})
+						cqlsAEP.tweens.line[i].to({x:#{@graphExp.to_X(@x[cur][i])},y:#{@graphExp.to_Y(@y[cur][i])}})
 						.set({visible:true})
 						.wait(#{wait});
 					}
@@ -1377,7 +1377,7 @@ module Cqls
 			@time+=wait
 		end
 
-		def transitionPtsTransf(t=1,merge=1500*%x{cqls.i.scaleTime},wait=500*%x{cqls.i.scaleTime})
+		def transitionPtsTransf(t=1,merge=1500*%x{cqlsAEP.i.scaleTime},wait=500*%x{cqlsAEP.i.scaleTime})
 			if @modeHidden
 				scale=(@graphExp.dim[:h]*0.2)/(@ind.length)
 				scale=1 if scale > 1
@@ -1391,17 +1391,17 @@ module Cqls
 					wait2=wait
 					wait2 -= (@n-i)*@remember[:lag] if @modeHidden
 					%x{
-						cqls.tweens.pt[i].to({x:#{@graphExp.to_X(@x[t][i2])},y:#{y}},#{merge})
-						if(#{@modeHidden}) cqls.tweens.pt[i].to({y:#{@graphExp.to_Y(0)}},#{merge})
-						cqls.tweens.pt[i].wait(#{wait2}).set({visible:false})
+						cqlsAEP.tweens.pt[i].to({x:#{@graphExp.to_X(@x[t][i2])},y:#{y}},#{merge})
+						if(#{@modeHidden}) cqlsAEP.tweens.pt[i].to({y:#{@graphExp.to_Y(0)}},#{merge})
+						cqlsAEP.tweens.pt[i].wait(#{wait2}).set({visible:false})
 						if(#{@transf and @hist[0].type==:disc and @hist[1].type==:disc and !@modeHidden}) {
-					 		cqls.tweens.line[i].call(function(tween) {
+					 		cqlsAEP.tweens.line[i].call(function(tween) {
 					 			tween._target.regX=#{@wX[t]}/2.0;
 					 			tween._target.graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{@wX[t]},2);
 					 		})
 					 		.to({x:#{@graphExp.to_X(@x[t][i2])},y:#{@graphExp.to_Y(@y[t][i2])}},#{merge})
 							.wait(#{wait}).set({visible:false})
-					 		//cqls.tweens.line[i].wait(#{wait+merge}).set({visible:false});
+					 		//cqlsAEP.tweens.line[i].wait(#{wait+merge}).set({visible:false});
 						}
 					}
 				end
@@ -1410,16 +1410,16 @@ module Cqls
 			@time+=merge if @modeHidden
 		end
 
-		def transitionFallPts(cur,fall=2000*%x{cqls.i.scaleTime},wait=1000*%x{cqls.i.scaleTime})
-			%x{cqls.durations.ptsBeforeFall=#{@time}}
+		def transitionFallPts(cur,fall=2000*%x{cqlsAEP.i.scaleTime},wait=1000*%x{cqlsAEP.i.scaleTime})
+			%x{cqlsAEP.durations.ptsBeforeFall=#{@time}}
 			(0...@x[cur].length).each do |i|
 				%x{
-					cqls.tweens.pt[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
+					cqlsAEP.tweens.pt[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
 					.wait(#{wait})
 				}
 				if @hist[cur].type==:disc
 					%x{
-						cqls.tweens.line[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
+						cqlsAEP.tweens.line[i].to({y:#{@plotHist.dim[:y]}},#{fall},createjs.Ease.bounceOut)
 						.wait(#{wait}).set({visible:false});
 					}
 				end			
@@ -1428,16 +1428,16 @@ module Cqls
 		end
 
 
-		def transitionExpPtsAndRects(cur,from=@time,before=2000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
+		def transitionExpPtsAndRects(cur,from=@time,before=2000*%x{cqlsAEP.i.scaleTime},fall=1000*%x{cqlsAEP.i.scaleTime},after=1000*%x{cqlsAEP.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
-					cqls.tweens.pt[i].wait(#{before}+i)
+					cqlsAEP.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
 					//rect start here so wait "from" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(#{from}).set({visible:true})
 					.wait(#{before}+i)
 					.to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
@@ -1448,22 +1448,22 @@ module Cqls
 			@time += before+fall+after
 		end
 
-		def transitionDrawRectsHidden(cur,from=@time,after=500*%x{cqls.i.scaleTime})
+		def transitionDrawRectsHidden(cur,from=@time,after=500*%x{cqlsAEP.i.scaleTime})
 			#p [@wX[cur],@hY[cur]]
 			(0...@x[cur].length).each do |i|
 				%x{
 					 
-					cqls.tweens.pt[i].to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0})
+					cqlsAEP.tweens.pt[i].to({y:#{@graphExp.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0})
 					.wait(#{after});
 
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							#{@hist[cur].draw(@aep[cur][:nbTot])};
 							#{allowLevelChange(true)};
 						})
 					}
 					//redraw rect first
-					cqls.tweens.rect[i].call(function(tween) {
+					cqlsAEP.tweens.rect[i].call(function(tween) {
 						tween._target.regY=#{@hY[cur]/2};
 					 	tween._target.graphics.c().f(#{@style[:fr]}).s(#{@style[:sr]}).drawRect(0,0,#{@wX[cur]},#{@hY[cur]});
 					})
@@ -1475,15 +1475,15 @@ module Cqls
 			@time += after
 		end
 
-		def transitionHistPtsAndRectsHidden(cur,from=@time,before=1000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
+		def transitionHistPtsAndRectsHidden(cur,from=@time,before=1000*%x{cqlsAEP.i.scaleTime},fall=1000*%x{cqlsAEP.i.scaleTime},after=1000*%x{cqlsAEP.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
-					cqls.tweens.pt[i].wait(#{before}+i)
+					cqlsAEP.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
-					cqls.tweens.rect[i].wait(#{before}+i)
+					cqlsAEP.tweens.rect[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
@@ -1491,7 +1491,7 @@ module Cqls
 			end
 			%x{
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						#{hideAll(cur);@hist[cur].add(@x[cur]);@hist[cur].draw;drawSummary(cur)};
 				})
 			}
@@ -1501,24 +1501,24 @@ module Cqls
 
 
 
-		def transitionHistPtsAndRects(cur,from=@time,before=2000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
+		def transitionHistPtsAndRects(cur,from=@time,before=2000*%x{cqlsAEP.i.scaleTime},fall=1000*%x{cqlsAEP.i.scaleTime},after=1000*%x{cqlsAEP.i.scaleTime})
 			fall+=@x[cur].length
 			(0...@x[cur].length).each do |i|
 				%x{
-					cqls.tweens.pt[i].wait(#{before}+i)
+					cqlsAEP.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
 					//rect start here so wait "from" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(#{from}).set({visible:true})
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							#{@hist[cur].draw(@aep[cur][:nbTot])};
 							#{allowLevelChange(true)};
 						})
 					}
-					cqls.tweens.rect[i].wait(#{before}+i)
+					cqlsAEP.tweens.rect[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
@@ -1526,7 +1526,7 @@ module Cqls
 			end
 			%x{
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						#{hideAll(cur);@hist[cur].add(@x[cur]);@hist[cur].draw;drawSummary(cur)};
 				})
 			}
@@ -1534,47 +1534,47 @@ module Cqls
 		end
 
 
-		def transitionDrawIC(from=@time,wait=1000*%x{cqls.i.scaleTime},pause=1000*%x{cqls.i.scaleTime},before=1000*%x{cqls.i.scaleTime},fall=1000*%x{cqls.i.scaleTime},after=1000*%x{cqls.i.scaleTime})
+		def transitionDrawIC(from=@time,wait=1000*%x{cqlsAEP.i.scaleTime},pause=1000*%x{cqlsAEP.i.scaleTime},before=1000*%x{cqlsAEP.i.scaleTime},fall=1000*%x{cqlsAEP.i.scaleTime},after=1000*%x{cqlsAEP.i.scaleTime})
 			#p [:transIC,@icSide,@icSide.map{|e| @graphExp.to_X(e)}]
 			@ind.each_with_index do |s,i2|
 				col="rgba(#{@col[i2][0]},#{@col[i2][1]},#{@col[i2][2]},#{@col[i2][3]})"
 				y=@graphExp.to_Y(@y[1][i2])
 				l=@graphExp.to_X(@icSide[i2])-@graphExp.to_X(0)
-				%x{cqls.tweens.pt[i2].wait(#{pause})}
+				%x{cqlsAEP.tweens.pt[i2].wait(#{pause})}
 				if @hist[1].type==:disc #
 					%x{
-						cqls.tweens.line[i2]
+						cqlsAEP.tweens.line[i2]
 						.call(function(tween) {
 				 			tween._target.regX=#{l};
 				 			tween._target.regY=1;
 				 			tween._target.graphics.c().s(#{col}).f(#{@style[:fl]}).drawRect(0,0,#{2*l},2);
 					 	})
-						.wait(#{pause})
+						.wait(#{2*pause})
 					 	
 					} 
 				else #create them
 					%x{
 						//draw lines
-						cqls.actors.line[i2].graphics.c().s(#{col}).f(#{@style[:fl]})
+						cqlsAEP.actors.line[i2].graphics.c().s(#{col}).f(#{@style[:fl]})
 						.drawRect(0,0,#{2*l},2);
-						cqls.actors.line[i2].regX=#{l};
-						cqls.actors.line[i2].regY=1;
+						cqlsAEP.actors.line[i2].regX=#{l};
+						cqlsAEP.actors.line[i2].regY=1;
 						//tweens for lines
-						cqls.tweens.line[i2]=createjs.Tween.get(cqls.actors.line[i2],{override:true});
-						cqls.tweens.line[i2].set({visible:false}).wait(#{from}+#{wait})
+						cqlsAEP.tweens.line[i2]=createjs.Tween.get(cqlsAEP.actors.line[i2],{override:true});
+						cqlsAEP.tweens.line[i2].set({visible:false}).wait(#{from}+#{wait})
 						.to({x:#{@graphExp.to_X(@x[1][i2])},y:#{y}})
 				 		.set({visible:true}).wait(#{pause})
 				 	}
 				end
 				if @icGood[i2]==0
 					%x{
-						cqls.tweens.pt[i2].wait(#{pause}).to({scaleX:2.0,scaleY:2.0},#{pause}) //.to({scaleX:1.0,scaleY:1.0})
-						cqls.tweens.line[i2].to({scaleY:3.0},#{pause}) //.to({scaleY:1.0})
+						cqlsAEP.tweens.pt[i2].wait(#{pause}).to({scaleX:2.0,scaleY:2.0},#{pause}) //.to({scaleX:1.0,scaleY:1.0})
+						cqlsAEP.tweens.line[i2].to({scaleY:3.0},#{pause}).to({scaleY:1.0})
 					}
 				else 
 					%x{
-						cqls.tweens.pt[i2].wait(#{2*pause})
-						cqls.tweens.line[i2].wait(#{pause})
+						cqlsAEP.tweens.pt[i2].wait(#{2*pause})
+						cqlsAEP.tweens.line[i2].wait(#{pause})
 					}
 				end
 			end
@@ -1586,37 +1586,37 @@ module Cqls
 			(0...@x[cur].length).each do |i|
 				%x{
 					//rect start here so wait "@time" ms first
-					cqls.tweens.rect[i].set({visible:false})
+					cqlsAEP.tweens.rect[i].set({visible:false})
 					.wait(#{@time})
 					.to({x:#{@graphExp.to_X(@aep[cur][:xRect][i])},y:#{@graphExp.to_Y(@y[1][i])}})
 					.set({visible:true})
 					if(i==0) {
-						cqls.tweens.rect[i].call(function(tween) {
+						cqlsAEP.tweens.rect[i].call(function(tween) {
 							#{@hist[cur].draw(@aep[cur][:nbTot])};
 							#{allowLevelChange(true)};
 						})
 					}
 
-					cqls.tweens.pt[i].wait(#{before}+i)
+					cqlsAEP.tweens.pt[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
-					cqls.tweens.line[i].wait(#{before}+i)
+					cqlsAEP.tweens.line[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 
-					cqls.tweens.rect[i].wait(#{before}+i)
+					cqlsAEP.tweens.rect[i].wait(#{before}+i)
 					.to({y:#{@graphHist.to_Y(@aep[cur][:yRect][i])}+#{@hY[cur]}/2.0},#{fall}-i)
 					.wait(#{after});
 					if(#{@icGood[i]==0}) {
-						cqls.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
-						cqls.tweens.line[i].to({scaleY:1.0})
+						cqlsAEP.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
+						cqlsAEP.tweens.line[i].to({scaleY:1.0})
 					}
 
 				}
 			end
 			%x{
 				//only once
-				cqls.tweens.pt[0].call(function(tween) {
+				cqlsAEP.tweens.pt[0].call(function(tween) {
 						#{hideAll(cur);@hist[cur].add(@x[cur]);@hist[cur].incCptIC(@cptIC);@hist[cur].draw;drawSummary(cur)};
 				})
 			}
@@ -1627,16 +1627,16 @@ module Cqls
 			if @x[cur]
 				# (0...@x[cur].length).each{|i| 
 				# 	%x{
-				# 		cqls.actors.pt[i].visible=false;
-				# 		cqls.actors.line[i].visible=false;
-				# 		cqls.actors.rect[i].visible=false;	
+				# 		cqlsAEP.actors.pt[i].visible=false;
+				# 		cqlsAEP.actors.line[i].visible=false;
+				# 		cqlsAEP.actors.rect[i].visible=false;	
 				# 	}
 				# }
 				%x{
-					for(i=0;i<cqls.m.nbsSimMax;i++) {
-						cqls.actors.pt[i].visible=false;
-						cqls.actors.line[i].visible=false;
-						cqls.actors.rect[i].visible=false;	
+					for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
+						cqlsAEP.actors.pt[i].visible=false;
+						cqlsAEP.actors.line[i].visible=false;
+						cqlsAEP.actors.rect[i].visible=false;	
 					}
 				}
 			end
@@ -1647,15 +1647,15 @@ module Cqls
 		# 	isTransf=transfMode != :none
 		# 	isSample=transfMode==:sample
 		# 	%x{
-		# 		#{@exp[0]}.shape.visible=cqls.enyo.app.$.checkExp0Curve.getValue();
-		# 		#{@exp[1]}.shape.visible=#{isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue();
+		# 		#{@exp[0]}.shape.visible=cqlsAEP.enyo.app.$.checkExp0Curve.getValue();
+		# 		#{@exp[1]}.shape.visible=#{isTransf} & cqlsAEP.enyo.app.$.checkExp1Curve.getValue();
 		# 		#{@hist[0]}.shape.visible=#{!isTransf};
 		# 		#{@hist[1]}.shape.visible=#{isTransf};
-		# 		#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
-		# 		#{@hist[1]}.curveShape.visible=#{isTransf} & cqls.enyo.app.$.checkHistCurve.getValue();
+		# 		#{@hist[0]}.curveShape.visible=#{!isTransf} & cqlsAEP.enyo.app.$.checkHistCurve.getValue();
+		# 		#{@hist[1]}.curveShape.visible=#{isTransf} & cqlsAEP.enyo.app.$.checkHistCurve.getValue();
 		# 		#{@hist[0]}.summaryShapes[0].visible=false;
 		# 		#{@hist[1]}.summaryShapes[0].visible=false;
-		# 		#{@checkTCL}.shape.visible=#{isSample} & cqls.enyo.app.$.checkTCL.getValue();
+		# 		#{@checkTCL}.shape.visible=#{isSample} & cqlsAEP.enyo.app.$.checkTCL.getValue();
 		# 	}
 		# 	showExpAxis
 		# 	showSummary
@@ -1663,8 +1663,8 @@ module Cqls
 
 		# def showExpAxis
 		# 	isTransf = transfMode != :none
-		# 	%x{#{@exp[0]}.expAxisShape.visible= !cqls.enyo.app.$.checkExp0Curve.getValue()}
-		# 	%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
+		# 	%x{#{@exp[0]}.expAxisShape.visible= !cqlsAEP.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[1]}.expAxisShape.visible= false} #!cqlsAEP.enyo.app.$.checkExp0Curve.getValue() & #{isTransf}}
 
 		# end
 
@@ -1672,18 +1672,18 @@ module Cqls
 			## AEP only since the others do not change
 			@hist[cur].drawMean
 			@hist[cur].drawSD
-			state=%x{cqls.f.getValue("checkSummary")}
+			state=%x{cqlsAEP.f.getValue("checkSummary")}
 			# %x{#{@hist[cur]}.summaryShapes[0].visible=#{state}}
 			# %x{#{@hist[cur]}.summaryShapes[1].visible=#{state}}
 		end
 
 		# def showSummary
-		# 	state=%x{cqls.enyo.app.$.checkSummary.getValue()}
+		# 	state=%x{cqlsAEP.enyo.app.$.checkSummary.getValue()}
 		# 	isTransf = transfMode != :none
-		# 	%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqls.enyo.app.$.checkExp0Curve.getValue()}
-		# 	%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqls.enyo.app.$.checkExp1Curve.getValue()}
-		# 	%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp0Curve.getValue()}
-		# 	%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqls.enyo.app.$.checkExp1Curve.getValue()}
+		# 	%x{#{@exp[0]}.summaryShapes[0].visible=#{state} & cqlsAEP.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[0]}.summaryShapes[1].visible=#{state} & cqlsAEP.enyo.app.$.checkExp1Curve.getValue()}
+		# 	%x{#{@exp[1]}.summaryShapes[0].visible=#{state && isTransf} & cqlsAEP.enyo.app.$.checkExp0Curve.getValue()}
+		# 	%x{#{@exp[1]}.summaryShapes[1].visible=#{state && isTransf} & cqlsAEP.enyo.app.$.checkExp1Curve.getValue()}
 		# 	%x{#{@histCur}.summaryShapes[0].visible=#{state}}
 		# 	%x{#{@histCur}.summaryShapes[1].visible=#{state}}
 		# end
@@ -1704,35 +1704,35 @@ module Cqls
 			isTransf = transfMode != :none
 			isSample = transfMode == :sample
 			%x{
-				#{@exp[0]}.shape.visible=cqls.f.getValue("checkExp0Curve");
-				#{@exp[1]}.shape.visible=#{isTransf} & cqls.f.getValue("checkExp1Curve");
+				#{@exp[0]}.shape.visible=cqlsAEP.f.getValue("checkExp0Curve");
+				#{@exp[1]}.shape.visible=#{isTransf} & cqlsAEP.f.getValue("checkExp1Curve");
 				#{@hist[0]}.shape.visible=#{!isTransf};
 				#{@hist[1]}.shape.visible=#{isTransf};
-				#{@hist[0]}.curveShape.visible=#{!isTransf} & cqls.f.getValue("checkHistCurve");
-				#{@hist[1]}.curveShape.visible=#{isTransf} & cqls.f.getValue("checkHistCurve");
+				#{@hist[0]}.curveShape.visible=#{!isTransf} & cqlsAEP.f.getValue("checkHistCurve");
+				#{@hist[1]}.curveShape.visible=#{isTransf} & cqlsAEP.f.getValue("checkHistCurve");
 				#{@hist[0]}.summaryShapes[0].visible=false;
 				#{@hist[1]}.summaryShapes[0].visible=false;
 				#{@hist[0]}.summaryShapes[1].visible=false;
 				#{@hist[1]}.summaryShapes[1].visible=false;
-				#{@checkTCL}.shape.visible=#{isSample} & cqls.f.getValue("checkTCL");
+				#{@checkTCL}.shape.visible=#{isSample} & cqlsAEP.f.getValue("checkTCL");
 			}
 
 			## Axis
-			%x{#{@exp[0]}.expAxisShape.visible= !cqls.f.getValue("checkExp0Curve")}
-			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqls.f.getValue("checkExp0Curve") & #{isTransf}}
+			%x{#{@exp[0]}.expAxisShape.visible= !cqlsAEP.f.getValue("checkExp0Curve")}
+			%x{#{@exp[1]}.expAxisShape.visible= false} #!cqlsAEP.f.getValue("checkExp0Curve") & #{isTransf}}
 
 			## Summary
-			state=%x{cqls.f.getValue("checkSummary")}
-			%x{#{@exp[0]}.summaryShapes[0].visible=cqls.f.getValue("checkExp0Mean")}
-			%x{#{@exp[0]}.summaryShapes[1].visible=cqls.f.getValue("checkExp0SD")}
-			%x{#{@exp[1]}.summaryShapes[0].visible=#{isTransf} & cqls.f.getValue("checkExp1Mean")}
-			%x{#{@exp[1]}.summaryShapes[1].visible=#{isTransf} & cqls.f.getValue("checkExp1SD")}
-			%x{#{@histCur}.summaryShapes[0].visible=cqls.f.getValue("checkHistMean")}
-			%x{#{@histCur}.summaryShapes[1].visible=cqls.f.getValue("checkHistSD")}
+			state=%x{cqlsAEP.f.getValue("checkSummary")}
+			%x{#{@exp[0]}.summaryShapes[0].visible=cqlsAEP.f.getValue("checkExp0Mean")}
+			%x{#{@exp[0]}.summaryShapes[1].visible=cqlsAEP.f.getValue("checkExp0SD")}
+			%x{#{@exp[1]}.summaryShapes[0].visible=#{isTransf} & cqlsAEP.f.getValue("checkExp1Mean")}
+			%x{#{@exp[1]}.summaryShapes[1].visible=#{isTransf} & cqlsAEP.f.getValue("checkExp1SD")}
+			%x{#{@histCur}.summaryShapes[0].visible=cqlsAEP.f.getValue("checkHistMean")}
+			%x{#{@histCur}.summaryShapes[1].visible=cqlsAEP.f.getValue("checkHistSD")}
 			## TCL
-			updateTCL(%x{cqls.f.getValue("checkTCL")})
+			updateTCL(%x{cqlsAEP.f.getValue("checkTCL")})
 			# update stage since possible change of visibility
-			%x{cqls.m.stage.update()}
+			%x{cqlsAEP.m.stage.update()}
 		end
 
 
@@ -1752,7 +1752,7 @@ module Cqls
 			if @transf and (@transf[:dist]!=:exact or @statMode==:ic)
 				x=[]
 				q,mu=@n01.quantile(1-@alpha/2),@exp[0].distrib.mean if @statMode==:ic
-				(0...(10 ** %x{cqls.i.count})).each do |i|
+				(0...(10 ** %x{cqlsAEP.i.count})).each do |i|
 					xx=@exp[0].sample(@n)
 					x[i]=applyTransfByValue(xx)
 					if @statMode==:ic
@@ -1765,11 +1765,11 @@ module Cqls
 				# p [:bounds2,@exp[cur].bounds]
 				@hist[cur].add(x)
 			else
-				@hist[cur].add(@exp[cur].sample(10 ** %x{cqls.i.count}))
+				@hist[cur].add(@exp[cur].sample(10 ** %x{cqlsAEP.i.count}))
 			end
 			@hist[cur].draw
 			drawSummary(cur)
-			%x{cqls.m.stage.update()}
+			%x{cqlsAEP.m.stage.update()}
 			playNextAfter(duration)
 		end
 
@@ -1860,7 +1860,7 @@ module Cqls
 
 		def isModeHidden?
 			animMode
-			@modeHidden=%x{!cqls.i.prior}
+			@modeHidden=%x{!cqlsAEP.i.prior}
 			@modeHidden=false if @statMode==:ic
 			#p [:modeHidden,@modeHidden]
 			return @modeHidden
@@ -1889,9 +1889,9 @@ module Cqls
 
 		def playNextAfter(duration)
 			%x{
-				createjs.Tween.get(cqls.m.stage,{override:true}).wait(#{duration}).call(
+				createjs.Tween.get(cqlsAEP.m.stage,{override:true}).wait(#{duration}).call(
 					function(tween) {
-						if(cqls.i.loop) cqls.f.updateDemo();
+						if(cqlsAEP.i.loop) cqlsAEP.f.updateDemo();
 					}
 				);
 			}
@@ -1952,22 +1952,22 @@ module Cqls
 					normal: {
 						type: :cont,
 						dist: ["NormalDistribution"], 
-						qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+						qbounds: [%x{cqlsAEP.m.qmin},%x{cqlsAEP.m.qmax}]
 					},
 					t: {
 						type: :cont,
 						dist:["StudentDistribution"], 
-						qbounds: [%x{cqls.m.qmin},%x{cqls.m.qmax}]
+						qbounds: [%x{cqlsAEP.m.qmin},%x{cqlsAEP.m.qmax}]
 					},
 					chi2: {
 						type: :cont,
 						dist: ["ChiSquareDistribution"], 
-						qbounds: [0,%x{cqls.m.qmax}]
+						qbounds: [0,%x{cqlsAEP.m.qmax}]
 					},
 					exp: {
 						type: :cont,
 						dist: ["ExponentialDistribution"], 
-						qbounds: [0,%x{cqls.m.qmax}]
+						qbounds: [0,%x{cqlsAEP.m.qmax}]
 					},
 					cauchy: {
 						type: :cont,
@@ -2181,7 +2181,7 @@ module Cqls
 			#p ["prep0",@b1,@b2]
 			@b1.each_with_index {|v1,i1|
 				@b2.each_with_index{|v2,i2|
-					v=Cqls.quantize(v1+v2)
+					v=CqlsAEP.quantize(v1+v2)
 					#p ["prep",v1+v2,v]
 					if ind.keys.include? v
 						ind[v] << [i1,i2]
@@ -2206,15 +2206,15 @@ module Cqls
 
 	PREC4DISC=0
 
-	def Cqls.quantize(x,prec=PREC4DISC)
+	def CqlsAEP.quantize(x,prec=PREC4DISC)
 		%x{parseFloat(#{x}.toFixed(#{prec}))} 
 	end
 
-	def Cqls.equal(a,b)
+	def CqlsAEP.equal(a,b)
 		%x{a.toFixed(#{PREC4DISC})===b.toFixed(#{PREC4DISC})}
 	end
 
-	def Cqls.range(low, high, step) # from http://phpjs.org/functions/range/
+	def CqlsAEP.range(low, high, step) # from http://phpjs.org/functions/range/
 		%x{
 			// From: http://phpjs.org/functions
 			// +   original by: Waldo Malqui Silva
@@ -2260,7 +2260,7 @@ module Cqls
 		}
 	end
 
-	def Cqls.seq(min, max, length) #from jStat
+	def CqlsAEP.seq(min, max, length) #from jStat
 		%x{
 			var arr = [],
 			hival = Math.pow(10, 17 - ~~(Math.log(((max > 0) ? max : -max)) * Math.LOG10E)),

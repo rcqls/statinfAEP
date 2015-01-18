@@ -1,10 +1,5 @@
-[#<]{#def]lang[#,]fr[][#,]en[][#??]fr[#>]#{fr}[#??]en[#>]#{en}[#}
-
-Copy and paste: {#lang][#fr][#en][#} 
-
-{#def]aide[#,]name[][#>]<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqls.f.aide('#{name}{#lang][#en]_en[#}')"></a>[#}
-
-[#??]local[#=]cqlsPath[lib/cqls][#=]jqueryEasyPath[jquery-easy]
+[#require]tools_html
+[#main][#??]local[#=]cqlsPath[lib/cqls][#=]jqueryEasyPath[jquery-easy]
 [#??]web[#=]cqlsPath[/tools/StatInfJS/probaAEP][#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
@@ -71,20 +66,20 @@ Copy and paste: {#lang][#fr][#en][#}
 							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
-							cqls.i.loop=false;
+							cqlsAEP.i.loop=false;
 							$('#tabs').tabs('select', '#{stage}');
 							var distrib=$('#loi-va-distrib').combobox('getValue');
 							console.log('va: dist='+distrib);
 
-							cqls.f.initSim();
-							cqls.f.autoSim('va');
-							cqls.f.setDistrib(distrib);
-							cqls.f.setTransf('none');
-							cqls.f.setSimMode(true,false);
-							cqls.f.setValue('checkExp0Curve',false);
-							cqls.f.setValue('checkExp1Curve',false);
-							cqls.f.updateStage();
-							cqls.f.updateDemo();
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf('none');
+							cqlsAEP.f.setSimMode(true,false);
+							cqlsAEP.f.setValue('checkExp0Curve',false);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a>{#aide]va_dist[#}</td></tr>
 						</table>
     				</div>
@@ -113,20 +108,20 @@ Copy and paste: {#lang][#fr][#en][#}
 							<option value="square">{#lang][#fr]Carré[#en]Square[#}</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
-							cqls.i.loop=false;
+							cqlsAEP.i.loop=false;
 							$('#tabs').tabs('select', '#{stage}');
 							var distrib=$('#loi-clone-distrib').combobox('getValue');
 							var transf=$('#loi-clone-transf').combobox('getValue');
 							console.log('dist='+distrib+', transf='+transf);
-							cqls.f.initSim();
-							cqls.f.autoSim('va');
-							cqls.f.setDistrib(distrib);
-							cqls.f.setTransf(transf);
-							cqls.f.setSimMode(true,true);
-							cqls.f.setValue('checkExp0Curve',true);
-							cqls.f.setValue('checkExp1Curve',false);
-							cqls.f.updateStage();
-							cqls.f.updateDemo();
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf(transf);
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]clone_dist[#}</td></tr>
 						</table>
     				</div>
@@ -171,22 +166,22 @@ Copy and paste: {#lang][#fr][#en][#}
 							<option value="1024">1024</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
-							cqls.i.loop=false;
+							cqlsAEP.i.loop=false;
 							$('#tabs').tabs('select', '#{stage}');
 							var distrib=$('#loi-ech-distrib').combobox('getValue');
 							var transf=$('#loi-ech-transf').combobox('getValue');
 							var n=$('#loi-ech-n').combobox('getValue');
 							console.log('loi-ech: dist='+distrib+', transf='+transf+', n='+parseInt(n));
-							cqls.f.initSim();
-							cqls.f.autoSim('va');
-							cqls.f.setDistrib(distrib);
-							cqls.f.setTransf(transf);
-							cqls.f.setN(parseInt(n));
-							cqls.f.setSimMode(true,true);
-							cqls.f.setValue('checkExp0Curve',true);
-							cqls.f.setValue('checkExp1Curve',false);
-							cqls.f.updateStage();
-							cqls.f.updateDemo();
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf(transf);
+							cqlsAEP.f.setN(parseInt(n));
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ech_dist[#}</td></tr>
 						<!--tr><th colspan="3">n</th></tr>
 						<tr><td colspan="3">
@@ -203,9 +198,9 @@ Copy and paste: {#lang][#fr][#en][#}
             					return value;
         					},
             				onComplete: function(value){
-								cqls.f.setN(parseInt(value));
+								cqlsAEP.f.setN(parseInt(value));
 								alert(parseInt(value));
-								cqls.f.updateStage();
+								cqlsAEP.f.updateStage();
         					}" fit="true"></td></tr-->
 						</table>      
     				</div>
@@ -249,22 +244,22 @@ Copy and paste: {#lang][#fr][#en][#}
 							<option value="1024">1024</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
-							cqls.i.loop=false;
+							cqlsAEP.i.loop=false;
 							$('#tabs').tabs('select', '#{stage}');
 							var distrib=$('#ic-distrib').combobox('getValue');
 							var param=$('#ic-param').combobox('getValue');
 							var n=$('#ic-n').combobox('getValue');
 							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
-							cqls.f.initSim();
-							cqls.f.autoSim('va');
-							cqls.f.setDistrib(distrib);
-							cqls.f.setTransf('meanIC');
-							cqls.f.setN(parseInt(n));
-							cqls.f.setSimMode(true,true);
-							cqls.f.setValue('checkExp0Curve',true);
-							cqls.f.setValue('checkExp1Curve',false);
-							cqls.f.updateStage();
-							cqls.f.updateDemo();
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf('meanIC');
+							cqlsAEP.f.setN(parseInt(n));
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
 						</table> 
     				</div>
@@ -276,8 +271,8 @@ Copy and paste: {#lang][#fr][#en][#}
 		</div>
 		<script>
 
-			cqls.mode="static";
-			cqls.f.initSim();
+			cqlsAEP.mode="static";
+			cqlsAEP.f.initSim();
 			
 			
 			//init experiment

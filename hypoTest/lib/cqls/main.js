@@ -1,5 +1,5 @@
 	// m: main, s: sim, h: hist, i: interface, f: functions
-	var cqls={
+	var cqlsHypo={
 				m: {
 					xylimMore:0.01,
 					xmin:-5.0,xmax:5.0,ymax:0.5,qmin:0.0001,qmax:0.9999,
@@ -28,62 +28,62 @@
 
     //////////////////////////////////////////////
     // Functions
-	cqls.f.resizeCanvas=function() { 
+	cqlsHypo.f.resizeCanvas=function() { 
 		// browser viewport size
 		var w = window.innerWidth;
-		var h = window.innerHeight-cqls.enyo.top-cqls.enyo.bottom;
+		var h = window.innerHeight-cqlsHypo.enyo.top-cqlsHypo.enyo.bottom;
 
 
-		if (cqls.i.keepAspectRatio) {
+		if (cqlsHypo.i.keepAspectRatio) {
 		    // keep aspect ratio
-		    var scale = Math.min(w / cqls.m.ow, h / cqls.m.oh);
-		    cqls.m.stage.scaleX = scale;
-		    cqls.m.stage.scaleY = scale;
+		    var scale = Math.min(w / cqlsHypo.m.ow, h / cqlsHypo.m.oh);
+		    cqlsHypo.m.stage.scaleX = scale;
+		    cqlsHypo.m.stage.scaleY = scale;
 
 		   // adjust canvas size
-		   	cqls.m.stage.canvas.width = cqls.m.ow * scale;
-		  	cqls.m.stage.canvas.height = cqls.m.oh * scale;
+		   	cqlsHypo.m.stage.canvas.width = cqlsHypo.m.ow * scale;
+		  	cqlsHypo.m.stage.canvas.height = cqlsHypo.m.oh * scale;
 		} else {
 		    // scale to exact fit
-		    cqls.m.stage.scaleX = w / cqls.m.ow;
-		    cqls.m.stage.scaleY = h / cqls.m.oh;
+		    cqlsHypo.m.stage.scaleX = w / cqlsHypo.m.ow;
+		    cqlsHypo.m.stage.scaleY = h / cqlsHypo.m.oh;
 
 		    // adjust canvas size
-		    cqls.m.stage.canvas.width = cqls.m.ow * cqls.m.stage.scaleX;
-		    cqls.m.stage.canvas.height = cqls.m.oh * cqls.m.stage.scaleY;
+		    cqlsHypo.m.stage.canvas.width = cqlsHypo.m.ow * cqlsHypo.m.stage.scaleX;
+		    cqlsHypo.m.stage.canvas.height = cqlsHypo.m.oh * cqlsHypo.m.stage.scaleY;
 		}
 
-		//console.log(cqls.m.stage.canvas.width+","+cqls.m.stage.canvas.height);
-	    cqls.m.stage.update();
+		//console.log(cqlsHypo.m.stage.canvas.width+","+cqlsHypo.m.stage.canvas.height);
+	    cqlsHypo.m.stage.update();
 	}
 
-	cqls.f.onTap=function(x,y) {
-		if(cqls.m.play.graphExp.$zoomActive()) {
-			if(cqls.m.play.graphExp.$hitZoom(x,y)!="none") {
-				cqls.m.play.$reset();
-				cqls.m.stage.update();
+	cqlsHypo.f.onTap=function(x,y) {
+		if(cqlsHypo.m.play.graphExp.$zoomActive()) {
+			if(cqlsHypo.m.play.graphExp.$hitZoom(x,y)!="none") {
+				cqlsHypo.m.play.$reset();
+				cqlsHypo.m.stage.update();
 			}
 			return
 		}
-		if(y < cqls.h.plot.dim["$[]"]("y")) {
+		if(y < cqlsHypo.h.plot.dim["$[]"]("y")) {
 			 
-			if(cqls.i.anim) {
-	    		cqls.m.play.$setMLevel(x > cqls.s.plot.dim["$[]"]("w")/2 ? 1 : -1);
+			if(cqlsHypo.i.anim) {
+	    		cqlsHypo.m.play.$setMLevel(x > cqlsHypo.s.plot.dim["$[]"]("w")/2 ? 1 : -1);
 	    	} else { 
-		    	if(x > cqls.s.plot.dim["$[]"]("w")/2) cqls.i.count+=1; else cqls.i.count -=1;
-		    	if(cqls.i.count<0) cqls.i.count=0;
-		    	if(cqls.i.count>4) cqls.i.count=4;
+		    	if(x > cqlsHypo.s.plot.dim["$[]"]("w")/2) cqlsHypo.i.count+=1; else cqlsHypo.i.count -=1;
+		    	if(cqlsHypo.i.count<0) cqlsHypo.i.count=0;
+		    	if(cqlsHypo.i.count>4) cqlsHypo.i.count=4;
 	    	}
 		} else {
 			 
-	   		if(x > cqls.s.plot.dim["$[]"]("w")/2) cqls.m.play.histCur.$level(1); else cqls.m.play.histCur.$level(-1);
-	   		//if(cqls.i.allowLevelChange) { 
-		    	if(!cqls.i.anim) cqls.m.play.histCur.$draw();
+	   		if(x > cqlsHypo.s.plot.dim["$[]"]("w")/2) cqlsHypo.m.play.histCur.$level(1); else cqlsHypo.m.play.histCur.$level(-1);
+	   		//if(cqlsHypo.i.allowLevelChange) { 
+		    	if(!cqlsHypo.i.anim) cqlsHypo.m.play.histCur.$draw();
 		    	else {
-		    		if(cqls.i.paused) cqls.m.play.$drawHist();
+		    		if(cqlsHypo.i.paused) cqlsHypo.m.play.$drawHist();
 		    	}
 		    //}
-		    cqls.m.stage.update();
+		    cqlsHypo.m.stage.update();
 	    }
 	    
 	}
@@ -92,151 +92,151 @@
 	// Main function to call
 	function aep() {
 
-		// console.log(Opal.Cqls.$range(0,1,.1));
-		// console.log(Opal.Cqls.$seq(0,1,11));
+		// console.log(Opal.CqlsHypo.$range(0,1,.1));
+		// console.log(Opal.CqlsHypo.$seq(0,1,11));
 		// console.log(jStat.seq(0,1,11));
 
-		//cqls.d=Opal.Cqls.Timing["$[]"](10,20,14);
-		// cqls.d=Opal.Cqls.Timing.$new([10,20,12]);
-		// console.log(cqls.d.t);
-		// console.log(cqls.d.d);
-		// console.log(cqls.d.$start());
-		// console.log(cqls.d.$stop());
+		//cqlsHypo.d=Opal.CqlsHypo.Timing["$[]"](10,20,14);
+		// cqlsHypo.d=Opal.CqlsHypo.Timing.$new([10,20,12]);
+		// console.log(cqlsHypo.d.t);
+		// console.log(cqlsHypo.d.d);
+		// console.log(cqlsHypo.d.$start());
+		// console.log(cqlsHypo.d.$stop());
 
 		////// test on Distribution
-		// cqls.m.exp=Opal.Cqls.Distribution.$new();
-		// cqls.m.exp.$set("binomial",[2,.5]);
-		// console.log(cqls.m.exp.$pdf([-1,1,1.15]));
-		// cqls.m.dist=Opal.Cqls.Convolution.$power(cqls.m.exp,3);
+		// cqlsHypo.m.exp=Opal.CqlsHypo.Distribution.$new();
+		// cqlsHypo.m.exp.$set("binomial",[2,.5]);
+		// console.log(cqlsHypo.m.exp.$pdf([-1,1,1.15]));
+		// cqlsHypo.m.dist=Opal.CqlsHypo.Convolution.$power(cqlsHypo.m.exp,3);
 		
-		//cqls.m.dist=new BinomialDistribution(5,.15);
-		cqls.m.dist=new LocationScaleDistribution(new BernoulliDistribution(.15),-.15/Math.sqrt(.15*.85),1/Math.sqrt(.15*.85));
-		console.log(cqls.m.dist.minValue());
-		console.log(cqls.m.dist.maxValue());
-		console.log(cqls.m.dist.type()==CONT);
-		console.log(cqls.m.dist.step());
-		console.log(cqls.m.dist.values());
-		cqls.m.dist2 = new PowerDistribution(cqls.m.dist,2);
-		console.log(cqls.m.dist2.minValue());
-		console.log(cqls.m.dist2.maxValue());
-		console.log(cqls.m.dist2.type()==CONT);
-		console.log(cqls.m.dist2.step());
-		console.log(cqls.m.dist2.values());
+		//cqlsHypo.m.dist=new BinomialDistribution(5,.15);
+		cqlsHypo.m.dist=new LocationScaleDistribution(new BernoulliDistribution(.15),-.15/Math.sqrt(.15*.85),1/Math.sqrt(.15*.85));
+		console.log(cqlsHypo.m.dist.minValue());
+		console.log(cqlsHypo.m.dist.maxValue());
+		console.log(cqlsHypo.m.dist.type()==CONT);
+		console.log(cqlsHypo.m.dist.step());
+		console.log(cqlsHypo.m.dist.values());
+		cqlsHypo.m.dist2 = new PowerDistribution(cqlsHypo.m.dist,2);
+		console.log(cqlsHypo.m.dist2.minValue());
+		console.log(cqlsHypo.m.dist2.maxValue());
+		console.log(cqlsHypo.m.dist2.type()==CONT);
+		console.log(cqlsHypo.m.dist2.step());
+		console.log(cqlsHypo.m.dist2.values());
 
-		cqls.m.dist3=Opal.Cqls.Convolution.$power(cqls.m.dist2,4);
-		console.log(cqls.m.dist3.values());
-		console.log(cqls.m.dist3.values().map(cqls.m.dist3.density));
-		console.log(cqls.m.dist3.values().map(cqls.m.dist3.density).reduce(function(a, b) {
+		cqlsHypo.m.dist3=Opal.CqlsHypo.Convolution.$power(cqlsHypo.m.dist2,4);
+		console.log(cqlsHypo.m.dist3.values());
+		console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density));
+		console.log(cqlsHypo.m.dist3.values().map(cqlsHypo.m.dist3.density).reduce(function(a, b) {
 		    return a + b;
 		}));
 				// d2=Distribution.new
 				// d2.setAsTransfOf(d,{name: :square, args: []})
 
-		// cqls.m.exp2=Opal.Cqls.Distribution.$new();
-		// cqls.m.exp2.$setAsTransfOf(cqls.m.exp,Opal.hash2(["name","args"],{name: "square",args: [2]}));
-		// cqls.m.dist=new LocationScaleDistribution(new Convolution(new UniformDistribution(0,1),2),0,.5);
-		// console.log(cqls.m.dist.minValue());
-		// console.log(cqls.m.dist.maxValue());
-		// console.log(cqls.m.dist.type()==CONT);
-		// console.log(cqls.m.dist.step());
+		// cqlsHypo.m.exp2=Opal.CqlsHypo.Distribution.$new();
+		// cqlsHypo.m.exp2.$setAsTransfOf(cqlsHypo.m.exp,Opal.hash2(["name","args"],{name: "square",args: [2]}));
+		// cqlsHypo.m.dist=new LocationScaleDistribution(new Convolution(new UniformDistribution(0,1),2),0,.5);
+		// console.log(cqlsHypo.m.dist.minValue());
+		// console.log(cqlsHypo.m.dist.maxValue());
+		// console.log(cqlsHypo.m.dist.type()==CONT);
+		// console.log(cqlsHypo.m.dist.step());
 
-		// console.log(cqls.m.dist.density(0));
-		// console.log(cqls.m.dist.density(.5));
-		// console.log(cqls.m.dist.density(1));
-		// console.log(cqls.m.dist.density(2));
-		// console.log(cqls.m.dist.density(3));
-		// console.log(cqls.m.dist.density(4));
-		// console.log(cqls.m.dist.density(5));
-		// console.log(cqls.m.dist.density(6));
-		// console.log(cqls.m.dist.density(7));
-		// console.log(cqls.m.dist.density(8));
-		// console.log(cqls.m.dist.density(9));
+		// console.log(cqlsHypo.m.dist.density(0));
+		// console.log(cqlsHypo.m.dist.density(.5));
+		// console.log(cqlsHypo.m.dist.density(1));
+		// console.log(cqlsHypo.m.dist.density(2));
+		// console.log(cqlsHypo.m.dist.density(3));
+		// console.log(cqlsHypo.m.dist.density(4));
+		// console.log(cqlsHypo.m.dist.density(5));
+		// console.log(cqlsHypo.m.dist.density(6));
+		// console.log(cqlsHypo.m.dist.density(7));
+		// console.log(cqlsHypo.m.dist.density(8));
+		// console.log(cqlsHypo.m.dist.density(9));
 
-		// cqls.m.exp2.$set("binomial",[8,.5]);
-		// console.log(cqls.m.exp2.$pdf([0,1,2,3,4]));
-		// console.log(cqls.m.exp2.$quantile(0));
-		// console.log(cqls.m.exp2.$quantile(1));
-		// console.log(cqls.m.exp2.$minValue());
-		// console.log(cqls.m.exp2.$maxValue());
-		// console.log(cqls.m.exp2.$pdf([0,1,2,3,4]));
-		// console.log(cqls.m.exp2.distrib.step());
+		// cqlsHypo.m.exp2.$set("binomial",[8,.5]);
+		// console.log(cqlsHypo.m.exp2.$pdf([0,1,2,3,4]));
+		// console.log(cqlsHypo.m.exp2.$quantile(0));
+		// console.log(cqlsHypo.m.exp2.$quantile(1));
+		// console.log(cqlsHypo.m.exp2.$minValue());
+		// console.log(cqlsHypo.m.exp2.$maxValue());
+		// console.log(cqlsHypo.m.exp2.$pdf([0,1,2,3,4]));
+		// console.log(cqlsHypo.m.exp2.distrib.step());
 
-		// cqls.m.exp.$set("binomial",[1,0.5]);
-		// cqls.m.exp3=Opal.Cqls.Distribution.$new();
-		// cqls.m.exp3.$set("binomial",[10,0.5]);
-		// cqls.m.exp2=Opal.Cqls.Distribution.$new();
-		// cqls.m.exp2.$setAsTransfOf(cqls.m.exp,Opal.hash2(["name","args"],{name: "mean",args: [10]}));
-		// console.log(cqls.m.exp2.distrib.dist().density(1));
-		// console.log(cqls.m.exp2.distrib.step());
-		// console.log(cqls.m.exp2.mode);
-		// console.log(cqls.m.exp2.$pdf([0,1/10,2/10]));
+		// cqlsHypo.m.exp.$set("binomial",[1,0.5]);
+		// cqlsHypo.m.exp3=Opal.CqlsHypo.Distribution.$new();
+		// cqlsHypo.m.exp3.$set("binomial",[10,0.5]);
+		// cqlsHypo.m.exp2=Opal.CqlsHypo.Distribution.$new();
+		// cqlsHypo.m.exp2.$setAsTransfOf(cqlsHypo.m.exp,Opal.hash2(["name","args"],{name: "mean",args: [10]}));
+		// console.log(cqlsHypo.m.exp2.distrib.dist().density(1));
+		// console.log(cqlsHypo.m.exp2.distrib.step());
+		// console.log(cqlsHypo.m.exp2.mode);
+		// console.log(cqlsHypo.m.exp2.$pdf([0,1/10,2/10]));
 
-		// console.log(cqls.m.exp3.$pdf([0,1,2]));
-		// console.log(cqls.m.exp2.$mean());
-		// console.log(cqls.m.exp3.$mean());
-		// console.log(cqls.m.exp2.$bounds());
-		// console.log(cqls.m.exp3.$bounds());
-		// console.log(cqls.m.exp.$variance());
-		// console.log(cqls.m.exp2.$quantile(0.95));
-		// console.log(cqls.m.exp3.$quantile(0.95));
+		// console.log(cqlsHypo.m.exp3.$pdf([0,1,2]));
+		// console.log(cqlsHypo.m.exp2.$mean());
+		// console.log(cqlsHypo.m.exp3.$mean());
+		// console.log(cqlsHypo.m.exp2.$bounds());
+		// console.log(cqlsHypo.m.exp3.$bounds());
+		// console.log(cqlsHypo.m.exp.$variance());
+		// console.log(cqlsHypo.m.exp2.$quantile(0.95));
+		// console.log(cqlsHypo.m.exp3.$quantile(0.95));
 
-	    cqls.m.canvas = document.getElementById("createjsCanvas");
-	    cqls.m.ow=cqls.m.canvas.width;cqls.m.oh=cqls.m.canvas.height;
+	    cqlsHypo.m.canvas = document.getElementById("createjsCanvas");
+	    cqlsHypo.m.ow=cqlsHypo.m.canvas.width;cqlsHypo.m.oh=cqlsHypo.m.canvas.height;
 	    
 		//Run function when browser resizes
-		window.onresize=function() {cqls.f.resizeCanvas();};
+		window.onresize=function() {cqlsHypo.f.resizeCanvas();};
 
-	    cqls.m.stage = new createjs.Stage(cqls.m.canvas);
-	    cqls.m.stage.enableMouseOver();
-	    //cqls.m.stage.autoClear = true;
-	    createjs.Touch.enable(cqls.m.stage);
+	    cqlsHypo.m.stage = new createjs.Stage(cqlsHypo.m.canvas);
+	    cqlsHypo.m.stage.enableMouseOver();
+	    //cqlsHypo.m.stage.autoClear = true;
+	    createjs.Touch.enable(cqlsHypo.m.stage);
 
-	    cqls.s.plot=Opal.Cqls.Plot.$new();
-	    cqls.m.stage.addChild(cqls.s.plot.parent);
+	    cqlsHypo.s.plot=Opal.CqlsHypo.Plot.$new();
+	    cqlsHypo.m.stage.addChild(cqlsHypo.s.plot.parent);
 
 
 
 	    //Listener for sim plot
-     //    cqls.s.plot.frame.addEventListener("click", function(evt) {
-	    // 	if(cqls.i.anim) {
-	    // 		if(evt.stageX > cqls.s.plot.dim["$[]"]("w")/2) cqls.i.indSim+=1; else cqls.i.indSim -=1;
-		   //  	if(cqls.i.indSim<0) cqls.i.indSim=0;
-		   //  	if(cqls.i.indSim>cqls.m.nbsSim[cqls.m.play.n.toString()].length-1) cqls.i.indSim=cqls.m.nbsSim[cqls.m.play.n.toString()].length-1;
+     //    cqlsHypo.s.plot.frame.addEventListener("click", function(evt) {
+	    // 	if(cqlsHypo.i.anim) {
+	    // 		if(evt.stageX > cqlsHypo.s.plot.dim["$[]"]("w")/2) cqlsHypo.i.indSim+=1; else cqlsHypo.i.indSim -=1;
+		   //  	if(cqlsHypo.i.indSim<0) cqlsHypo.i.indSim=0;
+		   //  	if(cqlsHypo.i.indSim>cqlsHypo.m.nbsSim[cqlsHypo.m.play.n.toString()].length-1) cqlsHypo.i.indSim=cqlsHypo.m.nbsSim[cqlsHypo.m.play.n.toString()].length-1;
 
 	    // 	} else { 
-		   //  	if(evt.stageX > cqls.s.plot.dim["$[]"]("w")/2) cqls.i.count+=1; else cqls.i.count -=1;
-		   //  	if(cqls.i.count<0) cqls.i.count=0;
-		   //  	if(cqls.i.count>4) cqls.i.count=4;
+		   //  	if(evt.stageX > cqlsHypo.s.plot.dim["$[]"]("w")/2) cqlsHypo.i.count+=1; else cqlsHypo.i.count -=1;
+		   //  	if(cqlsHypo.i.count<0) cqlsHypo.i.count=0;
+		   //  	if(cqlsHypo.i.count>4) cqlsHypo.i.count=4;
 	    // 	}
 	    // });
 
 
-	    ///cqls.h.plot.init();
-	    cqls.h.plot=Opal.Cqls.Plot.$new(Opal.hash2(["x","y","w","h"],{x:0,y:300,w:cqls.i.dim.w,h:cqls.i.dim.h}),Opal.hash2(["bg"],{bg:"#8888FF"}));
-	    cqls.m.stage.addChild(cqls.h.plot.parent);
+	    ///cqlsHypo.h.plot.init();
+	    cqlsHypo.h.plot=Opal.CqlsHypo.Plot.$new(Opal.hash2(["x","y","w","h"],{x:0,y:300,w:cqlsHypo.i.dim.w,h:cqlsHypo.i.dim.h}),Opal.hash2(["bg"],{bg:"#8888FF"}));
+	    cqlsHypo.m.stage.addChild(cqlsHypo.h.plot.parent);
 
 	    // Listener for hist plot
-	   	// cqls.h.plot.frame.addEventListener("click", function(evt) {
-	   	// 	if(evt.stageX > cqls.s.plot.dim["$[]"]("w")/2) cqls.m.play.histCur.$level(1); else cqls.m.play.histCur.$level(-1);
-	   	// 	if(cqls.i.allowLevelChange) { 
-		   //  	if(!cqls.i.anim) cqls.m.play.histCur.$draw();
+	   	// cqlsHypo.h.plot.frame.addEventListener("click", function(evt) {
+	   	// 	if(evt.stageX > cqlsHypo.s.plot.dim["$[]"]("w")/2) cqlsHypo.m.play.histCur.$level(1); else cqlsHypo.m.play.histCur.$level(-1);
+	   	// 	if(cqlsHypo.i.allowLevelChange) { 
+		   //  	if(!cqlsHypo.i.anim) cqlsHypo.m.play.histCur.$draw();
 		   //  	else {
-		   //  		if(cqls.i.paused) cqls.m.play.$drawHist();
+		   //  		if(cqlsHypo.i.paused) cqlsHypo.m.play.$drawHist();
 		   //  	}
 		   //  }
-		   //  cqls.m.stage.update();
+		   //  cqlsHypo.m.stage.update();
 	    // });
 		
-		cqls.m.tooltip = new createjs.Text("", "20px monospace", "#000")
+		cqlsHypo.m.tooltip = new createjs.Text("", "20px monospace", "#000")
 
-	   	cqls.m.play=Opal.Cqls.Play.$new();
+	   	cqlsHypo.m.play=Opal.CqlsHypo.Play.$new();
 
-		cqls.m.stage.addChild(cqls.m.tooltip);
+		cqlsHypo.m.stage.addChild(cqlsHypo.m.tooltip);
 		
 		//Initial call 
-		cqls.f.resizeCanvas();
-		cqls.enyo.app.$.sdInput.hide();cqls.enyo.app.$.sdLeft.hide();
-		//cqls.enyo.app.$.alphaMenu.hide();
-		//cqls.enyo.app.$.pauseButton.hide();
+		cqlsHypo.f.resizeCanvas();
+		cqlsHypo.enyo.app.$.sdInput.hide();cqlsHypo.enyo.app.$.sdLeft.hide();
+		//cqlsHypo.enyo.app.$.alphaMenu.hide();
+		//cqlsHypo.enyo.app.$.pauseButton.hide();
 	}
 

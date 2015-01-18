@@ -3,7 +3,7 @@ enyo.kind({
 	kind: "FittableRows",
 	fit: true,
 	components:[	 
-		{kind: "onyx.MoreToolbar", style:"height:"+cqls.win.top+"px;" ,components: [
+		{kind: "onyx.MoreToolbar", style:"height:"+cqlsAEP.win.top+"px;" ,components: [
 			{kind: "onyx.Button", content: "Add", name: "addButton", ontap: "simTap"},
 			{kind: "onyx.Button", content: "Pause", name: "pauseButton", ontap: "pauseTap"},
 			{kind: "onyx.MenuDecorator", name: "distMenu", onSelect: "distribSelected", components: [
@@ -81,10 +81,10 @@ enyo.kind({
 			{kind: "onyx.Button", content: "Zoom", name: "zoomButton",ontap: "zoomTap"}
 		]},
 		//{kind: "enyo.Scroller", id: "canvasContainer",components: [
-			{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqls.i.dim.w, height: cqls.i.dim.h*2}}
+			{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqlsAEP.i.dim.w, height: cqlsAEP.i.dim.h*2}}
 		//]}
 		,
-		{kind: "onyx.MoreToolbar",style:"height:"+cqls.win.bottom+"px;" ,components: [
+		{kind: "onyx.MoreToolbar",style:"height:"+cqlsAEP.win.bottom+"px;" ,components: [
 			{kind: "onyx.ToggleButton", name: "animMode", ontap: "toggleAnimMode",value:true},
 			{kind: "onyx.ToggleButton", name: "priorMode", ontap: "toggleAnimMode",value:false},
 			{kind: "onyx.ToggleButton", name: "demoMode", ontap: "toggleDemoMode",value:false},
@@ -110,43 +110,43 @@ enyo.kind({
 		]}
 	],
 	distribSelected: function(inSender,inEvent) {
-		cqls.m.play.$setDistrib(inEvent.selected.id);
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
+		cqlsAEP.m.play.$setDistrib(inEvent.selected.id);
+		cqlsAEP.m.play.$reset();
+		cqlsAEP.m.stage.update();
 	},
 	transfSelected: function(inSender,inEvent) {
 		var transf=inEvent.selected.id;
-		cqls.m.play.$setStatMode(transf);
+		cqlsAEP.m.play.$setStatMode(transf);
 		if(transf=="meanIC") transf="mean";
-		cqls.m.play.$setTransf(transf);
+		cqlsAEP.m.play.$setTransf(transf);
 		if(["none","locationScale","center"].indexOf(transf) > 0) this.$.nMenu.hide();
 		else this.$.nMenu.show();
-		if(cqls.m.play.statMode=="ic") this.$.alphaMenu.show();
+		if(cqlsAEP.m.play.statMode=="ic") this.$.alphaMenu.show();
 		else this.$.alphaMenu.hide();
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
+		cqlsAEP.m.play.$reset();
+		cqlsAEP.m.stage.update();
 	},
 	nSelected: function(inSender,inEvent) {
-		cqls.m.play.$setN(parseInt(inEvent.selected.id));
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
+		cqlsAEP.m.play.$setN(parseInt(inEvent.selected.id));
+		cqlsAEP.m.play.$reset();
+		cqlsAEP.m.stage.update();
 	},
 	alphaSelected: function(inSender,inEvent) {
-		cqls.m.play.$setAlpha(parseFloat(inEvent.selected.id));
-		cqls.m.play.$reset();
-		cqls.m.stage.update();
+		cqlsAEP.m.play.$setAlpha(parseFloat(inEvent.selected.id));
+		cqlsAEP.m.play.$reset();
+		cqlsAEP.m.stage.update();
 	},
 	simTap: function(inSender, inEvent) {
 		// if(inSender.hasClass("active"))  inSender.removeClass("active")
 		// else inSender.addClass("active");
-		cqls.i.loop=!cqls.i.loop;
-		inSender.addRemoveClass("active",cqls.i.loop);
-		if(cqls.i.loop) {
+		cqlsAEP.i.loop=!cqlsAEP.i.loop;
+		inSender.addRemoveClass("active",cqlsAEP.i.loop);
+		if(cqlsAEP.i.loop) {
 			this.$.pauseButton.show();
 			this.$.distMenu.hide();
 			this.$.transfMenu.hide();
 			this.$.nMenu.hide();
-			cqls.f.updateDemo();
+			cqlsAEP.f.updateDemo();
 		} else {
 			this.$.pauseButton.hide();
 			this.$.distMenu.show();
@@ -154,30 +154,30 @@ enyo.kind({
 		}
 	},
 	pauseTap: function(inSender, inEvent) {
-		cqls.i.paused=!cqls.i.paused;
-		inSender.addRemoveClass("active",cqls.i.paused);
-		createjs.Ticker.setPaused(cqls.i.paused);
-		this.$.addButton.disabled=cqls.i.paused;
-		this.$.zoomButton.disabled=cqls.i.paused;
+		cqlsAEP.i.paused=!cqlsAEP.i.paused;
+		inSender.addRemoveClass("active",cqlsAEP.i.paused);
+		createjs.Ticker.setPaused(cqlsAEP.i.paused);
+		this.$.addButton.disabled=cqlsAEP.i.paused;
+		this.$.zoomButton.disabled=cqlsAEP.i.paused;
 	},
 	zoomTap: function(inSender, inEvent) {
-		cqls.m.play.graphExp.$toggleZoomTo(cqls.m.play.plotExp);
-		cqls.m.stage.update();
+		cqlsAEP.m.play.graphExp.$toggleZoomTo(cqlsAEP.m.play.plotExp);
+		cqlsAEP.m.stage.update();
 	},
 	toggleAnimMode: function(inSender, inEvent) {
-		cqls.m.play.$animMode();
-		cqls.m.stage.update();
+		cqlsAEP.m.play.$animMode();
+		cqlsAEP.m.stage.update();
 	},
 	toggleDemoMode: function(inSender, inEvent) {
-		cqls.i.scaleTime=(inSender.getValue() ? 2.0 : 1.0);
-		cqls.m.stage.update();
+		cqlsAEP.i.scaleTime=(inSender.getValue() ? 2.0 : 1.0);
+		cqlsAEP.m.stage.update();
 	},
 	toggleVisible: function(inSender, inEvent) {
-		cqls.m.play.$updateVisible();
+		cqlsAEP.m.play.$updateVisible();
 	},
 	onTapCanvas: function(inSender, inEvent) {
 		var p = enyo.getPosition();
-		cqls.f.onTap(p["clientX"]/cqls.m.stage.scaleX,(p["clientY"]-cqls.win.top)/cqls.m.stage.scaleY);
+		cqlsAEP.f.onTap(p["clientX"]/cqlsAEP.m.stage.scaleX,(p["clientY"]-cqlsAEP.win.top)/cqlsAEP.m.stage.scaleY);
 	}
 
 	//,
