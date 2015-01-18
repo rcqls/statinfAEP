@@ -94,7 +94,7 @@
 	cqlsHypo.f.getValue=function(key) {
 		if(cqlsHypo.mode=="enyo") {
 			if (key=="param" || key == "side") {
-				console.log("key:" + key + "," + cqlsHypo.enyo.app.$[key+"MenuName"].getContent());
+				//console.log("key:" + key + "," + cqlsHypo.enyo.app.$[key+"MenuName"].getContent());
 				return cqlsHypo.enyo.app.$[key+"MenuName"].getContent();
 			} else {
 				return cqlsHypo.enyo.app.$[key].getValue();

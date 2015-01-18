@@ -1430,7 +1430,6 @@ if (side == null) side = nil;if (i == null) i = nil;
         self.context['$[]=']("n", parseInt(cqlsHypo.f.getValue('nValue')));
         self.context['$[]=']("alpha", self.alpha);
         self.context['$[]=']("sigma", 1);
-        console.log('param:' + self.context['$[]']("param"));
         $case = self.context['$[]']("param");if ("p"['$===']($case)) {self.paramEst['$[]'](0)['$paramsFrame=']([self.context['$[]']("n"), self.context['$[]']("ref")]);
         self.paramEst['$[]'](1)['$paramsFrame=']([self.context['$[]']("n"), self.context['$[]']("ref").$to_f()['$*'](((function() {if (self.context['$[]']("side")['$==']("<")) {
           return 0.5
