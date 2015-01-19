@@ -1,10 +1,14 @@
 [#require]tools_html
-[#main][#??]local[#=]cqlsPath[lib/cqls][#=]jqueryEasyPath[jquery-easy]
-[#??]web[#=]cqlsPath[/tools/StatInfJS/probaAEP][#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
+[#main][#??]local[#=]probaPath[lib/proba/cqls]
+[#=]hypotestPath[lib/hypotest/cqls]
+[#=]jqueryEasyPath[jquery-easy]
+[#??]web[#=]cqlsProbaPath[/tools/StatInfJS/probaAEP]
+[#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
 [#=]theme[black]
-[#=]stage[Simulation {#lang][#fr]Scène[#en]Stage[#}]
+[#=]probaStage[{#lang][#fr]Scène Simulation[#en]Simulation Stage[#}]
+[#=]hypoStage[{#lang][#fr]Scène Hypothèses de Test[#en]Hypothesis Testing Stage[#}]
 [#class]<!DOCTYPE html>
 <html>
 [#header]
@@ -16,21 +20,26 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-[#??]createjs[#>]
+[#??]createjs[#%]TO UPDATE!!!![#>]
 		<script src="../../lib/easeljs-NEXT.min.js"></script>
 		<script src="../../lib/tweenjs-NEXT.min.js"></script>
 [#??]createjs-cdn[#>]
 		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
-[#??]all[#>]
-		<script src="#{cqlsPath}/distributions.js"></script>
+[#??]all[#%]TO MERGE[#>]
+		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
+
+		<script src="#{probaPath}/distributions.js"></script>
+		<!--script src="#{hypotestPath}/distributions.js"></script-->
 		
 [#??]opal[#>]
-		<script src="#{cqlsPath}/opal.min.js"></script>
+		<script src="#{probaPath}/opal.min.js"></script>
 [#??]opal-cdn[#>]
 		<script src="http://cdn.opalrb.org/opal/0.6.3/opal.min.js"></script>
 [#??]all[#>]
-		<script src="#{cqlsPath}/cqls.js"></script>
-		<script src="#{cqlsPath}/main.js"></script>
+		<script src="#{probaPath}/cqls.js"></script>
+		<script src="#{probaPath}/main.js"></script>
+		<!--script src="#{hypotestPath}/cqls.js"></script>
+		<script src="#{hypotestPath}/main.js"></script-->
 
 		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
     	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
@@ -67,7 +76,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{stage}');
+							$('#tabs').tabs('select', '#{probaStage}');
 							var distrib=$('#loi-va-distrib').combobox('getValue');
 							console.log('va: dist='+distrib);
 
@@ -109,7 +118,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{stage}');
+							$('#tabs').tabs('select', '#{probaStage}');
 							var distrib=$('#loi-clone-distrib').combobox('getValue');
 							var transf=$('#loi-clone-transf').combobox('getValue');
 							console.log('dist='+distrib+', transf='+transf);
@@ -167,7 +176,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{stage}');
+							$('#tabs').tabs('select', '#{probaStage}');
 							var distrib=$('#loi-ech-distrib').combobox('getValue');
 							var transf=$('#loi-ech-transf').combobox('getValue');
 							var n=$('#loi-ech-n').combobox('getValue');
@@ -245,7 +254,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{stage}');
+							$('#tabs').tabs('select', '#{probaStage}');
 							var distrib=$('#ic-distrib').combobox('getValue');
 							var param=$('#ic-param').combobox('getValue');
 							var n=$('#ic-n').combobox('getValue');
@@ -265,9 +274,12 @@
     				</div>
 				</div>
 			</div>
-			<div title="#{stage}" style="padding:10px">
-				<canvas id="createjsCanvas" width="1200" height="600"></canvas>
+			<div title="#{probaStage}" style="padding:10px">
+				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
 			</div>
+			<!--div title="#{hypoStage}" style="padding:10px">
+				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
+			</div-->
 		</div>
 		<script>
 
@@ -276,6 +288,11 @@
 			
 			
 			//init experiment
-			aep();
+			aepProba();
+
+			//cqlsHypo.mode="static";
+			//cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
+			//aepHypo();
+			
 			
 		</script>

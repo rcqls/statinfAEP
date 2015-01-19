@@ -81,7 +81,7 @@ enyo.kind({
 			{kind: "onyx.Button", content: "Zoom", name: "zoomButton",ontap: "zoomTap"}
 		]},
 		//{kind: "enyo.Scroller", id: "canvasContainer",components: [
-			{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqlsAEP.i.dim.w, height: cqlsAEP.i.dim.h*2}}
+			{tag: "canvas", id: "createjsCanvasProba",ontap: "onTapCanvas" ,attributes: {width: cqlsAEP.i.dim.w, height: cqlsAEP.i.dim.h*2}}
 		//]}
 		,
 		{kind: "onyx.MoreToolbar",style:"height:"+cqlsAEP.win.bottom+"px;" ,components: [

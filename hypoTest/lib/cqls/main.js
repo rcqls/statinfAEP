@@ -120,7 +120,7 @@
 
 	//mode static
 	cqlsHypo.f.initHypo=function(param,side,refValue,nValue,meanValue,sdValue) {
-		console.log("initSim");
+		console.log("initHypo");
 		//init stage parameters
 		cqlsHypo.f.setValue('param',param);
 		cqlsHypo.f.setValue('side',side);
@@ -153,7 +153,7 @@
 
 	///////////////////////////
 	// Main function to call
-	function aep() {
+	function aepHypo() {
 
 		// console.log(Opal.CqlsHypo.$range(0,1,.1));
 		// console.log(Opal.CqlsHypo.$seq(0,1,11));
@@ -243,7 +243,8 @@
 		// console.log(cqlsHypo.m.exp2.$quantile(0.95));
 		// console.log(cqlsHypo.m.exp3.$quantile(0.95));
 
-	    cqlsHypo.m.canvas = document.getElementById("createjsCanvas");
+	   	cqlsHypo.m.canvas = document.getElementById("createjsCanvasHypo");
+
 	    cqlsHypo.m.ow=cqlsHypo.m.canvas.width;cqlsHypo.m.oh=cqlsHypo.m.canvas.height;
 	    
 		//Run function when browser resizes

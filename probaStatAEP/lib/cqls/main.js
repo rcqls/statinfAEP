@@ -316,9 +316,9 @@
 
 	///////////////////////////
 	// Main function to call
-	function aep() {
+	function aepProba() {
 
-	    cqlsAEP.m.canvas = document.getElementById("createjsCanvas");
+	    cqlsAEP.m.canvas = document.getElementById("createjsCanvasProba");
 	    cqlsAEP.m.ow=cqlsAEP.m.canvas.width;cqlsAEP.m.oh=cqlsAEP.m.canvas.height;
 
 		//Run function when browser resizes

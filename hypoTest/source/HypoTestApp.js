@@ -50,7 +50,7 @@ enyo.kind({
 				]}
 			]}
 		]},
-		{tag: "canvas", id: "createjsCanvas",ontap: "onTapCanvas" ,attributes: {width: cqlsHypo.i.dim.w, height: cqlsHypo.i.dim.h*2}},
+		{tag: "canvas", id: "createjsCanvasHypo",ontap: "onTapCanvas" ,attributes: {width: cqlsHypo.i.dim.w, height: cqlsHypo.i.dim.h*2}},
 		//{id: "trigger-opentip",content: "opentip", attributes: {width: cqlsHypo.i.dim.w, height: 20}},
 		{kind: "onyx.MoreToolbar",style:"height:"+cqlsHypo.win.bottom+"px;" ,components: [
 			{classes: "onyx-sample-tools", components: [
