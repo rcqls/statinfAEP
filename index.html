@@ -1,1 +1,297 @@
-aep/index.html
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>StatInf AEP</title>
+		<link rel="shortcut icon" href="assets/favicon.ico"/>
+		<!-- -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
+
+		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
+
+		<script src="probaStatAEP/lib/cqls/distributions.js"></script>
+		<!--script src="#{hypotestPath}/distributions.js"></script-->
+		
+
+		<script src="http://cdn.opalrb.org/opal/0.6.3/opal.min.js"></script>
+
+		<script src="probaStatAEP/lib/cqls/cqls.js"></script>
+		<script src="probaStatAEP/lib/cqls/main.js"></script>
+		<!--script src="#{hypotestPath}/cqls.js"></script>
+		<script src="#{hypotestPath}/main.js"></script-->
+
+		<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/black/easyui.css">
+    	<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/icon.css">
+    	<script type="text/javascript" src="vendor/jquery-easyui/jquery.min.js"></script>
+    	<script type="text/javascript" src="vendor/jquery-easyui/jquery.easyui.min.js"></script>
+	</head>
+
+<!-- Preamble -->
+
+<!-- Styles -->
+
+<!-- Javascript -->
+
+<body>
+
+
+
+		<div id="window-aide" class="easyui-window" title="Aide" data-options="closed:true,minimizable:false,iconCls:'icon-help'" style="width:60%;height:60%;padding:10px;">
+        The window content.
+    	</div>
+		<div id="tabs" class="easyui-tabs" style="width:auto;height:auto" fit="true">
+			<div title="Expérience" style="padding:10px">
+				<div style="margin:20px 0 10px 0;"></div>
+				<p>Sélectionne une expérience parmi les quatre proposées ci-dessous.</p>
+
+				<div style="margin:20px 0 10px 0;"></div>
+				<div class="easyui-accordion" style="width:auto;height:auto;">
+    				<div title="Variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+    					<div style="margin:20px 0"></div>
+    					<table>
+    					<tr><th>Distribution</th><th></th></tr>
+    					<tr><td><select id="loi-va-distrib" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
+							<option value="bernoulli">Bernoulli(0.15)</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
+							<option value="stdNormal">Normal(0,1)</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
+							<option value="normal">Normal(2,0.5)</option>
+							<option value="t">Student(10)</option>
+							<option value="chi2">Chi2(10)</option>
+							<option value="cauchy">Cauchy(0,1)</option>
+							<option value="saljus">Salaire Juste</option>
+						</select></td>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+							cqlsAEP.i.loop=false;
+							$('#tabs').tabs('select', 'Scène Simulation');
+							var distrib=$('#loi-va-distrib').combobox('getValue');
+							console.log('va: dist='+distrib);
+
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf('none');
+							cqlsAEP.f.setSimMode(true,false);
+							cqlsAEP.f.setValue('checkExp0Curve',false);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
+						">Démarre!</a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('va_dist')"></a></td></tr>
+						</table>
+    				</div>
+    				<div title="Variable aléatoire clonée et transformée" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+    					<div style="margin:20px 0"></div>
+
+						<table>
+    					<tr><th>Distribution</th><th>Transformation</th><th></th></tr>
+    					<tr><td><select id="loi-clone-distrib" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
+							<option value="bernoulli">Bernoulli(0.15)</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
+							<option value="stdNormal">Normal(0,1)</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
+							<option value="normal">Normal(2,0.5)</option>
+							<option value="t">Student(10)</option>
+							<option value="chi2">Chi2(10)</option>
+							<option value="cauchy">Cauchy(0,1)</option>
+							<option value="saljus">Salaire Juste</option>
+						</select></td>
+    					<td><select id="loi-clone-transf" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value="none">Aucune</option>
+							<option value="center">Centrage</option>
+							<option value="locationScale">Centrage-Réduction</option>
+							<option value="square">Carré</option>
+						</select></td>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+							cqlsAEP.i.loop=false;
+							$('#tabs').tabs('select', 'Scène Simulation');
+							var distrib=$('#loi-clone-distrib').combobox('getValue');
+							var transf=$('#loi-clone-transf').combobox('getValue');
+							console.log('dist='+distrib+', transf='+transf);
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('va');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf(transf);
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('clone_dist')"></a></td></tr>
+						</table>
+    				</div>
+    				<div title="Variable aléatoire échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
+    				<table>
+    					<tr><th>Distribution</th><th>Statistique</th><th>n</th><th></th></tr>
+    					<tr><td><select id="loi-ech-distrib" class="easyui-combobox" name="state" style="width:150px;">
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
+							<option value="bernoulli">Bernoulli(0.15)</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
+							<option value="stdNormal">Normal(0,1)</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
+							<option value="normal">Normal(2,0.5)</option>
+							<option value="t">Student(10)</option>
+							<option value="chi2">Chi2(10)</option>
+							<option value="cauchy">Cauchy(0,1)</option>
+							<option value="saljus">Salaire Juste</option>
+						</select></td>
+    					<td><select id="loi-ech-transf" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value="sum">Somme (échantillonnale)</option>
+							<option value="mean"  selected="true">Moyenne (échantillonnale)</option>
+							<option value="stdMean">Ecart moyen standardisé</option>
+						</select></td>
+						<td><select id="loi-ech-n" class="easyui-combobox" name="state" style="width:80px;">
+    						<option value="2">2</option>
+							<option value="4">4</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="16">16</option>
+							<option value="30" selected="true">30</option>
+							<option value="32">32</option>
+							<option value="50">50</option>
+							<option value="64">64</option>
+							<option value="100">100</option>
+							<option value="128">128</option>
+							<option value="200">200</option>
+							<option value="256">256</option>
+							<option value="500">500</option>
+							<option value="512">512</option>
+							<option value="1000">1000</option>
+							<option value="1024">1024</option>
+						</select></td>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+							cqlsAEP.i.loop=false;
+							$('#tabs').tabs('select', 'Scène Simulation');
+							var distrib=$('#loi-ech-distrib').combobox('getValue');
+							var transf=$('#loi-ech-transf').combobox('getValue');
+							var n=$('#loi-ech-n').combobox('getValue');
+							console.log('loi-ech: dist='+distrib+', transf='+transf+', n='+parseInt(n));
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('ech');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf(transf);
+							cqlsAEP.f.setN(parseInt(n));
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('ech_dist')"></a></td></tr>
+						<!--tr><th colspan="3">n</th></tr>
+						<tr><td colspan="3">
+						<input class="easyui-slider" style="width:300px" data-options="
+            				showTip:true,
+            				min: 2,
+            				max:1000,
+            				rule: [2,'|',20,'|',30,'|',50,'|',75,'|',100,'|',200,'|',500,'|',1000],
+            				tipFormatter: function(value){
+            					if(value < 200) value=Math.round(value/10);
+            					else if(value < 500) value=Math.round(value/50)*5;
+            					else if(value<=600) value = Math.round(value/5)*5;
+            					else if(value<=1000) value = Math.round(value/10)*10;
+            					return value;
+        					},
+            				onComplete: function(value){
+								cqlsAEP.f.setN(parseInt(value));
+								alert(parseInt(value));
+								cqlsAEP.f.updateStage();
+        					}" fit="true"></td></tr-->
+						</table>      
+    				</div>
+    				<div title="Intervalle de confiance" data-options="iconCls:'icon-ok'" style="padding:10px;">
+    				<table>
+    					<tr><th>Distribution</th><th>Paramètre</th><th>n</th><th></th></tr>
+    					<tr><td><select id="ic-distrib" class="easyui-combobox" name="state" style="width:150px;">
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
+							<option value="bernoulli">Bernoulli(0.15)</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
+							<option value="stdNormal">Normal(0,1)</option>
+							<option value="uniform"  selected="true">Uniforme sur  [0,1]</option>
+							<option value="normal">Normal(2,0.5)</option>
+							<option value="t">Student(10)</option>
+							<option value="chi2">Chi2(10)</option>
+							<option value="cauchy">Cauchy(0,1)</option>
+							<option value="saljus">Salaire Juste</option>
+						</select></td>
+    					<td><select id="ic-param" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value="mean" selected="true">Moyenne</option>
+							<option value="var">Variance</option>
+						</select></td>
+						<td><select id="ic-n" class="easyui-combobox" name="state" style="width:80px;">
+    						<option value="2">2</option>
+							<option value="4">4</option>
+							<option value="8">8</option>
+							<option value="10">10</option>
+							<option value="16">16</option>
+							<option value="30" selected="true">30</option>
+							<option value="32">32</option>
+							<option value="50">50</option>
+							<option value="64">64</option>
+							<option value="100">100</option>
+							<option value="128">128</option>
+							<option value="200">200</option>
+							<option value="256">256</option>
+							<option value="500">500</option>
+							<option value="512">512</option>
+							<option value="1000">1000</option>
+							<option value="1024">1024</option>
+						</select></td>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+							cqlsAEP.i.loop=false;
+							$('#tabs').tabs('select', 'Scène Simulation');
+							var distrib=$('#ic-distrib').combobox('getValue');
+							var param=$('#ic-param').combobox('getValue');
+							var n=$('#ic-n').combobox('getValue');
+							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
+							cqlsAEP.f.initSim();
+							cqlsAEP.f.autoSim('ic');
+							cqlsAEP.f.setDistrib(distrib);
+							cqlsAEP.f.setTransf('meanIC');
+							cqlsAEP.f.setN(parseInt(n));
+							cqlsAEP.f.setSimMode(true,true);
+							cqlsAEP.f.setValue('checkExp0Curve',true);
+							cqlsAEP.f.setValue('checkExp1Curve',false);
+							cqlsAEP.f.updateStage();
+							cqlsAEP.f.updateDemo();
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('ic')"></a></td></tr>
+						</table> 
+    				</div>
+				</div>
+			</div>
+			<div title="Scène Simulation" style="padding:10px">
+				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
+			</div>
+			<!--div title="Scène Hypothèses de Test" style="padding:10px">
+				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
+			</div-->
+		</div>
+		<script>
+
+			cqlsAEP.mode="static";
+			cqlsAEP.f.initSim();
+			
+			
+			//init experiment
+			aepProba();
+
+			//cqlsHypo.mode="static";
+			//cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
+			//aepHypo();
+			
+			
+		</script>
+
+</body>
+
+
+</html>
