@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>StatInf AEP</title>
+		<link rel="shortcut icon" href="assets/favicon.ico"/>
+		<!-- -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- Preamble -->
+
+<!-- Styles -->
+
+<!-- Javascript -->
+
+<body>
+
+
+
+<div class="easyui-layout" fit="true">
+<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;">
+<h2>Approche Expérimentale des Probabilités</h2>
+<h4>Documentation</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('intro')">Objectif</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('brique')">Histogrammes discret et continu</a>
+<h4>Descriptifs des éducatifs</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('va_dist')">Variables aléatoires</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('clone_dist')">Clonage et Transformation</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ech_dist')">Lois échantillonnales</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ic')">Intervalle de confiance</a>
+</div>
+<div region="center" border="false" border="false">
+ 
+
+<h2>Concept de v.a. clonée</h2>
+A partir du constat précédent que le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme discret ou continu peut être vu comme l'empilement de tous les résultats possibles de la v.a. originale étudiée, il est alors naturel de penser que la v.a. dite clonée correspondant au choix au hasard d'une 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-brique parmi l'infinité de "toutes" les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques a la même loi de probabilité que la v.a. originale. L'éducatif proposé ici a pour objectif la vérification expérimentale de ce résultat&nbsp;:
+
+<ol type="1">
+<li> Après s'être fixé une distribution discrète ou continue représentée par un empilement d'une infinité de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques, on se propose à chaque étape 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>i</mi></mrow></math> d'en choisir 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> au hasard (partie du haut) et de les empiler sur les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> précédentes accumlées aux étapes précédentes.
+<div class="p"><!----></div>
+</li>
+
+<li> Puisque 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math>, les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> nouvelles 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques accumulées aux 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> précedentes 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques composent le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme où 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+</mrow></math> devient la nouvelle valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> A la limite 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi><mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, pensez-vous que la répartition initiale du graphique du haut coïncidera avec l'empilement des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques.
+<div class="p"><!----></div>
+</li>
+
+<li> Dorénavant, il sera important de comprendre l'équivalence en termes de répartition (i.e. appelée loi de probabilité dans un cadre mathématique) entre la v.a. originale et sa version clonée construite à partir de l'
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme associé à la v.a. originale.
+<div class="p"><!----></div>
+</li>
+</ol>
+
+<h2>Transformation de v.a.</h2>
+L'objectif est ici de se fixer une même transformation à appliquer à chaque nouvelle réalisation de la v.a. considérée. Pour faciliter la représentation graphique et ainsi la compréhension, nous considèrerons sa v.a. clonée équivalente en termes de répartition (voir section précédente)&nbsp;: 
+
+<ol type="1">
+<li> Soit 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> nouvelles réalisations vues comme 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques choisies au hasard dans le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme associé.
+<div class="p"><!----></div>
+</li>
+
+<li> Appliquons à ces 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> réalisations la transformation représentée par le déplacement dans la partie du haut.
+<div class="p"><!----></div>
+</li>
+
+<li> Ensuite, comme dans la section précédente, les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> réalisations transformées sont représentées par 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques à empiler sur les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques obtenues aux étapes précédentes composant ainsi le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme où 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math> devenant la nouvelle valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> A la limite 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi><mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>&rarr;</mo><mi>&infin;</mi></mrow></math>, on obtient sans trop de surprise le 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme qui peut être vu directement comme la transformation simultanée de toutes les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques du 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-histogramme initial.
+<div class="p"><!----></div>
+</li>
+</ol>
+
+
+</div></div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>StatInf AEP</title>
+		<link rel="shortcut icon" href="assets/favicon.ico"/>
+		<!-- -->
+		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+		<meta name="apple-mobile-web-app-capable" content="yes"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+<!-- Preamble -->
+
+<!-- Styles -->
+
+<!-- Javascript -->
+
+<body>
+
+
+
+<div class="easyui-layout" fit="true">
+<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;">
+<h2>Approche Expérimentale des Probabilités</h2>
+<h4>Documentation</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('intro')">Objectif</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('brique')">Histogrammes discret et continu</a>
+<h4>Descriptifs des éducatifs</h4>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('va_dist')">Variables aléatoires</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('clone_dist')">Clonage et Transformation</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ech_dist')">Lois échantillonnales</a>
+<a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="cqlsAEP.f.aide('ic')">Intervalle de confiance</a>
+</div>
+<div region="center" border="false" border="false">
+ 
+
+<h2>Répartition d'une infinité de réalisations d'une v.a.</h2>
+
+<ul>
+<li> Toutes les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math> réalisations consécutives 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>y</mi></mrow><mrow><mo stretchy="false">[</mo><mn>1</mn><mo stretchy="false">]</mo></mrow>
+</msub>
+<mo>,</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>,</mo>
+<msub><mrow><mi>y</mi></mrow><mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> de la variable aléatoire (ou "future" réalisation) 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> sont représentées par des <a href="#" onclick="cqlsAEP.f.aide('brique')">
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques</a> ayant pour caractéristique principale d'avoir une surface 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<mfrac><mrow><mn>1</mn></mrow>
+<mrow><mi>m</mi></mrow>
+</mfrac>
+</mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> Décrivons l'Approche Expérimentale des Probabilités appliquée dans cet éducatif. Une distribution discrète ou continue a été choisie dont on considère disposer d'un générateur. Plaçons-nous alors à une étape 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>i</mi></mrow></math> de la simulation en supposant donc que le nombre de réalisations de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math> déjà obtenues est 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi><mo>:</mo><mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> (avec pour convention que 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mn>0</mn></mrow>
+</msub>
+<mo>=</mo><mn>0</mn></mrow></math>).
+
+<ol type="1">
+<li> <b>Nouvelles réalisations</b>&nbsp;: on se propose à chaque étape 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>i</mi></mrow></math> de générer 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> nouvelles réalisations 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>y</mi></mrow><mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mn>1</mn><mo stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math>, 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo>&#x2026;</mo></mrow></math>, 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>y</mi></mrow><mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow>
+</msub>
+</mrow></math> de la v.a. 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>Y</mi></mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> <b>Répartition de ces nouvelles réalisations</b>&nbsp;: ces 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> réalisations sont représentées (partie du haut) par des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-briques dont l'empilement constitue un 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-histogramme. A partir de la deuxième étape, ce 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-histogramme pourra être comparé au 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-histogramme (partie du bas).
+<div class="p"><!----></div>
+</li>
+
+<li> <b>Mise en commun</b>&nbsp;: les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>nbExp</mi><mo stretchy="false">]</mo></mrow></math>-briques (partie du haut) et l'empilement des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques (partie du bas) sont alors transformées en des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques où 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo>=</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+<mo>+</mo><mi>nbExp</mi></mrow></math> correspondant à la nouvelle valeur de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math>.
+<div class="p"><!----></div>
+</li>
+
+<li> <b>Répartition de toutes les réalisations</b>&nbsp;: il ne reste plus qu'à empiler les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>nbExp</mi></mrow></math> nouvelles 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques (partie du haut) avec les 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi><mo>-</mo><mn>1</mn></mrow>
+</msub>
+</mrow></math> anciennes 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo>
+<msub><mrow><mi>nbExpTot</mi></mrow><mrow><mi>i</mi></mrow>
+</msub>
+<mo stretchy="false">]</mo></mrow></math>-briques (partie du bas) pour obtenir le nouvel 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>nbExpTot</mi><mo>-</mo><mi>i</mi><mo stretchy="false">]</mo></mrow></math>-histogramme.
+<div class="p"><!----></div>
+</li>
+</ol>
+<div class="p"><!----></div>
+</li>
+
+<li> L'un des objectifs de cet éducatif est de comprendre l'évolution de l'ensemble de ces 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>m</mi><mo stretchy="false">]</mo></mrow></math>-briques lorsque 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mi>m</mi></mrow></math> tend vers 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo>+</mo><mi>&infin;</mi></mrow></math>. En particulier, on pourra déterminer&nbsp;:<br />
+
+<ol type="1">
+<li> la forme géométrique des 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques discrète et continue
+<div class="p"><!----></div>
+</li>
+
+<li> l'interprétation que l'on peut faire de l'empilement de cette infinité de 
+<math xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow><mo stretchy="false">[</mo><mi>&infin;</mi><mo stretchy="false">]</mo></mrow></math>-briques
+<div class="p"><!----></div>
+</li>
+
+<li> comment mesurer à partir de cet empilement la probabilité que la v.a. soit comprise dans un intervalle donné
+<div class="p"><!----></div>
+</li>
+
+<li> dans le cas particulier de v.a. continue, la relation entre cet empilement et la densité de probabilité
+<div class="p"><!----></div>
+</li>
+
+<li> comment obtenir une nouvelle réalisation lorsqu'on suppose connu cet empilement (et notamment son contour supérieur)
+<div class="p"><!----></div>
+</li>
+</ol>
+<div class="p"><!----></div>
+</li>
+</ul>
+
+
+</div></div>
+
+</body>
+
+
+</html>
