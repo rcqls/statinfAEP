@@ -10,6 +10,11 @@
     :tag=>["local","opal","createjs-cdn","en"],
     :filename_doc=>"aep_local_en.html"
   },
+  "github"=>{
+    :cmd=>[:save],
+    :tag=>["github","opal-cdn","createjs-cdn","fr"],
+    :filename_doc=>"index.html"
+  },
   "web"=>{
     :cmd=>[:save],
     :tag=>["web","opal-cdn","createjs-cdn","fr"],

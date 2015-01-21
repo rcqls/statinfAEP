@@ -1,19 +1,6 @@
-[#require]tools_html
-[#main][#??]local[#=]probaPath[lib/proba/cqls]
-[#=]hypotestPath[lib/hypotest/cqls]
-[#=]jqueryEasyPath[jquery-easy]
-[#??]web[#=]cqlsProbaPath[/tools/StatInfJS/probaAEP]
-[#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
-[#??]github[#=]probaPath[probaStatAEP/lib/cqls]
-[#=]jqueryEasyPath[vendor/jquery-easyui]
-[#??]end
-[#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
-[#=]theme[black]
-[#=]probaStage[{#lang][#fr]Scène Simulation[#en]Simulation Stage[#}]
-[#=]hypoStage[{#lang][#fr]Scène Hypothèses de Test[#en]Hypothesis Testing Stage[#}]
-[#class]<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-[#header]
+
 	<head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<title>StatInf AEP</title>
@@ -22,63 +9,68 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-[#??]createjs[#%]TO UPDATE!!!![#>]
-		<script src="../../lib/easeljs-NEXT.min.js"></script>
-		<script src="../../lib/tweenjs-NEXT.min.js"></script>
-[#??]createjs-cdn[#>]
+
 		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
-[#??]all[#%]TO MERGE[#>]
+
 		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
 
-		<script src="#{probaPath}/distributions.js"></script>
+		<script src="probaStatAEP/lib/cqls/distributions.js"></script>
 		<!--script src="#{hypotestPath}/distributions.js"></script-->
 		
-[#??]opal[#>]
-		<script src="#{probaPath}/opal.min.js"></script>
-[#??]opal-cdn[#>]
+
 		<script src="http://cdn.opalrb.org/opal/0.6.3/opal.min.js"></script>
-[#??]all[#>]
-		<script src="#{probaPath}/cqls.js"></script>
-		<script src="#{probaPath}/main.js"></script>
+
+		<script src="probaStatAEP/lib/cqls/cqls.js"></script>
+		<script src="probaStatAEP/lib/cqls/main.js"></script>
 		<!--script src="#{hypotestPath}/cqls.js"></script>
 		<script src="#{hypotestPath}/main.js"></script-->
 
-		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
-    	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
-    	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.min.js"></script>
-    	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.easyui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/black/easyui.css">
+    	<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/icon.css">
+    	<script type="text/javascript" src="vendor/jquery-easyui/jquery.min.js"></script>
+    	<script type="text/javascript" src="vendor/jquery-easyui/jquery.easyui.min.js"></script>
 	</head>
-[#main]
-		<div id="window-aide" class="easyui-window" title="{#lang][#fr]Aide[#en]Help[#}" data-options="closed:true,minimizable:false,iconCls:'icon-help'" style="width:60%;height:60%;padding:10px;">
+
+<!-- Preamble -->
+
+<!-- Styles -->
+
+<!-- Javascript -->
+
+<body>
+
+
+
+		<div id="window-aide" class="easyui-window" title="Aide" data-options="closed:true,minimizable:false,iconCls:'icon-help'" style="width:60%;height:60%;padding:10px;">
         The window content.
     	</div>
 		<div id="tabs" class="easyui-tabs" style="width:auto;height:auto" fit="true">
-			<div title="{#lang][#fr]Expérience[#en]Experiment[#}" style="padding:10px">
+			<div title="Expérience" style="padding:10px">
 				<div style="margin:20px 0 10px 0;"></div>
-				<p>{#lang][#fr]Sélectionne une expérience parmi les quatre proposées ci-dessous.[#en]Select an experiment among the four proposed below.[#}</p>
+				<p>Sélectionne une expérience parmi les quatre proposées ci-dessous.</p>
 
 				<div style="margin:20px 0 10px 0;"></div>
 				<div class="easyui-accordion" style="width:auto;height:auto;">
-    				<div title="{#lang][#fr]Variable aléatoire[#en]Random variable[#}" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+    				<div title="Variable aléatoire" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
     					<div style="margin:20px 0"></div>
     					<table>
     					<tr><th>Distribution</th><th></th></tr>
     					<tr><td><select id="loi-va-distrib" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="discreteUniform">{#lang][#fr]Uniforme discrète (Dé)[#en]Uniform discrete (dice)[#}</option>
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
 							<option value="bernoulli">Bernoulli(0.15)</option>
-							<option value="binomial">{#lang][#fr]Binomiale[#en]Binomial[#} B(5,0.15)</option>
-							<option value="birthday">{#lang][#fr]Anniversaire[#en]Birthday[#}</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
 							<option value="stdNormal">Normal(0,1)</option>
-							<option value="uniform">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
 							<option value="normal">Normal(2,0.5)</option>
 							<option value="t">Student(10)</option>
 							<option value="chi2">Chi2(10)</option>
 							<option value="cauchy">Cauchy(0,1)</option>
-							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
+							<option value="saljus">Salaire Juste</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{probaStage}');
+							$('#tabs').tabs('select', 'Scène Simulation');
 							var distrib=$('#loi-va-distrib').combobox('getValue');
 							console.log('va: dist='+distrib);
 
@@ -91,36 +83,36 @@
 							cqlsAEP.f.setValue('checkExp1Curve',false);
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
-						">{#lang][#fr]Démarre![#en]Start[#}</a>{#aide]va_dist[#}</td></tr>
+						">Démarre!</a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('va_dist')"></a></td></tr>
 						</table>
     				</div>
-    				<div title="{#lang][#fr]Variable aléatoire clonée et transformée[#en]Cloned and transformed random variable[#}" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
+    				<div title="Variable aléatoire clonée et transformée" data-options="iconCls:'icon-ok'" style="overflow:auto;padding:10px;">
     					<div style="margin:20px 0"></div>
 
 						<table>
-    					<tr><th>Distribution</th><th>{#lang][#fr]Transformation[#en]Transform[#}</th><th></th></tr>
+    					<tr><th>Distribution</th><th>Transformation</th><th></th></tr>
     					<tr><td><select id="loi-clone-distrib" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="discreteUniform">{#lang][#fr]Uniforme discrète (Dé)[#en]Uniform discrete (dice)[#}</option>
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
 							<option value="bernoulli">Bernoulli(0.15)</option>
-							<option value="binomial">{#lang][#fr]Binomiale[#en]Binomial[#} B(5,0.15)</option>
-							<option value="birthday">{#lang][#fr]Anniversaire[#en]Birthday[#}</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
 							<option value="stdNormal">Normal(0,1)</option>
-							<option value="uniform">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
 							<option value="normal">Normal(2,0.5)</option>
 							<option value="t">Student(10)</option>
 							<option value="chi2">Chi2(10)</option>
 							<option value="cauchy">Cauchy(0,1)</option>
-							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
+							<option value="saljus">Salaire Juste</option>
 						</select></td>
     					<td><select id="loi-clone-transf" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="none">{#lang][#fr]Aucune[#en]None[#}</option>
-							<option value="center">{#lang][#fr]Centrage[#en]Centring[#}</option>
-							<option value="locationScale">{#lang][#fr]Centrage-Réduction[#en]Centring-Reducing[#}</option>
-							<option value="square">{#lang][#fr]Carré[#en]Square[#}</option>
+    						<option value="none">Aucune</option>
+							<option value="center">Centrage</option>
+							<option value="locationScale">Centrage-Réduction</option>
+							<option value="square">Carré</option>
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{probaStage}');
+							$('#tabs').tabs('select', 'Scène Simulation');
 							var distrib=$('#loi-clone-distrib').combobox('getValue');
 							var transf=$('#loi-clone-transf').combobox('getValue');
 							console.log('dist='+distrib+', transf='+transf);
@@ -133,29 +125,29 @@
 							cqlsAEP.f.setValue('checkExp1Curve',false);
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
-						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]clone_dist[#}</td></tr>
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('clone_dist')"></a></td></tr>
 						</table>
     				</div>
-    				<div title="{#lang][#fr]Variable aléatoire échantillonnale[#en]Sample random variable[#}" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
+    				<div title="Variable aléatoire échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
     				<table>
-    					<tr><th>Distribution</th><th>{#lang][#fr]Statistique[#en]Statistic[#}</th><th>n</th><th></th></tr>
+    					<tr><th>Distribution</th><th>Statistique</th><th>n</th><th></th></tr>
     					<tr><td><select id="loi-ech-distrib" class="easyui-combobox" name="state" style="width:150px;">
-    						<option value="discreteUniform">{#lang][#fr]Uniforme discrète (Dé)[#en]Uniform discrete (dice)[#}</option>
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
 							<option value="bernoulli">Bernoulli(0.15)</option>
-							<option value="binomial">{#lang][#fr]Binomiale[#en]Binomial[#} B(5,0.15)</option>
-							<option value="birthday">{#lang][#fr]Anniversaire[#en]Birthday[#}</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
 							<option value="stdNormal">Normal(0,1)</option>
-							<option value="uniform">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
+							<option value="uniform">Uniforme sur  [0,1]</option>
 							<option value="normal">Normal(2,0.5)</option>
 							<option value="t">Student(10)</option>
 							<option value="chi2">Chi2(10)</option>
 							<option value="cauchy">Cauchy(0,1)</option>
-							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
+							<option value="saljus">Salaire Juste</option>
 						</select></td>
     					<td><select id="loi-ech-transf" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="sum">{#lang][#fr]Somme (échantillonnale)[#en]Sample Sum[#}</option>
-							<option value="mean"  selected="true">{#lang][#fr]Moyenne (échantillonnale)[#en]Sample Mean[#}</option>
-							<option value="stdMean">{#lang][#fr]Ecart moyen standardisé[#en]Standardized Mean Error[#}</option>
+    						<option value="sum">Somme (échantillonnale)</option>
+							<option value="mean"  selected="true">Moyenne (échantillonnale)</option>
+							<option value="stdMean">Ecart moyen standardisé</option>
 						</select></td>
 						<td><select id="loi-ech-n" class="easyui-combobox" name="state" style="width:80px;">
     						<option value="2">2</option>
@@ -178,7 +170,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{probaStage}');
+							$('#tabs').tabs('select', 'Scène Simulation');
 							var distrib=$('#loi-ech-distrib').combobox('getValue');
 							var transf=$('#loi-ech-transf').combobox('getValue');
 							var n=$('#loi-ech-n').combobox('getValue');
@@ -193,7 +185,7 @@
 							cqlsAEP.f.setValue('checkExp1Curve',false);
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
-						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ech_dist[#}</td></tr>
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('ech_dist')"></a></td></tr>
 						<!--tr><th colspan="3">n</th></tr>
 						<tr><td colspan="3">
 						<input class="easyui-slider" style="width:300px" data-options="
@@ -215,24 +207,24 @@
         					}" fit="true"></td></tr-->
 						</table>      
     				</div>
-    				<div title="{#lang][#fr]Intervalle de confiance[#en]Confidence Interval[#}" data-options="iconCls:'icon-ok'" style="padding:10px;">
+    				<div title="Intervalle de confiance" data-options="iconCls:'icon-ok'" style="padding:10px;">
     				<table>
-    					<tr><th>Distribution</th><th>{#lang][#fr]Paramètre[#en]Parameter[#}</th><th>n</th><th></th></tr>
+    					<tr><th>Distribution</th><th>Paramètre</th><th>n</th><th></th></tr>
     					<tr><td><select id="ic-distrib" class="easyui-combobox" name="state" style="width:150px;">
-    						<option value="discreteUniform">{#lang][#fr]Uniforme discrète (Dé)[#en]Uniform discrete (dice)[#}</option>
+    						<option value="discreteUniform">Uniforme discrète (Dé)</option>
 							<option value="bernoulli">Bernoulli(0.15)</option>
-							<option value="binomial">{#lang][#fr]Binomiale[#en]Binomial[#} B(5,0.15)</option>
-							<option value="birthday">{#lang][#fr]Anniversaire[#en]Birthday[#}</option>
+							<option value="binomial">Binomiale B(5,0.15)</option>
+							<option value="birthday">Anniversaire</option>
 							<option value="stdNormal">Normal(0,1)</option>
-							<option value="uniform"  selected="true">{#lang][#fr]Uniforme sur [#en]Uniform on[#} [0,1]</option>
+							<option value="uniform"  selected="true">Uniforme sur  [0,1]</option>
 							<option value="normal">Normal(2,0.5)</option>
 							<option value="t">Student(10)</option>
 							<option value="chi2">Chi2(10)</option>
 							<option value="cauchy">Cauchy(0,1)</option>
-							<option value="saljus">{#lang][#fr]Salaire Juste[#en]Fair Salary[#}</option>
+							<option value="saljus">Salaire Juste</option>
 						</select></td>
     					<td><select id="ic-param" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value="mean" selected="true">{#lang][#fr]Moyenne[#en]Mean[#}</option>
+    						<option value="mean" selected="true">Moyenne</option>
 							<option value="var">Variance</option>
 						</select></td>
 						<td><select id="ic-n" class="easyui-combobox" name="state" style="width:80px;">
@@ -256,7 +248,7 @@
 						</select></td>
 						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
 							cqlsAEP.i.loop=false;
-							$('#tabs').tabs('select', '#{probaStage}');
+							$('#tabs').tabs('select', 'Scène Simulation');
 							var distrib=$('#ic-distrib').combobox('getValue');
 							var param=$('#ic-param').combobox('getValue');
 							var n=$('#ic-n').combobox('getValue');
@@ -271,15 +263,15 @@
 							cqlsAEP.f.setValue('checkExp1Curve',false);
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
-						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
+						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('ic')"></a></td></tr>
 						</table> 
     				</div>
 				</div>
 			</div>
-			<div title="#{probaStage}" style="padding:10px">
+			<div title="Scène Simulation" style="padding:10px">
 				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
 			</div>
-			<!--div title="#{hypoStage}" style="padding:10px">
+			<!--div title="Scène Hypothèses de Test" style="padding:10px">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
 			</div-->
 		</div>
@@ -298,3 +290,8 @@
 			
 			
 		</script>
+
+</body>
+
+
+</html>
