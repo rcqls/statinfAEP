@@ -2,7 +2,8 @@
 [#main][#??]local[#=]probaPath[lib/proba/cqls]
 [#=]hypotestPath[lib/hypotest/cqls]
 [#=]jqueryEasyPath[jquery-easy]
-[#??]web[#=]cqlsProbaPath[/tools/StatInfJS/probaAEP]
+[#??]web[#=]probaPath[/tools/StatInfJS/probaAEP]
+[#=]hypoPath[/tools/StatInfJS/probaAEP]
 [#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
