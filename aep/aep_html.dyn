@@ -4,7 +4,7 @@
 [#=]jqueryEasyPath[jquery-easy]
 [#??]web[#=]cqlsProbaPath[/tools/StatInfJS/probaAEP]
 [#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
-[#??]github[#=]cqlsProbaPath[probaStatAEP/lib/cqls]
+[#??]github[#=]probaPath[probaStatAEP/lib/cqls]
 [#=]jqueryEasyPath[vendor/jquery-easyui]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
