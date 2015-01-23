@@ -7,3 +7,5 @@ dyn -d github aep/aep_html.dyn
 
 cp aep/index.html .
 
+cp aep/aide/*.html aide
+

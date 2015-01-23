@@ -19,7 +19,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 [#main][#>]
 <div class="easyui-layout" fit="true">
-<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;">
+<div data-options="region:'west',split:true,collapsed:true" title="Menu" style="width:250px;font-size:150%;">
 <h2>Approche Expérimentale des Probabilités</h2>
 <h4>Documentation</h4>
 {#aide]intro[#name]Objectif[#icon]ok[#}
@@ -30,7 +30,7 @@
 {#aide]ech_dist[#name]Lois échantillonnales[#icon]ok[#}
 {#aide]ic[#name]Intervalle de confiance[#icon]ok[#}
 </div>
-<div region="center" border="false" border="false">
+<div region="center" border="false" style="font-size:150%;">
 {#case]#{docs}
 [#when]va_dist[#ttm>]
 \section*{Répartition d'une infinité de réalisations d'une v.a.}

@@ -8,7 +8,7 @@
 [#=]jqueryEasyPath[vendor/jquery-easyui]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
-[#=]theme[black]
+[#=]theme[black][#??]default_theme[#=]theme[default][#??]end
 [#=]probaStage[{#lang][#fr]Scène Simulation[#en]Simulation Stage[#}]
 [#=]hypoStage[{#lang][#fr]Scène Hypothèses de Test[#en]Hypothesis Testing Stage[#}]
 [#class]<!DOCTYPE html>
@@ -23,8 +23,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 [#??]createjs[#%]TO UPDATE!!!![#>]
-		<script src="../../lib/easeljs-NEXT.min.js"></script>
-		<script src="../../lib/tweenjs-NEXT.min.js"></script>
+		<script src="createjs/createjs-2014.12.12.min.js"></script>
 [#??]createjs-cdn[#>]
 		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
 [#??]all[#%]TO MERGE[#>]
@@ -277,7 +276,54 @@
 				</div>
 			</div>
 			<div title="#{probaStage}" style="padding:10px">
+			<div class="easyui-layout" fit="true">
+				<div region="center" border="false">
 				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
+				</div>
+				<div data-options="region:'south',split:true,collapsed:true" title="Menu" style="height:70px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.i.paused=!cqlsAEP.i.paused;
+		 			createjs.Ticker.setPaused(cqlsAEP.i.paused);
+		 		">pause</a>
+		 		<span>  Y: </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0Curve',!cqlsAEP.f.getValue('checkExp0Curve'));
+		 		"></a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0Mean',!cqlsAEP.f.getValue('checkExp0Mean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0SD',!cqlsAEP.f.getValue('checkExp0SD'));
+		 		">SD</a>
+		 		<span>  t(Y): </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1Curve',!cqlsAEP.f.getValue('checkExp1Curve'));
+		 		"></a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1Mean',!cqlsAEP.f.getValue('checkExp1Mean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1SD',!cqlsAEP.f.getValue('checkExp1SD'));
+		 		">SD</a>
+
+		 		<span>  Extra: </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkHistMean',!cqlsAEP.f.getValue('checkHistMean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkHistSD',!cqlsAEP.f.getValue('checkHistSD'));
+		 		">SD</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkTCL',!cqlsAEP.f.getValue('checkTCL'));
+		 		">TCL</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkSummary',!cqlsAEP.f.getValue('checkSummary'));
+		 		">Summary</a>
+		 		<input class="easyui-slider" style="width:100px" data-options="
+                showTip:true,
+                rule: [0,'|',25,'|',50,'|',75,'|',100]
+            ">
+				</div>
 			</div>
 			<!--div title="#{hypoStage}" style="padding:10px">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
