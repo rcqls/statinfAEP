@@ -319,10 +319,10 @@
 		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
 					cqlsAEP.f.setValue('checkSummary',!cqlsAEP.f.getValue('checkSummary'));
 		 		">Summary</a>
-		 		<input class="easyui-slider" style="width:100px" data-options="
+		 		<!--input class="easyui-slider" style="width:100px" data-options="
                 showTip:true,
                 rule: [0,'|',25,'|',50,'|',75,'|',100]
-            ">
+            "-->
 				</div>
 			</div>
 			<!--div title="#{hypoStage}" style="padding:10px">
