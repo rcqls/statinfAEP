@@ -2,13 +2,8 @@
 :docs=>{
   "local"=>{
     :cmd=>[:save],
-    :tag=>["local","opal","createjs","fr"],
+    :tag=>["local","opal","createjs-cdn","fr"],
     :filename_doc=>"aep_local.html"
-  },
-  "local_default_theme"=>{
-    :cmd=>[:save],
-    :tag=>["local","opal","createjs","fr","default_theme"],
-    :filename_doc=>"aep_local_default_theme.html"
   },
    "local_en"=>{
     :cmd=>[:save],
