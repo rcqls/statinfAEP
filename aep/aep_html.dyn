@@ -328,7 +328,37 @@
 				</div>
 			</div>
 			<div title="#{hypoStage}" style="padding:10px">
+			<div class="easyui-layout" fit="true">
+				<div region="center" border="false">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
+				</div>
+				<div data-options="region:'south',split:true,collapsed:true" title="Menu" style="height:70px;">
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam1Curve',!cqlsHypo.f.getValue('checkParam1Curve'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Curve</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam1Mean',!cqlsHypo.f.getValue('checkParam1Mean'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam1SD',!cqlsHypo.f.getValue('checkParam1SD'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">SD</a>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam0Curve',!cqlsHypo.f.getValue('checkParam0Curve'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Curve</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam0Mean',!cqlsHypo.f.getValue('checkParam0Mean'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParam0SD',!cqlsHypo.f.getValue('checkParam0SD'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">SD</a>
+				</div>
+			</div>
 			</div>
 		</div>
 		<script>
