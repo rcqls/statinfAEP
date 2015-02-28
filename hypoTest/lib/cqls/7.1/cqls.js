@@ -12891,11 +12891,54 @@ if (file == null) file = nil;
   Opal.dynamic_require_severity = "error";
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $hash2 = Opal.hash2, $range = Opal.range;
 
-  Opal.add_stubs(['$attr_accessor', '$new', '$[]', '$addChild', '$<<', '$shape', '$plot=', '$graph=', '$add', '$>=', '$each', '$call', '$method', '$to_Y', '$+', '$*', '$-', '$<', '$[]=', '$empty?', '$xylim', '$zoom', '$syncedChildren', '$synced?', '$select', '$include?', '$min', '$map', '$==', '$max', '$/', '$update', '$===', '$id', '$!', '$each_key', '$showZoom', '$updateZoom', '$>', '$to_s', '$length', '$initStep', '$seq', '$dim', '$to_X', '$mean', '$maxPdf', '$stdDev', '$sample', '$pdf', '$type', '$map!', '$step', '$y', '$to_f', '$abs', '$set', '$initDistrib', '$setAsTransfOf', '$regular?', '$bounds', '$initXYLim', '$adjust', '$drawCont', '$drawDisc', '$**', '$init', '$draw', '$distrib', '$each_with_index', '$floor', '$quantize', '$updateBounds', '$reset', '$drawCurve', '$<=', '$index', '$inject', '$acceptLevelNext', '$dup', '$counts', '$density', '$partBounds', '$graph', '$syncTo', '$setDistrib', '$style', '$attachCurve', '$attachSummary', '$marg', '$attachExpAxis', '$setAlpha', '$setStatMode', '$isModeHidden?', '$setTransf', '$setMLevel', '$setN', '$active=', '$setCurHist', '$setTCL', '$updateTCL', '$updateVisible', '$style=', '$variance', '$setDistribAs', '$setDistribAsTransf', '$xy', '$setNbSim', '$initTransfList', '$name', '$setTransfDistrib', '$-@', '$transfMode', '$quantile', '$applyTransfByIndex', '$seMean_transf_by_index', '$applyTransfByValue', '$allowLevelChange', '$updateHistAEP', '$aep', '$hideAll', '$drawSummary', '$incCptIC', '$drawMean', '$drawSD', '$animMode', '$seMean_transf', '$cptICTot=', '$cptICTot', '$playNextAfter', '$addXY', '$transitionInitHist', '$transitionInitPts', '$transitionInitRects', '$transitionInitTime', '$transitionDrawPts', '$transitionFallPts', '$transitionHistPtsAndRects', '$transitionInitExpRects', '$transitionExpPtsAndRects', '$transitionDrawRectsHidden', '$transitionHistPtsAndRectsHidden', '$transitionInitTransf', '$transitionInitPtsTransf', '$transitionPtsTransf', '$transitionDrawIC', '$playLongDensityWithTransfHidden', '$playLongDensityForIC', '$playLongDensityWithTransf', '$playLongDensityBasicHidden', '$playLongDensityBasic', '$join', '$power', '$p', '$qbounds', '$to_a', '$prepare', '$keys', '$sort']);
+  Opal.add_stubs(['$each', '$tooltipContent', '$attr_accessor', '$include', '$new', '$[]', '$addChild', '$initTooltip', '$<<', '$shape', '$plot=', '$graph=', '$add', '$>=', '$call', '$method', '$to_Y', '$+', '$to_f', '$to_x', '$*', '$-', '$<', '$[]=', '$empty?', '$xylim', '$zoom', '$syncedChildren', '$synced?', '$select', '$include?', '$min', '$map', '$==', '$max', '$/', '$update', '$===', '$id', '$!', '$each_key', '$showZoom', '$>', '$graph', '$to_s', '$length', '$initStep', '$seq', '$dim', '$to_X', '$mean', '$maxPdf', '$stdDev', '$sample', '$pdf', '$type', '$map!', '$step', '$y', '$abs', '$set', '$initDistrib', '$setAsTransfOf', '$regular?', '$bounds', '$initXYLim', '$adjust', '$drawCont', '$drawDisc', '$<=', '$setParamsFrame', '$updateStatTestDistrib', '$draw', '$drawMean', '$drawSD', '$playCallables', '$nil?', '$paramsFrame', '$setDistrib', '$setAlphaFromQuantile', '$cdf', '$distrib', '$setAlpha', '$getSides', '$each_with_index', '$quantile', '$typeStatTest', '$drawAreaSide', '$setStyles', '$style', '$setPlot', '$alpha=', '$style=', '$initEvents', '$addCallable', '$attachShapes', '$attachAxis', '$setStatMode', '$reset', '$paramsFrame=', '$typeStatTest=', '$setPval', '$meanStyle=', '$sdStyle=', '$getContext', '$active=', '$updateVisible', '$join', '$power', '$p', '$inject', '$qbounds', '$to_a', '$prepare', '$quantize', '$keys', '$sort']);
   return (function($base) {
-    var self = $module($base, 'CqlsAEP');
+    var self = $module($base, 'CqlsHypo');
 
     var def = self.$$proto, $scope = self.$$scope;
+
+    (function($base) {
+      var self = $module($base, 'Tooltip');
+
+      var def = self.$$proto, $scope = self.$$scope;
+
+      Opal.defn(self, '$initTooltip', function(shape) {
+        var $a, $b, TMP_1, self = this;
+        if (self.shape == null) self.shape = nil;
+
+        if (shape == null) {
+          shape = self.shape
+        }
+        return ($a = ($b = shape).$each, $a.$$p = (TMP_1 = function(sh){var self = TMP_1.$$s || this;
+if (sh == null) sh = nil;
+        
+					sh.on("rollover",function(evt) {
+						//console.log("mouseover!!!"+evt.stageX/cqlsHypo.m.stage.scaleX+":"+evt.stageY/cqlsHypo.m.stage.scaleY);
+						cqlsHypo.m.tooltip.text=self.$tooltipContent(sh, evt);
+						cqlsHypo.m.tooltip.x=evt.stageX/cqlsHypo.m.stage.scaleX;
+						cqlsHypo.m.tooltip.y=evt.stageY/cqlsHypo.m.stage.scaleY;
+						cqlsHypo.m.tooltip.visible=true;
+						//console.log("end mouseover");
+						cqlsHypo.m.stage.update();
+					});
+					sh.on("pressmove",function(evt) {
+						//console.log("mouseover!!!"+evt.stageX/cqlsHypo.m.stage.scaleX+":"+evt.stageY/cqlsHypo.m.stage.scaleY);
+						cqlsHypo.m.tooltip.text=self.$tooltipContent(sh, evt);
+						cqlsHypo.m.tooltip.x=evt.stageX/cqlsHypo.m.stage.scaleX;
+						cqlsHypo.m.tooltip.y=evt.stageY/cqlsHypo.m.stage.scaleY;
+						cqlsHypo.m.tooltip.visible=true;
+						//console.log("end mouseover");
+						cqlsHypo.m.stage.update();
+					});
+					sh.on("rollout",function(evt) {
+						//console.log("mouseout!!!");
+						cqlsHypo.m.tooltip.text="";
+						cqlsHypo.m.tooltip.visible=false;
+						cqlsHypo.m.stage.update();
+					});
+				;}, TMP_1.$$s = self, TMP_1), $a).call($b);
+      })
+    })(self);
 
     (function($base, $super) {
       function $Plot(){};
@@ -12906,11 +12949,13 @@ if (file == null) file = nil;
       def.dim = def.frame = def.style = def.axisShape = def.updateCalls = def.graph = def.parent = nil;
       self.$attr_accessor("parent", "frame", "style", "graph", "dim");
 
+      self.$include($scope.get('Tooltip'));
+
       def.$initialize = function(dim, style) {
         var $a, self = this;
 
         if (dim == null) {
-          dim = $hash2(["x", "y", "w", "h"], {"x": 0, "y": 0, "w": cqlsAEP.i.dim.w, "h": cqlsAEP.i.dim.h})
+          dim = $hash2(["x", "y", "w", "h"], {"x": 0, "y": 0, "w": cqlsHypo.i.dim.w, "h": cqlsHypo.i.dim.h})
         }
         if (style == null) {
           style = $hash2(["bg"], {"bg": "#88FF88"})
@@ -12918,11 +12963,17 @@ if (file == null) file = nil;
         $a = [dim, style], self.dim = $a[0], self.style = $a[1];
         self.parent = new createjs.Container();
         self.frame = new createjs.Shape();
-        self.graph = (($scope.get('CqlsAEP')).$$scope.get('Graph')).$new(self.dim);
+        self.graph = (($scope.get('CqlsHypo')).$$scope.get('Graph')).$new(self.dim);
         self.updateCalls = [];
         self.frame.graphics.beginLinearGradientFill(["#FFF",self.style['$[]']("bg")], [0, 1], 0, self.dim['$[]']("y")+20, 0, self.dim['$[]']("y")+self.dim['$[]']("h")+20).drawRect(self.dim['$[]']("x"),self.dim['$[]']("y"),self.dim['$[]']("w"),self.dim['$[]']("h"));
         self.$addChild(self.frame);
         self.axisShape = new createjs.Shape();
+        return self.$initTooltip([self.axisShape]);
+      };
+
+      def.$attachAxis = function() {
+        var self = this;
+
         return self.$addChild(self.axisShape, [self, "drawAxis"]);
       };
 
@@ -12953,23 +13004,29 @@ if (file == null) file = nil;
       };
 
       def.$update = function() {
-        var $a, $b, TMP_1, self = this;
+        var $a, $b, TMP_2, self = this;
 
-        return ($a = ($b = self.updateCalls).$each, $a.$$p = (TMP_1 = function(k, v){var self = TMP_1.$$s || this, $a, args = nil;
+        return ($a = ($b = self.updateCalls).$each, $a.$$p = (TMP_2 = function(k, v){var self = TMP_2.$$s || this, $a, args = nil;
 if (k == null) k = nil;if (v == null) v = nil;
         args = v['$[]'](2);
           if (args !== false && args !== nil) {
             } else {
             args = []
           };
-          return ($a = v['$[]'](0).$method(v['$[]'](1))).$call.apply($a, [].concat(args));}, TMP_1.$$s = self, TMP_1), $a).call($b);
+          return ($a = v['$[]'](0).$method(v['$[]'](1))).$call.apply($a, [].concat(args));}, TMP_2.$$s = self, TMP_2), $a).call($b);
       };
 
-      return (def.$drawAxis = function() {
+      def.$drawAxis = function() {
         var self = this;
 
         return self.axisShape.graphics.ss(3,2).s("#000").mt(self.dim['$[]']("x"),self.graph.$to_Y(0.0)).lt(self.dim['$[]']("x")['$+'](self.dim['$[]']("w")),self.graph.$to_Y(0.0)).es();
-      }, nil) && 'drawAxis';
+      };
+
+      return (def.$tooltipContent = function(shape, evt) {
+        var self = this;
+
+        return self.graph.$to_x(evt.stageX/cqlsHypo.m.stage.scaleX).$to_f();
+      }, nil) && 'tooltipContent';
     })(self, null);
 
     (function($base, $super) {
@@ -13041,57 +13098,57 @@ if (k == null) k = nil;if (v == null) v = nil;
       };
 
       def.$update = function(active) {
-        var $a, $b, TMP_2, $c, TMP_3, $d, TMP_4, $e, TMP_5, $f, TMP_6, $g, TMP_7, self = this, list = nil;
+        var $a, $b, TMP_3, $c, TMP_4, $d, TMP_5, $e, TMP_6, $f, TMP_7, $g, TMP_8, self = this, list = nil;
 
         if (active == null) {
           active = self.active
         }
         if ((($a = self['$synced?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
-          list = ($a = ($b = self.list).$select, $a.$$p = (TMP_2 = function(e){var self = TMP_2.$$s || this, $a;
+          list = ($a = ($b = self.list).$select, $a.$$p = (TMP_3 = function(e){var self = TMP_3.$$s || this, $a;
 if (e == null) e = nil;
-          return ((($a = active['$empty?']()) !== false && $a !== nil) ? $a : (active['$include?'](e['$[]'](1))))}, TMP_2.$$s = self, TMP_2), $a).call($b);
-          self.xylim['$[]']("x")['$[]='](0, ($a = ($c = list).$map, $a.$$p = (TMP_3 = function(e){var self = TMP_3.$$s || this, e2 = nil;
-if (e == null) e = nil;
-          e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
-              return e['$[]'](2).$xylim()
-              } else {
-              return e['$[]'](2)
-            }; return nil; })());
-            return e2['$[]']("x")['$[]'](0);}, TMP_3.$$s = self, TMP_3), $a).call($c).$min());
-          self.xylim['$[]']("x")['$[]='](1, ($a = ($d = list).$map, $a.$$p = (TMP_4 = function(e){var self = TMP_4.$$s || this, e2 = nil;
+          return ((($a = active['$empty?']()) !== false && $a !== nil) ? $a : (active['$include?'](e['$[]'](1))))}, TMP_3.$$s = self, TMP_3), $a).call($b);
+          self.xylim['$[]']("x")['$[]='](0, ($a = ($c = list).$map, $a.$$p = (TMP_4 = function(e){var self = TMP_4.$$s || this, e2 = nil;
 if (e == null) e = nil;
           e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
               return e['$[]'](2).$xylim()
               } else {
               return e['$[]'](2)
             }; return nil; })());
-            return e2['$[]']("x")['$[]'](1);}, TMP_4.$$s = self, TMP_4), $a).call($d).$max());
-          self.xylim['$[]']("y")['$[]='](0, ($a = ($e = list).$map, $a.$$p = (TMP_5 = function(e){var self = TMP_5.$$s || this, e2 = nil;
+            return e2['$[]']("x")['$[]'](0);}, TMP_4.$$s = self, TMP_4), $a).call($c).$min());
+          self.xylim['$[]']("x")['$[]='](1, ($a = ($d = list).$map, $a.$$p = (TMP_5 = function(e){var self = TMP_5.$$s || this, e2 = nil;
 if (e == null) e = nil;
           e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
               return e['$[]'](2).$xylim()
               } else {
               return e['$[]'](2)
             }; return nil; })());
-            return e2['$[]']("y")['$[]'](0);}, TMP_5.$$s = self, TMP_5), $a).call($e).$min());
-          self.xylim['$[]']("y")['$[]='](1, ($a = ($f = list).$map, $a.$$p = (TMP_6 = function(e){var self = TMP_6.$$s || this, e2 = nil;
+            return e2['$[]']("x")['$[]'](1);}, TMP_5.$$s = self, TMP_5), $a).call($d).$max());
+          self.xylim['$[]']("y")['$[]='](0, ($a = ($e = list).$map, $a.$$p = (TMP_6 = function(e){var self = TMP_6.$$s || this, e2 = nil;
 if (e == null) e = nil;
           e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
               return e['$[]'](2).$xylim()
               } else {
               return e['$[]'](2)
             }; return nil; })());
-            return e2['$[]']("y")['$[]'](1);}, TMP_6.$$s = self, TMP_6), $a).call($f).$max());
+            return e2['$[]']("y")['$[]'](0);}, TMP_6.$$s = self, TMP_6), $a).call($e).$min());
+          self.xylim['$[]']("y")['$[]='](1, ($a = ($f = list).$map, $a.$$p = (TMP_7 = function(e){var self = TMP_7.$$s || this, e2 = nil;
+if (e == null) e = nil;
+          e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
+              return e['$[]'](2).$xylim()
+              } else {
+              return e['$[]'](2)
+            }; return nil; })());
+            return e2['$[]']("y")['$[]'](1);}, TMP_7.$$s = self, TMP_7), $a).call($f).$max());
         };
         $a = [(self.xylim['$[]']("x")['$[]'](1)['$+'](self.zoom['$[]']("x1"))['$-'](self.xylim['$[]']("x")['$[]'](0))['$-'](self.zoom['$[]']("x0")))['$/']((self.dim['$[]']("w")['$-'](self.marg['$[]']("l"))['$-'](self.marg['$[]']("r")))), (self.xylim['$[]']("y")['$[]'](0)['$+'](self.zoom['$[]']("y0"))['$-'](self.xylim['$[]']("y")['$[]'](1))['$-'](self.zoom['$[]']("y1")))['$/']((self.dim['$[]']("h")['$-'](self.marg['$[]']("t"))['$-'](self.marg['$[]']("b"))))], self.tr['$[]=']("ax", $a[0]), self.tr['$[]=']("ay", $a[1]);
         $a = [self.xylim['$[]']("x")['$[]'](0)['$+'](self.zoom['$[]']("x0"))['$-'](self.tr['$[]']("ax")['$*']((self.dim['$[]']("x")['$+'](self.marg['$[]']("l"))))), self.xylim['$[]']("y")['$[]'](1)['$+'](self.zoom['$[]']("y1"))['$-'](self.tr['$[]']("ay")['$*']((self.dim['$[]']("y")['$+'](self.marg['$[]']("t")))))], self.tr['$[]=']("bx", $a[0]), self.tr['$[]=']("by", $a[1]);
         if ((($a = self.syncedChildren['$empty?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
           return nil
           } else {
-          return ($a = ($g = self.syncedChildren).$each, $a.$$p = (TMP_7 = function(c){var self = TMP_7.$$s || this;
+          return ($a = ($g = self.syncedChildren).$each, $a.$$p = (TMP_8 = function(c){var self = TMP_8.$$s || this;
 if (c == null) c = nil;
-          return c.$update()}, TMP_7.$$s = self, TMP_7), $a).call($g)
+          return c.$update()}, TMP_8.$$s = self, TMP_8), $a).call($g)
         };
       };
 
@@ -13170,7 +13227,7 @@ if (c == null) c = nil;
       };
 
       def.$toggleZoomTo = function(plot, type) {
-        var $a, $b, TMP_8, $c, TMP_9, $d, TMP_10, self = this, keys = nil;
+        var $a, $b, TMP_9, $c, TMP_10, $d, TMP_11, self = this, keys = nil;
 
         if (type == null) {
           type = ["xpos", "xneg", "ypos", "reset"]
@@ -13191,50 +13248,50 @@ if (c == null) c = nil;
               keys = keys['$+'](["ynegmore", "ynegless"])};
             if ((($a = type['$include?']("reset")) !== nil && (!$a.$$is_boolean || $a == true))) {
               keys = keys['$+'](["reset"])};
-            ($a = ($b = keys).$each, $a.$$p = (TMP_8 = function(k){var self = TMP_8.$$s || this;
+            ($a = ($b = keys).$each, $a.$$p = (TMP_9 = function(k){var self = TMP_9.$$s || this;
               if (self.zoomShapes == null) self.zoomShapes = nil;
 if (k == null) k = nil;
-            return self.zoomShapes['$[]='](k, new createjs.Shape())}, TMP_8.$$s = self, TMP_8), $a).call($b);
+            return self.zoomShapes['$[]='](k, new createjs.Shape())}, TMP_9.$$s = self, TMP_9), $a).call($b);
           };
-          ($a = ($c = self.zoomShapes).$each_key, $a.$$p = (TMP_9 = function(k){var self = TMP_9.$$s || this;
+          ($a = ($c = self.zoomShapes).$each_key, $a.$$p = (TMP_10 = function(k){var self = TMP_10.$$s || this;
             if (self.zoomShapes == null) self.zoomShapes = nil;
 if (k == null) k = nil;
           
 						plot.parent.addChild(self.zoomShapes['$[]'](k))
-					;}, TMP_9.$$s = self, TMP_9), $a).call($c);
+					;}, TMP_10.$$s = self, TMP_10), $a).call($c);
           return self.$showZoom();
           } else {
-          return ($a = ($d = self.zoomShapes).$each_key, $a.$$p = (TMP_10 = function(k){var self = TMP_10.$$s || this;
+          return ($a = ($d = self.zoomShapes).$each_key, $a.$$p = (TMP_11 = function(k){var self = TMP_11.$$s || this;
             if (self.zoomShapes == null) self.zoomShapes = nil;
 if (k == null) k = nil;
           
 						plot.parent.removeChild(self.zoomShapes['$[]'](k))
-					;}, TMP_10.$$s = self, TMP_10), $a).call($d)
+					;}, TMP_11.$$s = self, TMP_11), $a).call($d)
         };
       };
 
       def.$showZoom = function() {
-        var $a, $b, TMP_11, self = this, size = nil, inter = nil;
+        var $a, $b, TMP_12, self = this, size = nil, inter = nil;
 
         size = 40;
         inter = 15;
-        return ($a = ($b = self.zoomShapes).$each_key, $a.$$p = (TMP_11 = function(k){var self = TMP_11.$$s || this, $case = nil;
+        return ($a = ($b = self.zoomShapes).$each_key, $a.$$p = (TMP_12 = function(k){var self = TMP_12.$$s || this, $case = nil;
           if (self.zoomShapes == null) self.zoomShapes = nil;
           if (self.dim == null) self.dim = nil;
 if (k == null) k = nil;
         self.zoomShapes['$[]'](k).alpha=0.5;
-          return (function() {$case = k;if ("xposmore"['$===']($case)) {return self.zoomShapes['$[]']("xposmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")-1.5*size,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(self.dim['$[]']("w")-1.5*size,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(self.dim['$[]']("w")-0.5*size,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xposless"['$===']($case)) {return self.zoomShapes['$[]']("xposless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")-1.5*size-inter,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(self.dim['$[]']("w")-1.5*size-inter,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(self.dim['$[]']("w")-2.5*size-inter,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xnegmore"['$===']($case)) {return self.zoomShapes['$[]']("xnegmore").graphics.c().s("#000").f("#FFF").mt(1.5*size,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(1.5*size,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(0.5*size,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xnegless"['$===']($case)) {return self.zoomShapes['$[]']("xnegless").graphics.c().s("#000").f("#FFF").mt(1.5*size+inter,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(1.5*size+inter,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(2.5*size+inter,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("ynegmore"['$===']($case)) {return self.zoomShapes['$[]']("ynegmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),self.dim['$[]']("h")-1.5*size).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),self.dim['$[]']("h")-1.5*size).lt(self.dim['$[]']("w")['$/'](2.0),self.dim['$[]']("h")-0.5*size).cp() ;}else if ("ynegless"['$===']($case)) {return self.zoomShapes['$[]']("ynegless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),self.dim['$[]']("h")-1.5*size-inter).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),self.dim['$[]']("h")-1.5*size-inter).lt(self.dim['$[]']("w")['$/'](2.0),self.dim['$[]']("h")-2.5*size-inter).cp() ;}else if ("yposmore"['$===']($case)) {return self.zoomShapes['$[]']("yposmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),1.5*size).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),1.5*size).lt(self.dim['$[]']("w")['$/'](2.0),0.5*size).cp() ;}else if ("yposless"['$===']($case)) {return self.zoomShapes['$[]']("yposless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),1.5*size+inter).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),1.5*size+inter).lt(self.dim['$[]']("w")['$/'](2.0),2.5*size+inter).cp() ;}else if ("reset"['$===']($case)) {return self.zoomShapes['$[]']("reset").graphics.c().s("#000").f("#FFF").drawRect(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2), self.dim['$[]']("h")['$/'](2.0)-size['$/'](2),size,size) ;}else { return nil }})();}, TMP_11.$$s = self, TMP_11), $a).call($b);
+          return (function() {$case = k;if ("xposmore"['$===']($case)) {return self.zoomShapes['$[]']("xposmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")-1.5*size,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(self.dim['$[]']("w")-1.5*size,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(self.dim['$[]']("w")-0.5*size,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xposless"['$===']($case)) {return self.zoomShapes['$[]']("xposless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")-1.5*size-inter,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(self.dim['$[]']("w")-1.5*size-inter,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(self.dim['$[]']("w")-2.5*size-inter,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xnegmore"['$===']($case)) {return self.zoomShapes['$[]']("xnegmore").graphics.c().s("#000").f("#FFF").mt(1.5*size,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(1.5*size,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(0.5*size,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("xnegless"['$===']($case)) {return self.zoomShapes['$[]']("xnegless").graphics.c().s("#000").f("#FFF").mt(1.5*size+inter,self.dim['$[]']("h")['$/'](2.0)-size['$/'](2)).lt(1.5*size+inter,self.dim['$[]']("h")['$/'](2.0)+size['$/'](2)).lt(2.5*size+inter,self.dim['$[]']("h")['$/'](2.0)).cp() ;}else if ("ynegmore"['$===']($case)) {return self.zoomShapes['$[]']("ynegmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),self.dim['$[]']("h")-1.5*size).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),self.dim['$[]']("h")-1.5*size).lt(self.dim['$[]']("w")['$/'](2.0),self.dim['$[]']("h")-0.5*size).cp() ;}else if ("ynegless"['$===']($case)) {return self.zoomShapes['$[]']("ynegless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),self.dim['$[]']("h")-1.5*size-inter).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),self.dim['$[]']("h")-1.5*size-inter).lt(self.dim['$[]']("w")['$/'](2.0),self.dim['$[]']("h")-2.5*size-inter).cp() ;}else if ("yposmore"['$===']($case)) {return self.zoomShapes['$[]']("yposmore").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),1.5*size).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),1.5*size).lt(self.dim['$[]']("w")['$/'](2.0),0.5*size).cp() ;}else if ("yposless"['$===']($case)) {return self.zoomShapes['$[]']("yposless").graphics.c().s("#000").f("#FFF").mt(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2),1.5*size+inter).lt(self.dim['$[]']("w")['$/'](2.0)+size['$/'](2),1.5*size+inter).lt(self.dim['$[]']("w")['$/'](2.0),2.5*size+inter).cp() ;}else if ("reset"['$===']($case)) {return self.zoomShapes['$[]']("reset").graphics.c().s("#000").f("#FFF").drawRect(self.dim['$[]']("w")['$/'](2.0)-size['$/'](2), self.dim['$[]']("h")['$/'](2.0)-size['$/'](2),size,size) ;}else { return nil }})();}, TMP_12.$$s = self, TMP_12), $a).call($b);
       };
 
-      def.$hitZoom = function(x, y) {
-        var $a, $b, TMP_12, self = this, select = nil;
+      return (def.$hitZoom = function(x, y) {
+        var $a, $b, TMP_13, $c, self = this, select = nil, step = nil, $case = nil;
 
         if ((($a = self.zoom['$[]']("active")) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
           return nil
         };
         select = "none";
-        ($a = ($b = self.zoomShapes).$each_key, $a.$$p = (TMP_12 = function(k){var self = TMP_12.$$s || this;
+        ($a = ($b = self.zoomShapes).$each_key, $a.$$p = (TMP_13 = function(k){var self = TMP_13.$$s || this;
           if (self.zoomShapes == null) self.zoomShapes = nil;
 if (k == null) k = nil;
         if(self.zoomShapes['$[]'](k).hitTest(x, y)) {select=k};;
@@ -13242,42 +13299,25 @@ if (k == null) k = nil;
             return nil
             } else {
             return ($breaker.$v = nil, $breaker)
-          };}, TMP_12.$$s = self, TMP_12), $a).call($b);
+          };}, TMP_13.$$s = self, TMP_13), $a).call($b);
         if (select['$==']("none")) {
           return select};
-        self.$updateZoom(select);
-        return select;
-      };
-
-      return (def.$updateZoom = function(mode, times) {
-        var $a, $b, TMP_13, self = this, step = nil;
-
-        if (times == null) {
-          times = 1
-        }
         step = (0.1)['$/'](2);
-        return ($a = ($b = ($range(0, times, true))).$each, $a.$$p = (TMP_13 = function(){var self = TMP_13.$$s || this, $a, $b, $case = nil;
-          if (self.zoom == null) self.zoom = nil;
-          if (self.xylim == null) self.xylim = nil;
-
-        return (function() {$case = mode;if ("xposmore"['$===']($case)) {return ($a = "x1", $b = self.zoom, $b['$[]=']($a, $b['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))))}else if ("xposless"['$===']($case)) {if (self.zoom['$[]']("x1")['$<']((step['$-']((1)['$/'](2)))['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))) {
-            return nil
-            } else {
-            return self.zoom['$[]=']("x1", self.zoom['$[]']("x1")['$-'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0))))))
-          }}else if ("xnegmore"['$===']($case)) {return self.zoom['$[]=']("x0", self.zoom['$[]']("x0")['$-'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0))))))}else if ("xnegless"['$===']($case)) {if (self.zoom['$[]']("x0")['$>'](((1)['$/'](2)['$-'](step))['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))) {
-            return nil
-            } else {
-            return ($a = "x0", $b = self.zoom, $b['$[]=']($a, $b['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))))
-          }}else if ("yposmore"['$===']($case)) {return ($a = "y1", $b = self.zoom, $b['$[]=']($a, $b['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))))}else if ("yposless"['$===']($case)) {if (self.zoom['$[]']("y1")['$<']((step['$-']((1)['$/'](2)))['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))) {
-            return nil
-            } else {
-            return self.zoom['$[]=']("y1", self.zoom['$[]']("y1")['$-'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0))))))
-          }}else if ("ynegmore"['$===']($case)) {return self.zoom['$[]=']("y0", self.zoom['$[]']("y1")['$-'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0))))))}else if ("ynegless"['$===']($case)) {if (self.zoom['$[]']("y0")['$>'](((1)['$/'](2)['$-'](step))['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))) {
-            return nil
-            } else {
-            return ($a = "y0", $b = self.zoom, $b['$[]=']($a, $b['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))))
-          }}else if ("reset"['$===']($case)) {return self.zoom['$[]=']("x0", self.zoom['$[]=']("x1", self.zoom['$[]=']("y0", self.zoom['$[]=']("y1", 0.0))))}else { return nil }})()}, TMP_13.$$s = self, TMP_13), $a).call($b);
-      }, nil) && 'updateZoom';
+        $case = select;if ("xposmore"['$===']($case)) {($a = "x1", $c = self.zoom, $c['$[]=']($a, $c['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))))}else if ("xposless"['$===']($case)) {if (self.zoom['$[]']("x1")['$<']((step['$-']((1)['$/'](2)))['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))) {
+          } else {
+          self.zoom['$[]=']("x1", self.zoom['$[]']("x1")['$-'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0))))))
+        }}else if ("xnegmore"['$===']($case)) {self.zoom['$[]=']("x0", self.zoom['$[]']("x0")['$-'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0))))))}else if ("xnegless"['$===']($case)) {if (self.zoom['$[]']("x0")['$>'](((1)['$/'](2)['$-'](step))['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))) {
+          } else {
+          ($a = "x0", $c = self.zoom, $c['$[]=']($a, $c['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("x")['$[]'](1)['$-'](self.xylim['$[]']("x")['$[]'](0)))))))
+        }}else if ("yposmore"['$===']($case)) {($a = "y1", $c = self.zoom, $c['$[]=']($a, $c['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))))}else if ("yposless"['$===']($case)) {if (self.zoom['$[]']("y1")['$<']((step['$-']((1)['$/'](2)))['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))) {
+          } else {
+          self.zoom['$[]=']("y1", self.zoom['$[]']("y1")['$-'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0))))))
+        }}else if ("ynegmore"['$===']($case)) {self.zoom['$[]=']("y0", self.zoom['$[]']("y1")['$-'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0))))))}else if ("ynegless"['$===']($case)) {if (self.zoom['$[]']("y0")['$>'](((1)['$/'](2)['$-'](step))['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))) {
+          } else {
+          ($a = "y0", $c = self.zoom, $c['$[]=']($a, $c['$[]']($a)['$+'](step['$*']((self.xylim['$[]']("y")['$[]'](1)['$-'](self.xylim['$[]']("y")['$[]'](0)))))))
+        }}else if ("reset"['$===']($case)) {self.zoom['$[]=']("x0", self.zoom['$[]=']("x1", self.zoom['$[]=']("y0", self.zoom['$[]=']("y1", 0.0))))};
+        return select;
+      }, nil) && 'hitZoom';
     })(self, null);
 
     (function($base, $super) {
@@ -13286,13 +13326,23 @@ if (k == null) k = nil;
 
       var def = self.$$proto, $scope = self.$$scope;
 
+      def.plot = nil;
       self.$attr_accessor("id", "plot", "graph", "shape", "style", "xylim");
 
-      return (def.$initialize = function() {
+      self.$include($scope.get('Tooltip'));
+
+      def.$initialize = function() {
         var self = this;
 
         return nil;
-      }, nil) && 'initialize';
+      };
+
+      return (def.$setPlot = function(plot) {
+        var self = this;
+
+        self.plot = plot;
+        return self.graph = self.plot.$graph();
+      }, nil) && 'setPlot';
     })(self, null);
 
     (function($base, $super) {
@@ -13301,10 +13351,10 @@ if (k == null) k = nil;
 
       var def = self.$$proto, $scope = self.$$scope;
 
-      def.type = def.bounds = def.length = def.plot = def.expAxisShape = def.graph = def.summaryShapes = def.distrib = def.step = def.x = def.y = def.shape = def.style = nil;
-      self.$attr_accessor("distrib", "bounds", "kind", "type", "style");
+      def.type = def.bounds = def.length = def.summaryShapes = def.plot = def.axisShape = def.graph = def.meanStyle = def.distrib = def.step = def.sdStyle = def.x = def.y = def.shape = def.style = nil;
+      self.$attr_accessor("distrib", "bounds", "kind", "type", "style", "meanStyle", "sdStyle", "summaryShapes");
 
-      def.$initialize = function(id, type, bounds, style, length) {
+      def.$initialize = function(id, type, bounds, length) {
         var $a, $b, self = this, $case = nil;
 
         if (id == null) {
@@ -13315,9 +13365,6 @@ if (k == null) k = nil;
         }
         if (bounds == null) {
           bounds = [0, 1]
-        }
-        if (style == null) {
-          style = $hash2(["close", "stroke", "fill", "thickness"], {"close": true, "stroke": "#000", "fill": "rgba(200,200,255,0.5)", "thickness": 3})
         }
         if (length == null) {
           length = 512
@@ -13331,28 +13378,31 @@ if (k == null) k = nil;
         $case = self.type;if ("cont"['$===']($case)) {$a = [bounds, length], self.bounds = $a[0], self.length = $a[1]}else if ("disc"['$===']($case)) {self.bounds = bounds;
         self.length = self.bounds.$length();
         self.$initStep();};
-        self.style = style;
+        self.style = $hash2(["close", "stroke", "fill", "thickness"], {"close": true, "stroke": "#000", "fill": "rgba(200,200,255,0.3)", "thickness": 3});
+        self.meanStyle = $hash2(["thickness", "stroke"], {"thickness": 3, "stroke": "#000"});
+        self.sdStyle = $hash2(["thickness", "stroke"], {"thickness": 3, "stroke": "#000"});
         self.shape = new createjs.Shape();
-        self.x = $scope.get('CqlsAEP').$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length);
+        self.x = $scope.get('CqlsHypo').$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length);
         self.kind = "density";
         self.summaryShapes = [new createjs.Shape(), new createjs.Shape()];
-        return self.expAxisShape = new createjs.Shape();
+        self.axisShape = new createjs.Shape();
+        return self.$initTooltip(self.summaryShapes);
       };
 
-      def.$attachExpAxis = function(ratio) {
+      def.$attachAxis = function(ratio) {
         var self = this;
 
-        return self.plot.$addChild(self.expAxisShape, [self, "drawExpAxis", [ratio]]);
+        return self.plot.$addChild(self.axisShape, [self, "drawAxis", [ratio]]);
       };
 
-      def.$drawExpAxis = function(ratio) {
+      def.$drawAxis = function(ratio) {
         var self = this;
 
-        self.expAxisShape.visible=true;
-        return self.expAxisShape.graphics.c().s("#000").ss(1).mt(self.graph.$dim()['$[]']("x"),self.graph.$dim()['$[]']("h")['$*'](ratio)).lt(self.graph.$dim()['$[]']("x")['$+'](self.graph.$dim()['$[]']("w")),self.graph.$dim()['$[]']("h")['$*'](ratio));
+        self.axisShape.visible=true;
+        return self.axisShape.graphics.c().s("#000").ss(1).mt(self.graph.$dim()['$[]']("x"),self.graph.$dim()['$[]']("h")['$*'](ratio)).lt(self.graph.$dim()['$[]']("x")['$+'](self.graph.$dim()['$[]']("w")),self.graph.$dim()['$[]']("h")['$*'](ratio));
       };
 
-      def.$attachSummary = function() {
+      def.$attachShapes = function() {
         var self = this;
 
         self.plot.$addChild(self.summaryShapes['$[]'](0), [self, "drawMean"]);
@@ -13362,7 +13412,11 @@ if (k == null) k = nil;
       def.$drawMean = function() {
         var self = this;
 
-        return self.summaryShapes['$[]'](0).graphics.c().s("#000").ss(1).mt(self.graph.$to_X(self.distrib.$mean()),self.graph.$dim()['$[]']("y")).lt(self.graph.$to_X(self.distrib.$mean()),self.graph.$dim()['$[]']("y")['$+'](self.graph.$dim()['$[]']("h")));
+        
+				self.summaryShapes['$[]'](0).graphics.c().s(self.meanStyle['$[]']("stroke")).ss(self.meanStyle['$[]']("thickness")).mt(0,self.graph.$dim()['$[]']("y")).lt(0,self.graph.$dim()['$[]']("y")['$+'](self.graph.$dim()['$[]']("h")))
+				self.summaryShapes['$[]'](0).x=self.graph.$to_X(self.distrib.$mean());
+				//self.summaryShapes['$[]'](0).y=self.graph.$dim()['$[]']("y");
+			;
       };
 
       def.$drawSD = function() {
@@ -13374,15 +13428,16 @@ if (k == null) k = nil;
           h = h['$/'](self.step)};
         h = self.graph.$to_Y(h);
         
-				self.summaryShapes['$[]'](1).graphics.c().s("#000").ss(1)		
-				.mt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))+x,h-y)
-				.lt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev())),h)
-				.lt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))+x,h+y)
-				.mt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev())),h)
-				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev())),h)
-				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))-x,h-y)
-				.mt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev())),h)
-				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))-x,h+y)
+				self.summaryShapes['$[]'](1).graphics.c().s(self.sdStyle['$[]']("stroke")).ss(self.sdStyle['$[]']("thickness"))		
+				.mt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean()))+x,h-y)
+				.lt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean())),h)
+				.lt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean()))+x,h+y)
+				.mt(self.graph.$to_X(self.distrib.$mean()['$-'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean())),h)
+				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean())),h)
+				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean()))-x,h-y)
+				.mt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean())),h)
+				.lt(self.graph.$to_X(self.distrib.$mean()['$+'](self.distrib.$stdDev()))['$-'](self.graph.$to_X(self.distrib.$mean()))-x,h+y)
+				self.summaryShapes['$[]'](1).x=self.graph.$to_X(self.distrib.$mean())
 			;
       };
 
@@ -13462,7 +13517,7 @@ if (i == null) i = nil;
 
         self.type = self.distrib.$type();
         self.bounds = self.distrib.$bounds();
-        $case = self.type;if ("cont"['$===']($case)) {self.x = $scope.get('CqlsAEP').$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length)}else if ("disc"['$===']($case)) {self.$initStep();
+        $case = self.type;if ("cont"['$===']($case)) {self.x = $scope.get('CqlsHypo').$seq(self.bounds['$[]'](0), self.bounds['$[]'](1), self.length)}else if ("disc"['$===']($case)) {self.$initStep();
         self.x = self.bounds;};
         self.y = self.distrib.$pdf(self.x);
         if (self.type['$==']("disc")) {
@@ -13520,13 +13575,14 @@ if (e == null) e = nil;
 				if(style['$[]']("close")) {shape.graphics.f(style['$[]']("fill"));}
 				shape.graphics.s(style['$[]']("stroke")).ss(style['$[]']("thickness"));
 			;
-        shape.graphics.mt(graph.$to_X(self.x['$[]'](0)),graph.$to_Y(0.0));
+        shape.x=graph.$to_X(self.distrib.$mean());
+        shape.graphics.mt(graph.$to_X(self.x['$[]'](0))-shape.x,graph.$to_Y(0.0));
         ($a = ($b = ($range(0, self.x.$length(), true))).$each, $a.$$p = (TMP_17 = function(i){var self = TMP_17.$$s || this;
           if (self.x == null) self.x = nil;
           if (self.y == null) self.y = nil;
 if (i == null) i = nil;
-        return shape.graphics.lt(graph.$to_X(self.x['$[]'](i)),graph.$to_Y(self.y['$[]'](i)));}, TMP_17.$$s = self, TMP_17), $a).call($b);
-        shape.graphics.lt(graph.$to_X(self.x['$[]'](-1)),graph.$to_Y(0.0));
+        return shape.graphics.lt(graph.$to_X(self.x['$[]'](i))-shape.x,graph.$to_Y(self.y['$[]'](i)));}, TMP_17.$$s = self, TMP_17), $a).call($b);
+        shape.graphics.lt(graph.$to_X(self.x['$[]'](-1))-shape.x,graph.$to_Y(0.0));
         if ((($a = style['$[]']("close")) !== nil && (!$a.$$is_boolean || $a == true))) {
           return shape.graphics.cp();
           } else {
@@ -13534,7 +13590,7 @@ if (i == null) i = nil;
         };
       };
 
-      return (def.$drawDisc = function(shape, graph, style) {
+      def.$drawDisc = function(shape, graph, style) {
         var $a, $b, TMP_18, self = this, s = nil;
 
         if (shape == null) {
@@ -13567,418 +13623,534 @@ if (i == null) i = nil;
             } else {
             return nil
           };}, TMP_18.$$s = self, TMP_18), $a).call($b);
-      }, nil) && 'drawDisc';
+      };
+
+      def.$drawAreaSide = function(lim, side, shape, style, graph) {
+        var $a, $b, $c, TMP_19, self = this, $case = nil, from = nil, to = nil;
+
+        if (style == null) {
+          style = self.style
+        }
+        if (graph == null) {
+          graph = self.graph
+        }
+        $case = side;if ("left"['$===']($case)) {$a = [0, 0], from = $a[0], to = $a[1];
+        while ((($b = (($c = to['$<'](self.x.$length()['$-'](1))) ? self.x['$[]'](to)['$<='](lim) : $c)) !== nil && (!$b.$$is_boolean || $b == true))) {
+        to = to['$+'](1)};}else if ("right"['$===']($case)) {$a = [self.x.$length()['$-'](1), self.x.$length()['$-'](1)], from = $a[0], to = $a[1];
+        while ((($b = (($c = from['$>'](0)) ? self.x['$[]'](from)['$>='](lim) : $c)) !== nil && (!$b.$$is_boolean || $b == true))) {
+        from = from['$-'](1)};}else if ("between"['$===']($case)) {$a = [0, self.x.$length()['$-'](1)], from = $a[0], to = $a[1];
+        while ((($b = (($c = from['$<'](self.x.$length()['$-'](1))) ? self.x['$[]'](from)['$<'](lim['$[]'](0)) : $c)) !== nil && (!$b.$$is_boolean || $b == true))) {
+        from = from['$+'](1)};
+        while ((($b = (($c = to['$>'](0)) ? self.x['$[]'](to)['$>'](lim['$[]'](1)) : $c)) !== nil && (!$b.$$is_boolean || $b == true))) {
+        to = to['$-'](1)};};
+        
+				shape.graphics.clear();
+				shape.graphics.f(style['$[]']("fill"));
+				shape.graphics.s(style['$[]']("stroke")).ss(style['$[]']("thickness"));
+			;
+        shape.x=graph.$to_X(self.distrib.$mean());
+        shape.graphics.mt(graph.$to_X(self.x['$[]'](from))-shape.x,graph.$to_Y(0.0));
+        ($a = ($b = ($range(from, to, false))).$each, $a.$$p = (TMP_19 = function(i){var self = TMP_19.$$s || this;
+          if (self.x == null) self.x = nil;
+          if (self.y == null) self.y = nil;
+if (i == null) i = nil;
+        return shape.graphics.lt(graph.$to_X(self.x['$[]'](i))-shape.x,graph.$to_Y(self.y['$[]'](i)));}, TMP_19.$$s = self, TMP_19), $a).call($b);
+        shape.graphics.lt(graph.$to_X(self.x['$[]'](to))-shape.x,graph.$to_Y(0.0));
+        return shape.graphics.cp();
+      };
+
+      return (def.$tooltipContent = function(shape, evt) {
+        var $a, self = this;
+
+        if ((($a = shape == self.summaryShapes['$[]'](0)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          return self.distrib.$mean().$to_s()
+        } else if ((($a = shape==self.summaryShapes['$[]'](1)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          return self.distrib.$stdDev().$to_s()
+          } else {
+          return nil
+        };
+      }, nil) && 'tooltipContent';
     })(self, $scope.get('Child'));
 
-    (function($base, $super) {
-      function $Hist(){};
-      var self = $Hist = $klass($base, $super, 'Hist', $Hist);
+    (function($base) {
+      var self = $module($base, 'Callables');
 
       var def = self.$$proto, $scope = self.$$scope;
 
-      def.type = def.curve = def.curveShape = def.graph = def.style = def.plot = def.summaryShapes = def.mean = def.step = def.sd = def.bounds = def.nbPart = def.ind = def.nbTot = def.cptICTot = def.levelNext = def.levels = def.cpt = def.level = def.shape = def.aep = nil;
-      self.$attr_accessor("bounds", "level", "levels", "nbPart", "nbTot", "curveShape", "type", "aep", "style", "cptICTot");
+      Opal.defn(self, '$suspendCallables', function(tag) {
+        var self = this;
+        if (self.activeCallables == null) self.activeCallables = nil;
 
-      def.$initialize = function(id, type, bounds, style, levels) {
-        var $a, $b, self = this, $case = nil;
+        if (tag == null) {
+          tag = "default"
+        }
+        return self.activeCallables['$[]='](tag, false);
+      });
+
+      Opal.defn(self, '$resumeCallables', function(tag) {
+        var self = this;
+        if (self.activeCallables == null) self.activeCallables = nil;
+
+        if (tag == null) {
+          tag = "default"
+        }
+        return self.activeCallables['$[]='](tag, true);
+      });
+
+      Opal.defn(self, '$addCallable', function(call, tag) {
+        var $a, self = this;
+        if (self.callables == null) self.callables = nil;
+        if (self.activeCallables == null) self.activeCallables = nil;
+
+        if (tag == null) {
+          tag = "default"
+        }
+        if ((($a = self.callables) !== nil && (!$a.$$is_boolean || $a == true))) {
+          } else {
+          $a = [$hash2([], {}), $hash2([], {})], self.callables = $a[0], self.activeCallables = $a[1]
+        };
+        if ((($a = self.callables['$[]'](tag)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          } else {
+          $a = [[], []], self.callables['$[]='](tag, $a[0]), self.activeCallables['$[]='](tag, $a[1])
+        };
+        return self.callables['$[]'](tag)['$<<'](call);
+      });
+
+      Opal.defn(self, '$playCallables', function(tag) {
+        var $a, $b, TMP_20, self = this;
+        if (self.callables == null) self.callables = nil;
+        if (self.activeCallables == null) self.activeCallables = nil;
+
+        if (tag == null) {
+          tag = "default"
+        }
+        if ((($a = ($b = self.callables['$[]'](tag), $b !== false && $b !== nil ?self.activeCallables['$[]'](tag) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          return ($a = ($b = self.callables['$[]'](tag)).$each, $a.$$p = (TMP_20 = function(v){var self = TMP_20.$$s || this, $a, args = nil;
+if (v == null) v = nil;
+          args = v['$[]'](2);
+            if (args !== false && args !== nil) {
+              } else {
+              args = []
+            };
+            return ($a = v['$[]'](0).$method(v['$[]'](1))).$call.apply($a, [].concat(args));}, TMP_20.$$s = self, TMP_20), $a).call($b)
+          } else {
+          return nil
+        };
+      });
+    })(self);
+
+    (function($base, $super) {
+      function $StatTestCurve(){};
+      var self = $StatTestCurve = $klass($base, $super, 'StatTestCurve', $StatTestCurve);
+
+      var def = self.$$proto, $scope = self.$$scope, TMP_21;
+
+      def.styles = def.paramsFrame = def.typeStatTest = def.paramsStatTest = nil;
+      self.$attr_accessor("typeStatTest", "paramsFrame", "paramsStatTest");
+
+      self.$include($scope.get('Callables'));
+
+      def.$initialize = TMP_21 = function(type, params) {
+        var self = this, $iter = TMP_21.$$p, $yield = $iter || nil;
+
+        if (type == null) {
+          type = "p"
+        }
+        if (params == null) {
+          params = [1000, 0.15]
+        }
+        TMP_21.$$p = null;
+        Opal.find_super_dispatcher(self, 'initialize', TMP_21, null).apply(self, []);
+        self.$setParamsFrame(type, params);
+        return self.styles;
+      };
+
+      def.$setStyle = function() {
+        var self = this;
+
+        return nil;
+      };
+
+      def.$initEvents = function(types) {
+        var $a, $b, TMP_22, self = this;
+
+        if (types == null) {
+          types = ["mean", "sd"]
+        }
+        return ($a = ($b = types).$each, $a.$$p = (TMP_22 = function(type){var self = TMP_22.$$s || this, $case = nil;
+          if (self.summaryShapes == null) self.summaryShapes = nil;
+          if (self.typeStatTest == null) self.typeStatTest = nil;
+          if (self.paramsFrame == null) self.paramsFrame = nil;
+          if (self.graph == null) self.graph = nil;
+          if (self.distrib == null) self.distrib = nil;
+          if (self.delta == null) self.delta = nil;
+          if (self.sdX == null) self.sdX = nil;
+          if (self.oldSD == null) self.oldSD = nil;
+if (type == null) type = nil;
+        return (function() {$case = type;if ("mean"['$===']($case)) {
+						self.summaryShapes['$[]'](0).on("pressmove", function(evt) {
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
+							if(self.typeStatTest['$==']("p")){
+								self.paramsFrame['$[]='](1, self.graph.$to_x(x)) 
+								self.$updateStatTestDistrib()
+								//console.log("mean="+self.distrib.$mean()+",sd="+self.distrib.$stdDev())
+								self.$draw();
+								self.$drawMean();
+								self.$drawSD();
+								self.$playCallables();
+								cqlsHypo.m.stage.update();
+						    } else if(self.typeStatTest['$==']("m")) {
+						    	//console.log("MEAN pressed");
+						    	self.paramsFrame['$[]='](1, self.graph.$to_x(x))
+								self.$updateStatTestDistrib()
+								//console.log("mean="+self.distrib.$mean()+",sd="+self.distrib.$stdDev())
+								self.$draw();
+								self.$drawMean();
+								self.$drawSD();
+								//console.log("MEAN pressed -> delta:"+self.delta);
+								self.$playCallables();
+								//console.log("MEAN OUT");
+							}
+						    cqlsHypo.m.stage.update();
+						});
+						self.summaryShapes['$[]'](0).on("pressup", function(evt) { 
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
+							//console.log("TTTTTypeStatTest:"+self.typeStatTest)
+							if(self.typeStatTest['$==']("p")){
+								//console.log("prop up");
+								self.paramsFrame['$[]='](1, self.graph.$to_x(x))
+								self.$updateStatTestDistrib()
+								//console.log("mean="+self.distrib.$mean()+",sd="+self.distrib.$stdDev())
+								self.$draw();
+								self.$drawSD();
+							} else if(self.typeStatTest['$==']("m")) {
+								//console.log("MEANNNN UUUUUPPPPP");
+								self.paramsFrame['$[]='](1, self.graph.$to_x(x))
+								self.$updateStatTestDistrib()
+								//console.log("mean="+self.distrib.$mean()+",sd="+self.distrib.$stdDev())
+							} 
+							cqlsHypo.m.stage.update();
+						});
+					;}else if ("sd"['$===']($case)) {
+						self.summaryShapes['$[]'](1).on("mousedown", function(evt) {
+							if(self.typeStatTest['$==']("m")) {
+								//console.log("sd down");
+								self.sdX=evt.stageX/cqlsHypo.m.stage.scaleX;
+								self.oldSD = self.graph.$to_X(self.distrib.$stdDev())['$-'](self.graph.$to_X(0.0));
+							}
+						});
+						self.summaryShapes['$[]'](1).on("pressmove", function(evt) {
+							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
+							if(self.typeStatTest['$==']("m")) {
+								//console.log("sd pressed");
+								
+								var newSD=self.oldSD+x-self.sdX;
+						    	//self.summaryShapes['$[]'](1).scaleX=newSD/oldSD;
+						    	//point at the right in the real scale then substracted from real mean
+						    	//Do not forget the sqrt(n) because it is the 
+						    	self.paramsFrame['$[]='](2, self.graph.$to_x(self.graph.$to_X(0.0)['$+'](self.oldSD)['$+'](x)['$-'](self.sdX))['$*'](Math.sqrt(self.paramsFrame['$[]'](0))));
+						    	self.$updateStatTestDistrib()
+						    	self.$draw();
+						    	self.$drawSD();
+						    	self.$playCallables("sd");
+						    	//console.log("mean="+self.distrib.$mean()+",sd="+self.distrib.$stdDev())
+						    	cqlsHypo.m.stage.update();
+						    }
+						});
+					;}else { return nil }})()}, TMP_22.$$s = self, TMP_22), $a).call($b);
+      };
+
+      def.$paramsFrameAtFrom = function(key, statTest2, key2) {
+        var $a, self = this;
+
+        if (key2 == null) {
+          key2 = nil
+        }
+        if ((($a = key2['$nil?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
+          key2 = key};
+        return self.paramsFrame['$[]='](key, statTest2.$paramsFrame()['$[]'](key2));
+      };
+
+      def.$setParamsFrame = function(type, params) {
+        var self = this;
+
+        if (type == null) {
+          type = "p"
+        }
+        if (params == null) {
+          params = [1000, 0.15]
+        }
+        self.typeStatTest = type;
+        self.paramsFrame = params;
+        return self.$updateStatTestDistrib();
+      };
+
+      return (def.$updateStatTestDistrib = function() {
+        var self = this, $case = nil, paramsFrame = nil;
+
+        self.paramsStatTest = (function() {$case = self.typeStatTest;if ("p"['$===']($case)) {return [self.paramsFrame['$[]'](1), Math.sqrt(self.paramsFrame['$[]'](1)['$*'](((1)['$-'](self.paramsFrame['$[]'](1))))['$/'](self.paramsFrame['$[]'](0)))]}else if ("m"['$===']($case)) {return [self.paramsFrame['$[]'](1), self.paramsFrame['$[]'](2)['$/'](Math.sqrt(self.paramsFrame['$[]'](0)))]}else if ("dp0"['$===']($case) || "dm0"['$===']($case)) {return [0, 1]}else if ("dp"['$===']($case) || "dp1"['$===']($case)) {paramsFrame = (function() {if (self.typeStatTest['$==']("dp1")) {
+          return [self.paramsFrame['$[]'](0).$paramsFrame()['$[]'](0), self.paramsFrame['$[]'](1), self.paramsFrame['$[]'](0).$paramsFrame()['$[]'](1)]
+          } else {
+          return self.paramsFrame
+        }; return nil; })();
+        return [(paramsFrame['$[]'](2)['$-'](paramsFrame['$[]'](1)))['$/'](Math.sqrt(paramsFrame['$[]'](1)['$*'](((1)['$-'](paramsFrame['$[]'](1))))['$/'](paramsFrame['$[]'](0)))), Math.sqrt((paramsFrame['$[]'](2)['$*'](((1)['$-'](paramsFrame['$[]'](2)))))['$/']((paramsFrame['$[]'](1)['$*'](((1)['$-'](paramsFrame['$[]'](1)))))))];}else if ("dm"['$===']($case) || "dm1"['$===']($case)) {paramsFrame = (function() {if (self.typeStatTest['$==']("dm1")) {
+          return [self.paramsFrame['$[]'](0).$paramsFrame()['$[]'](0), self.paramsFrame['$[]'](1), self.paramsFrame['$[]'](0).$paramsFrame()['$[]'](1), self.paramsFrame['$[]'](0).$paramsFrame()['$[]'](2)]
+          } else {
+          return self.paramsFrame
+        }; return nil; })();
+        return [(paramsFrame['$[]'](2)['$-'](paramsFrame['$[]'](1)))['$/'](paramsFrame['$[]'](3))['$*'](Math.sqrt(paramsFrame['$[]'](0))), 1];}else { return nil }})();
+        return self.$setDistrib("normal", self.paramsStatTest);
+      }, nil) && 'updateStatTestDistrib';
+    })(self, $scope.get('Curve'));
+
+    (function($base, $super) {
+      function $AcceptanceRegion(){};
+      var self = $AcceptanceRegion = $klass($base, $super, 'AcceptanceRegion', $AcceptanceRegion);
+
+      var def = self.$$proto, $scope = self.$$scope;
+
+      def.shapes = def.graph = def.alpha = def.context = def.statTestH0 = def.side = def.sides = def.plot = nil;
+      self.$attr_accessor("alpha", "side", "style", "shapes");
+
+      self.$include($scope.get('Callables'));
+
+      def.$initialize = function(statTestH0, context, id) {
+        var $a, $b, self = this;
 
         if (id == null) {
           id = nil
         }
-        if (type == null) {
-          type = "cont"
-        }
-        if (bounds == null) {
-          bounds = [0, 1]
-        }
-        if (style == null) {
-          style = $hash2(["hist", "mean", "sd", "curve"], {"hist": $hash2(["fill", "stroke"], {"fill": "rgba(100,100,255,0.5)", "stroke": "#000000"}), "mean": $hash2(["stroke", "thickness"], {"stroke": "rgba(100,100,255,1)", "thickness": 1}), "sd": $hash2(["stroke", "thickness", "fill"], {"stroke": "rgba(100,100,255,1)", "thickness": 1, "fill": "rgba(100,100,255,1)"}), "curve": $hash2(["close", "fill", "stroke", "thickness"], {"close": false, "fill": "#000", "stroke": "rgba(0,0,0,.4)", "thickness": 3})})
-        }
-        if (levels == null) {
-          levels = 8
-        }
-        if ((($a = (($b = Opal.cvars['@@histCpt']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+        if ((($a = (($b = Opal.cvars['@@limitCpt']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
-          (Opal.cvars['@@histCpt'] = -1)
+          (Opal.cvars['@@limitCpt'] = -1)
         };
-        self.id = ((($a = id) !== false && $a !== nil) ? $a : "hist"['$+'](((Opal.cvars['@@histCpt'] = (($b = Opal.cvars['@@histCpt']) == null ? nil : $b)['$+'](1))).$to_s()));
-        self.type = type;
-        $case = self.type;if ("cont"['$===']($case)) {$a = [bounds, levels, 4], self.bounds = $a[0], self.levels = $a[1], self.level = $a[2];
-        self.nbPart = (2)['$**'](levels);}else if ("disc"['$===']($case)) {self.bounds = bounds};
-        self.$init();
-        self.style = style;
-        self.shape = new createjs.Shape();
-        self.curveShape = new createjs.Shape();
-        self.aep = $hash2([], {});
-        self.aepLastStep = $hash2([], {});
-        return self.summaryShapes = [new createjs.Shape(), new createjs.Shape()];
+        self.id = ((($a = id) !== false && $a !== nil) ? $a : "Lim"['$+'](((Opal.cvars['@@limitCpt'] = (($b = Opal.cvars['@@limitCpt']) == null ? nil : $b)['$+'](1))).$to_s()));
+        $a = [statTestH0, context], self.statTestH0 = $a[0], self.context = $a[1];
+        self.style = $hash2(["stroke", "thickness"], {"stroke": "#0F0", "thickness": 3});
+        self.sides = [];
+        self.shapes = [new createjs.Shape(), new createjs.Shape()];
+        self.alpha = "context";
+        self.side = "context";
+        return self.$initTooltip(self.shapes);
       };
 
-      def.$drawCurve = function() {
+      def.$initEvents = function() {
         var self = this;
 
-        return self.curve.$draw(self.curveShape, self.graph, self.style['$[]']("curve"));
-      };
-
-      def.$attachSummary = function() {
-        var self = this;
-
-        self.plot.$addChild(self.summaryShapes['$[]'](0), [self, "drawMean"]);
-        return self.plot.$addChild(self.summaryShapes['$[]'](1), [self, "drawSD"]);
-      };
-
-      def.$drawMean = function() {
-        var self = this;
-
-        return self.summaryShapes['$[]'](0).graphics.c().s(self.style['$[]']("mean")['$[]']("stroke")).ss(self.style['$[]']("mean")['$[]']("thickness")).mt(self.graph.$to_X(self.mean['$[]'](0)),self.graph.$dim()['$[]']("y")).lt(self.graph.$to_X(self.mean['$[]'](0)),self.graph.$dim()['$[]']("y")['$+'](self.graph.$dim()['$[]']("h")));
-      };
-
-      def.$drawSD = function() {
-        var $a, self = this, x = nil, y = nil, h = nil;
-
-        $a = [10, 10], x = $a[0], y = $a[1];
-        h = self.curve.$distrib().$maxPdf()['$/'](2.0);
-        if (self.type['$==']("disc")) {
-          h = h['$/'](self.step)};
-        h = self.graph.$to_Y(h);
         
-				self.summaryShapes['$[]'](1).graphics.c().s(self.style['$[]']("mean")['$[]']("stroke")).ss(1)
-				.mt(self.graph.$to_X(self.mean['$[]'](0)['$-'](self.sd))+x,h-y)
-				.lt(self.graph.$to_X(self.mean['$[]'](0)['$-'](self.sd)),h)
-				.lt(self.graph.$to_X(self.mean['$[]'](0)['$-'](self.sd))+x,h+y)
-				.mt(self.graph.$to_X(self.mean['$[]'](0)['$-'](self.sd)),h)
-				.lt(self.graph.$to_X(self.mean['$[]'](0)['$+'](self.sd)),h)
-				.lt(self.graph.$to_X(self.mean['$[]'](0)['$+'](self.sd))-x,h-y)
-				.mt(self.graph.$to_X(self.mean['$[]'](0)['$+'](self.sd)),h)
-				.lt(self.graph.$to_X(self.mean['$[]'](0)['$+'](self.sd))-x,h+y)
+
+				self.shapes['$[]'](0).on("pressmove", function(evt) {
+					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
+					 
+					self.$setAlphaFromQuantile(self.graph.$to_x(x), "left") 
+					self.$draw()
+					self.$playCallables();
+					cqlsHypo.m.stage.update();
+			     });
+
+				self.shapes['$[]'](1).on("pressmove", function(evt) {
+					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
+					 
+					self.$setAlphaFromQuantile(self.graph.$to_x(x), "right") 
+					self.$draw()
+					self.$playCallables();
+					cqlsHypo.m.stage.update();
+			     });
 			;
       };
 
-      def.$updateBounds = function() {
-        var self = this;
+      def.$setAlpha = function(alpha) {
+        var self = this, $case = nil;
 
-        return self.bounds = self.curve.$bounds();
+        return (function() {$case = self.alpha;if ("context"['$===']($case)) {return self.context['$[]=']("alpha", alpha)}else if ("paramPval"['$===']($case)) {return self.context['$[]=']("paramPval", alpha)}else if ("deltaPval"['$===']($case)) {return self.context['$[]=']("deltaPval", alpha)}else {return self.alpha = alpha}})();
       };
 
-      def['$regular?'] = function() {
-        var self = this;
+      def.$setAlphaFromQuantile = function(q, from) {
+        var self = this, $case = nil, alpha = nil;
 
-        return self.curve['$regular?']();
-      };
-
-      def.$init = function() {
-        var $a, $b, TMP_19, $c, TMP_20, self = this, $case = nil;
-
-        $case = self.type;if ("cont"['$===']($case)) {self.step = (self.bounds['$[]'](1)['$-'](self.bounds['$[]'](0))).$to_f()['$/'](self.nbPart);
-        $a = [[0]['$*'](self.nbPart), 0], self.cpt = $a[0], self.nbTot = $a[1];
-        self.outside = [0]['$*'](2);}else if ("disc"['$===']($case)) {self.step = ($a = ($b = ($range(1, self.bounds.$length(), true))).$map, $a.$$p = (TMP_19 = function(i){var self = TMP_19.$$s || this;
-          if (self.bounds == null) self.bounds = nil;
-if (i == null) i = nil;
-        return (self.bounds['$[]'](i)['$-'](self.bounds['$[]'](i['$-'](1)))).$abs()}, TMP_19.$$s = self, TMP_19), $a).call($b).$min();
-        $a = [[0]['$*'](self.bounds.$length()), 0], self.cpt = $a[0], self.nbTot = $a[1];
-        self.outside = [0]['$*'](2);
-        if ((($a = self['$regular?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-          } else {
-          self.ind = $hash2([], {});
-          ($a = ($c = self.bounds).$each_with_index, $a.$$p = (TMP_20 = function(v, i){var self = TMP_20.$$s || this;
-            if (self.ind == null) self.ind = nil;
-if (v == null) v = nil;if (i == null) i = nil;
-          return self.ind['$[]='](v, i)}, TMP_20.$$s = self, TMP_20), $a).call($c);
-        };};
-        return $a = [[0, 0], 0, 0], self.mean = $a[0], self.sd = $a[1], self.cptICTot = $a[2];
-      };
-
-      def.$index = function(x, step) {
-        var $a, self = this;
-
-        if (step == null) {
-          step = self.step
+        if (from == null) {
+          from = "right"
         }
-        if ((($a = self['$regular?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return ((x['$-'](self.bounds['$[]'](0)))['$/'](step)).$floor()
+        $case = from;if ("right"['$===']($case)) {alpha = (1)['$-'](self.statTestH0.$distrib().$cdf(q))}else if ("left"['$===']($case)) {alpha = self.statTestH0.$distrib().$cdf(q)};
+        if (((function() {if (self.side['$==']("context")) {
+          return self.context['$[]']("side")
           } else {
-          return self.ind['$[]']($scope.get('CqlsAEP').$quantize(x))
-        };
+          return self.side
+        }; return nil; })())['$==']("!=")) {
+          alpha = (2)['$*'](alpha)};
+        alpha = [alpha, 1.0].$min();
+        return self.$setAlpha(alpha);
       };
 
-      def.$reset = function(type) {
-        var self = this;
+      def.$getSides = function() {
+        var self = this, side = nil, alpha = nil, $case = nil;
 
-        if (type == null) {
-          type = nil
-        }
-        self.type = (function() {if (type !== false && type !== nil) {
-          return type
+        side = (function() {if (self.side['$==']("context")) {
+          return self.context['$[]']("side")
           } else {
-          return self.curve.$type()
+          return self.side
         }; return nil; })();
-        self.$updateBounds();
-        return self.$init();
+        alpha = (function() {$case = self.alpha;if ("context"['$===']($case)) {return self.context['$[]']("alpha")}else if ("paramPval"['$===']($case)) {return self.context['$[]']("paramPval")}else if ("deltaPval"['$===']($case)) {return self.context['$[]']("deltaPval")}else {return self.alpha}})();
+        return (function() {$case = side;if (">"['$===']($case)) {return self.sides = [0, (1)['$-'](alpha)]}else if ("<"['$===']($case)) {return self.sides = [alpha, 0]}else if ("!="['$===']($case)) {return self.sides = [alpha['$/'](2.0), (1)['$-'](alpha['$/'](2.0))]}else { return nil }})();
       };
 
-      def.$attachCurve = function(curve) {
-        var self = this;
+      def.$draw = function() {
+        var $a, $b, TMP_23, self = this;
 
-        self.curve = curve;
-        self.$reset();
-        self.graph.$add(self.curve);
-        self.$drawCurve();
-        self.plot.$addChild(self.curveShape, [self, "drawCurve"], 1);
-        return self.curveShape.visible=false;
-      };
-
-      def.$add = function(x) {
-        var $a, $b, TMP_21, $c, TMP_22, $d, TMP_23, $e, TMP_24, self = this, $case = nil;
-
-        $case = self.type;if ("cont"['$===']($case)) {($a = ($b = x).$each, $a.$$p = (TMP_21 = function(e){var self = TMP_21.$$s || this, $a, $b;
-          if (self.bounds == null) self.bounds = nil;
-          if (self.cpt == null) self.cpt = nil;
-          if (self.outside == null) self.outside = nil;
-if (e == null) e = nil;
-        if ((($a = (($b = self.bounds['$[]'](0)['$<='](e)) ? e['$<='](self.bounds['$[]'](-1)) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return ($a = self.$index(e), $b = self.cpt, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))
-            } else {
-            if (e['$<'](self.bounds['$[]'](0))) {
-              ($a = 0, $b = self.outside, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))};
-            if (e['$>'](self.bounds['$[]'](-1))) {
-              return ($a = 1, $b = self.outside, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))
-              } else {
-              return nil
-            };
-          }}, TMP_21.$$s = self, TMP_21), $a).call($b)}else if ("disc"['$===']($case)) {($a = ($c = x).$each, $a.$$p = (TMP_22 = function(e){var self = TMP_22.$$s || this, $a, $b, i = nil;
-          if (self.bounds == null) self.bounds = nil;
-          if (self.cpt == null) self.cpt = nil;
-          if (self.outside == null) self.outside = nil;
-if (e == null) e = nil;
-        i = self.$index(e);
-          if ((($a = (($b = (0)['$<='](i)) ? i['$<'](self.bounds.$length()) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return ($a = i, $b = self.cpt, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))
-            } else {
-            if (i['$<'](0)) {
-              ($a = 0, $b = self.outside, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))};
-            if (i['$>='](self.bounds.$length())) {
-              return ($a = 1, $b = self.outside, $b['$[]=']($a, $b['$[]']($a)['$+'](1)))
-              } else {
-              return nil
-            };
-          };}, TMP_22.$$s = self, TMP_22), $a).call($c)};
-        self.mean['$[]='](0, ($a = ($d = x).$inject, $a.$$p = (TMP_23 = function(e, e2){var self = TMP_23.$$s || this;
-if (e == null) e = nil;if (e2 == null) e2 = nil;
-        return e = e['$+'](e2)}, TMP_23.$$s = self, TMP_23), $a).call($d, self.nbTot.$to_f()['$*'](self.mean['$[]'](0))));
-        self.mean['$[]='](1, ($a = ($e = x).$inject, $a.$$p = (TMP_24 = function(e, e2){var self = TMP_24.$$s || this;
-if (e == null) e = nil;if (e2 == null) e2 = nil;
-        return e = e['$+'](e2['$**'](2))}, TMP_24.$$s = self, TMP_24), $a).call($e, self.nbTot.$to_f()['$*'](self.mean['$[]'](1))));
-        self.nbTot = self.nbTot['$+'](x.$length());
-        self.mean['$[]='](0, self.mean['$[]'](0)['$/'](self.nbTot.$to_f()));
-        self.mean['$[]='](1, self.mean['$[]'](1)['$/'](self.nbTot.$to_f()));
-        return self.sd = Math.sqrt(self.mean['$[]'](1)['$-'](self.mean['$[]'](0)['$**'](2)));
-      };
-
-      def.$incCptIC = function(cpt) {
-        var self = this;
-
-        return self.cptICTot = self.cptICTot['$+'](cpt);
-      };
-
-      def.$level = function(val, mode) {
-        var $a, $b, self = this, level = nil;
-
-        if (val == null) {
-          val = 0
-        }
-        if (mode == null) {
-          mode = "inc"
-        }
-        if (self.type['$==']("disc")) {
-          return nil};
-        if ((($a = (($b = mode['$==']("inc")) ? val['$=='](0) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.levelNext};
-        level = ((function() {if (mode['$==']("inc")) {
-          return self.levelNext
-          } else {
-          return 0
-        }; return nil; })())['$+'](val);
-        if (level['$<'](0)) {
-          level = 0};
-        if (level['$>'](self.levels)) {
-          level = self.levels};
-        self.levelNext = level;
-        self.$acceptLevelNext();
-        return self.levelNext;
-      };
-
-      def.$acceptLevelNext = function() {
-        var $a, self = this;
-
-        if ((($a = cqlsAEP.i.allowLevelChange) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.level = self.levelNext
-          } else {
-          return nil
-        };
-      };
-
-      def.$counts = function() {
-        var $a, $b, TMP_25, self = this, cptLevel = nil;
-
-        if (self.type['$==']("disc")) {
-          return self.cpt.$dup()};
-        cptLevel = [0]['$*'](((2)['$**'](self.level)));
-        ($a = ($b = ($range(0, self.nbPart, true))).$each, $a.$$p = (TMP_25 = function(i){var self = TMP_25.$$s || this, $a, $b;
-          if (self.levels == null) self.levels = nil;
-          if (self.level == null) self.level = nil;
-          if (self.cpt == null) self.cpt = nil;
-if (i == null) i = nil;
-        return ($a = i['$/']((2)['$**']((self.levels['$-'](self.level)))), $b = cptLevel, $b['$[]=']($a, $b['$[]']($a)['$+'](self.cpt['$[]'](i))))}, TMP_25.$$s = self, TMP_25), $a).call($b);
-        return cptLevel;
-      };
-
-      def.$prob = function() {
-        var $a, $b, TMP_26, self = this;
-
-        return ($a = ($b = self.$counts()).$map, $a.$$p = (TMP_26 = function(e){var self = TMP_26.$$s || this;
-          if (self.nbTot == null) self.nbTot = nil;
-if (e == null) e = nil;
-        return e.$to_f()['$/'](self.nbTot.$to_f())}, TMP_26.$$s = self, TMP_26), $a).call($b);
-      };
-
-      def.$density = function(nbTot) {
-        var $a, $b, TMP_27, self = this, cpt = nil, step = nil, nbTotal = nil;
-
-        if (nbTot == null) {
-          nbTot = nil
-        }
-        cpt = self.$counts();
-        step = ((function() {if (self.type['$==']("cont")) {
-          return self.step['$*'](((2)['$**']((self.levels['$-'](self.level)))))
-          } else {
-          return self.step
-        }; return nil; })());
-        nbTotal = (function() {if (nbTot !== false && nbTot !== nil) {
-          return nbTot
-          } else {
-          return self.nbTot
-        }; return nil; })();
-        return ($a = ($b = cpt).$map, $a.$$p = (TMP_27 = function(e){var self = TMP_27.$$s || this;
-if (e == null) e = nil;
-        return e.$to_f()['$/'](nbTotal.$to_f())['$/'](step)}, TMP_27.$$s = self, TMP_27), $a).call($b);
-      };
-
-      def.$partBounds = function() {
-        var $a, $b, TMP_28, $c, TMP_29, self = this, $case = nil, step = nil, s = nil;
-
-        return (function() {$case = self.type;if ("cont"['$===']($case)) {step = self.step['$*'](((2)['$**']((self.levels['$-'](self.level)))));
-        return (($a = ($b = ($range(0, ((2)['$**'](self.level)), true))).$map, $a.$$p = (TMP_28 = function(i){var self = TMP_28.$$s || this;
-          if (self.bounds == null) self.bounds = nil;
-if (i == null) i = nil;
-        return self.bounds['$[]'](0)['$+'](i['$*'](step))}, TMP_28.$$s = self, TMP_28), $a).call($b))['$+']([self.bounds['$[]'](1)]);}else if ("disc"['$===']($case)) {s = self.step['$/'](2.0);
-        return (($a = ($c = self.bounds).$map, $a.$$p = (TMP_29 = function(v){var self = TMP_29.$$s || this;
-if (v == null) v = nil;
-        return v['$-'](s)}, TMP_29.$$s = self, TMP_29), $a).call($c))['$+']([self.bounds['$[]'](-1)['$+'](s)]);}else { return nil }})();
-      };
-
-      def.$draw = function(nbTot) {
-        var $a, $b, TMP_30, self = this, d = nil, b = nil, l = nil;
-
-        if (nbTot == null) {
-          nbTot = nil
-        }
-        d = self.$density(nbTot);
-        b = self.$partBounds();
-        l = (function() {if (self.type['$==']("cont")) {
-          return (2)['$**'](self.level)
-          } else {
-          return self.bounds.$length()
-        }; return nil; })();
-        self.shape.graphics.c().f(self.style['$[]']("hist")['$[]']("fill")).s(self.style['$[]']("hist")['$[]']("stroke")).mt(self.graph.$to_X(b['$[]'](0)),self.graph.$to_Y(0.0));
-        ($a = ($b = ($range(0, (l), true))).$each, $a.$$p = (TMP_30 = function(i){var self = TMP_30.$$s || this;
-          if (self.type == null) self.type = nil;
-          if (self.shape == null) self.shape = nil;
+        self.$getSides();
+        return ($a = ($b = self.sides).$each_with_index, $a.$$p = (TMP_23 = function(s, i){var self = TMP_23.$$s || this;
+          if (self.shapes == null) self.shapes = nil;
+          if (self.style == null) self.style = nil;
           if (self.graph == null) self.graph = nil;
-          if (self.step == null) self.step = nil;
-if (i == null) i = nil;
-        
-					if(self.type['$==']("disc")) {
-						self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i)),self.graph.$to_Y(0));
-					}
-					self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i)),self.graph.$to_Y(d['$[]'](i)));
-					if(self['$regular?']()) {
-						self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i['$+'](1))),self.graph.$to_Y(d['$[]'](i)));
-						if(self.type['$==']("disc")) {
-							self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i['$+'](1))),self.graph.$to_Y(0));
-						}
-					}
-					else {//then implicitly discrete
-						self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i)['$+'](self.step)),self.graph.$to_Y(d['$[]'](i)));
-						self.shape.graphics.lt(self.graph.$to_X(b['$[]'](i)['$+'](self.step)),self.graph.$to_Y(0));
-					}			
-				;}, TMP_30.$$s = self, TMP_30), $a).call($b);
-        self.shape.graphics.lt(self.graph.$to_X(b['$[]'](-1)),self.graph.$to_Y(0.0));
-        return self.shape.graphics.cp();
+          if (self.statTestH0 == null) self.statTestH0 = nil;
+if (s == null) s = nil;if (i == null) i = nil;
+        if (s['$>'](0)) {
+            
+						self.shapes['$[]'](i).graphics.c().s(self.style['$[]']("stroke")).ss(self.style['$[]']("thickness")).mt(0,self.graph.$dim()['$[]']("y")).lt(0,self.graph.$dim()['$[]']("y")['$+'](self.graph.$dim()['$[]']("h")))
+						self.shapes['$[]'](i).x=self.graph.$to_X(self.statTestH0.$distrib().$quantile(s));
+					;
+            } else {
+            return self.shapes['$[]'](i).graphics.c();
+          }}, TMP_23.$$s = self, TMP_23), $a).call($b);
       };
 
-      return (def.$updateHistAEP = function(x, mode) {
-        var $a, $b, TMP_31, $c, TMP_32, $d, TMP_33, $e, TMP_34, self = this, $case = nil;
+      def.$attachShapes = function() {
+        var self = this;
 
-        if (mode == null) {
-          mode = "normal"
+        self.plot.$addChild(self.shapes['$[]'](0), [self, "draw"]);
+        return self.plot.$addChild(self.shapes['$[]'](1), [self, "draw"]);
+      };
+
+      return (def.$tooltipContent = function(shape, evt) {
+        var self = this;
+
+        return self.graph.$to_x(shape.x).$to_s();
+      }, nil) && 'tooltipContent';
+    })(self, $scope.get('Child'));
+
+    (function($base, $super) {
+      function $AreaRisk(){};
+      var self = $AreaRisk = $klass($base, $super, 'AreaRisk', $AreaRisk);
+
+      var def = self.$$proto, $scope = self.$$scope;
+
+      def.shapes = def.side = def.context = def.statTest = def.alpha = def.sides = def.style = def.graph = def.plot = nil;
+      self.$attr_accessor("alpha", "side", "style", "shapes");
+
+      def.$initialize = function(statTest, context, id) {
+        var $a, $b, self = this;
+
+        if (id == null) {
+          id = nil
         }
-        self.aep['$[]=']("cpt", ((function() {if (mode['$==']("normal")) {
-          return self.$counts()
+        if ((($a = (($b = Opal.cvars['@@areaCpt']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
-          return ([0]['$*'](((function() {if (self.type['$==']("disc")) {
-            return self.bounds.$length()
-            } else {
-            return ((2)['$**'](self.level))
-          }; return nil; })())))
-        }; return nil; })()));
-        self.aep['$[]=']("step", (function() {if (self.type['$==']("cont")) {
-          return (self.bounds['$[]'](1)['$-'](self.bounds['$[]'](0))).$to_f()['$/']((2)['$**'](self.level).$to_f())
-          } else {
-          return self.step
-        }; return nil; })());
-        self.aep['$[]=']("nbTot", ((function() {if ((($a = (["normal", "reduced"]['$include?'](mode))) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.nbTot
-          } else {
-          return 0
-        }; return nil; })())['$+'](x.$length()));
-        $a = [[], []], self.aep['$[]=']("xRect", $a[0]), self.aep['$[]=']("yRect", $a[1]);
-        $case = self.type;if ("cont"['$===']($case)) {($a = ($b = x).$each_with_index, $a.$$p = (TMP_31 = function(e, i){var self = TMP_31.$$s || this, $a, $b, pos = nil;
-          if (self.bounds == null) self.bounds = nil;
-          if (self.aep == null) self.aep = nil;
-if (e == null) e = nil;if (i == null) i = nil;
-        if ((($a = (($b = self.bounds['$[]'](0)['$<='](e)) ? e['$<='](self.bounds['$[]'](-1)) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            pos = ((e['$-'](self.bounds['$[]'](0)))['$/']((self.aep['$[]']("step")))).$floor();
-            self.aep['$[]']("xRect")['$[]='](i, self.bounds['$[]'](0)['$+']((self.aep['$[]']("step")['$*'](pos.$to_f()))));
-            ($a = pos, $b = self.aep['$[]']("cpt"), $b['$[]=']($a, $b['$[]']($a)['$+'](1)));
-            return self.aep['$[]']("yRect")['$[]='](i, self.aep['$[]']("cpt")['$[]'](pos).$to_f()['$/'](self.aep['$[]']("nbTot").$to_f())['$/'](self.aep['$[]']("step")));
-            } else {
-            pos = ((e['$-'](self.bounds['$[]'](0)))['$/']((self.aep['$[]']("step")))).$floor();
-            self.aep['$[]']("xRect")['$[]='](i, self.bounds['$[]'](0)['$+']((self.aep['$[]']("step")['$*'](pos.$to_f()))));
-            return self.aep['$[]']("yRect")['$[]='](i, 0);
-          }}, TMP_31.$$s = self, TMP_31), $a).call($b)}else if ("disc"['$===']($case)) {($a = ($c = x).$each_with_index, $a.$$p = (TMP_32 = function(e, i){var self = TMP_32.$$s || this, $a, $b, pos = nil;
-          if (self.bounds == null) self.bounds = nil;
-          if (self.aep == null) self.aep = nil;
-if (e == null) e = nil;if (i == null) i = nil;
-        pos = self.$index(e);
-          if ((($a = (($b = (0)['$<='](pos)) ? pos['$<'](self.bounds.$length()) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            self.aep['$[]']("xRect")['$[]='](i, self.bounds['$[]'](pos)['$-'](self.aep['$[]']("step")['$/'](2.0)));
-            ($a = pos, $b = self.aep['$[]']("cpt"), $b['$[]=']($a, $b['$[]']($a)['$+'](1)));
-            return self.aep['$[]']("yRect")['$[]='](i, self.aep['$[]']("cpt")['$[]'](pos).$to_f()['$/'](self.aep['$[]']("nbTot").$to_f())['$/'](self.aep['$[]']("step")));
-            } else {
-            self.aep['$[]']("xRect")['$[]='](i, e['$-'](self.aep['$[]']("step")['$/'](2.0)));
-            return self.aep['$[]']("yRect")['$[]='](i, 0);
-          };}, TMP_32.$$s = self, TMP_32), $a).call($c)};
-        if (mode['$==']("new")) {
-          self.aep['$[]=']("mean", [(($a = ($d = x).$inject, $a.$$p = (TMP_33 = function(e, e2){var self = TMP_33.$$s || this;
-if (e == null) e = nil;if (e2 == null) e2 = nil;
-          return e = e['$+'](e2)}, TMP_33.$$s = self, TMP_33), $a).call($d, 0))['$/'](self.aep['$[]']("nbTot")), (($a = ($e = x).$inject, $a.$$p = (TMP_34 = function(e, e2){var self = TMP_34.$$s || this;
-if (e == null) e = nil;if (e2 == null) e2 = nil;
-          return e = e['$+'](e2['$**'](2))}, TMP_34.$$s = self, TMP_34), $a).call($e, 0))['$/'](self.aep['$[]']("nbTot"))]);
-          return self.aep['$[]=']("sd", Math.sqrt(self.aep['$[]']("mean")['$[]'](1)['$-'](self.aep['$[]']("mean")['$[]'](0)['$**'](2))));
-          } else {
-          return nil
+          (Opal.cvars['@@areaCpt'] = -1)
         };
-      }, nil) && 'updateHistAEP';
+        self.id = ((($a = id) !== false && $a !== nil) ? $a : "Risk"['$+'](((Opal.cvars['@@areaCpt'] = (($b = Opal.cvars['@@areaCpt']) == null ? nil : $b)['$+'](1))).$to_s()));
+        $a = [statTest, context], self.statTest = $a[0], self.context = $a[1];
+        self.style = $hash2(["stroke", "fill", "thickness"], {"stroke": "rgba(255,0,0,.6)", "fill": "rgba(255,0,0,.3)", "thickness": 1});
+        self.sides = [];
+        self.shapes = [new createjs.Shape(), new createjs.Shape()];
+        self.alpha = "context";
+        self.side = "context";
+        return self.$initTooltip(self.shapes);
+      };
+
+      def.$getSides = function() {
+        var self = this, side = nil, statTestQuantile = nil, alpha = nil, $case = nil, param = nil;
+
+        side = (function() {if (self.side['$==']("context")) {
+          return self.context['$[]']("side")
+          } else {
+          return self.side
+        }; return nil; })();
+        statTestQuantile = self.statTest;
+        alpha = (function() {$case = self.alpha;if ("context"['$===']($case)) {return self.context['$[]']("alpha")}else if ("paramH0"['$===']($case)) {statTestQuantile = self.context['$[]']("paramEstH0");
+        return self.context['$[]']("alpha");}else if ("deltaH0"['$===']($case)) {statTestQuantile = self.context['$[]']("deltaEstH0");
+        return self.context['$[]']("alpha");}else if ("paramEstLim"['$===']($case)) {statTestQuantile = self.context['$[]']("paramEstH0");
+        return self.context['$[]']("paramPval");}else if ("deltaEstLim"['$===']($case)) {statTestQuantile = self.context['$[]']("deltaEstH0");
+        return self.context['$[]']("deltaPval");}else {return self.alpha}})();
+        param = (function() {$case = self.statTest.$typeStatTest();if ("dp0"['$===']($case) || "dm0"['$===']($case) || "dp1"['$===']($case) || "dm1"['$===']($case)) {return self.statTest.$paramsFrame()['$[]'](0).$paramsFrame()['$[]'](1)}else {return self.statTest.$paramsFrame()['$[]'](1)}})();
+        return (function() {$case = side;if (">"['$===']($case)) {if (param['$>'](self.context['$[]']("ref"))) {
+          return self.sides = [statTestQuantile.$distrib().$quantile((1)['$-'](alpha)), nil]
+          } else {
+          return self.sides = [nil, statTestQuantile.$distrib().$quantile((1)['$-'](alpha))]
+        }}else if ("<"['$===']($case)) {if (param['$<'](self.context['$[]']("ref"))) {
+          return self.sides = [nil, statTestQuantile.$distrib().$quantile(alpha)]
+          } else {
+          return self.sides = [statTestQuantile.$distrib().$quantile(alpha), nil]
+        }}else if ("!="['$===']($case)) {if ((Math.abs(param['$-'](self.context['$[]']("ref"))))['$<'](0.0001)) {
+          return self.sides = [statTestQuantile.$distrib().$quantile(alpha['$/'](2.0)), statTestQuantile.$distrib().$quantile((1)['$-'](alpha['$/'](2.0)))]
+          } else {
+          return self.sides = ["between", statTestQuantile.$distrib().$quantile(alpha['$/'](2.0)), statTestQuantile.$distrib().$quantile((1)['$-'](alpha['$/'](2.0)))]
+        }}else { return nil }})();
+      };
+
+      def.$draw = function() {
+        var $a, $b, TMP_24, self = this, style = nil, graph = nil;
+
+        self.$getSides();
+        if (self.sides.$length()['$=='](3)) {
+          self.statTest.$drawAreaSide(self.sides['$[]']($range(1, -1, false)), "between", self.shapes['$[]'](0), style = self.style, graph = self.graph);
+          return self.shapes['$[]'](1).graphics.c();
+          } else {
+          return ($a = ($b = self.sides).$each_with_index, $a.$$p = (TMP_24 = function(side, i){var self = TMP_24.$$s || this;
+            if (self.statTest == null) self.statTest = nil;
+            if (self.shapes == null) self.shapes = nil;
+            if (self.style == null) self.style = nil;
+            if (self.graph == null) self.graph = nil;
+if (side == null) side = nil;if (i == null) i = nil;
+          if (side !== false && side !== nil) {
+              return self.statTest.$drawAreaSide(side, ((function() {if (i['$=='](0)) {
+                return "left"
+                } else {
+                return "right"
+              }; return nil; })()), self.shapes['$[]'](i), style = self.style, graph = self.graph)
+              } else {
+              return self.shapes['$[]'](i).graphics.c();
+            }}, TMP_24.$$s = self, TMP_24), $a).call($b)
+        };
+      };
+
+      def.$attachShapes = function() {
+        var self = this;
+
+        self.plot.$addChild(self.shapes['$[]'](0), [self, "draw"]);
+        return self.plot.$addChild(self.shapes['$[]'](1), [self, "draw"]);
+      };
+
+      return (def.$tooltipContent = function(shape, evt) {
+        var $a, $b, self = this, alpha = nil, $case = nil, statTestQuantile = nil, area = nil, param = nil, side = nil;
+
+        alpha = (function() {$case = self.alpha;if ("context"['$===']($case)) {return self.context['$[]']("alpha")}else if ("paramH0"['$===']($case)) {statTestQuantile = self.context['$[]']("paramEstH0");
+        return self.context['$[]']("alpha");}else if ("deltaH0"['$===']($case)) {statTestQuantile = self.context['$[]']("deltaEstH0");
+        return self.context['$[]']("alpha");}else if ("paramEstLim"['$===']($case)) {statTestQuantile = self.context['$[]']("paramEstH0");
+        return self.context['$[]']("paramPval");}else if ("deltaEstLim"['$===']($case)) {statTestQuantile = self.context['$[]']("deltaEstH0");
+        return self.context['$[]']("deltaPval");}else {return self.alpha}})();
+        area = alpha;
+        if ((($a = (($b = statTestQuantile !== false && statTestQuantile !== nil) ? self.statTest['$=='](statTestQuantile)['$!']() : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+          param = (function() {$case = self.statTest.$typeStatTest();if ("dp0"['$===']($case) || "dm0"['$===']($case) || "dp1"['$===']($case) || "dm1"['$===']($case)) {return self.statTest.$paramsFrame()['$[]'](0).$paramsFrame()['$[]'](1)}else {return self.statTest.$paramsFrame()['$[]'](1)}})();
+          side = (function() {if (self.side['$==']("context")) {
+            return self.context['$[]']("side")
+            } else {
+            return self.side
+          }; return nil; })();
+          area = (function() {$case = side;if (">"['$===']($case)) {if (param['$>'](self.context['$[]']("ref"))) {
+            return self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile((1)['$-'](alpha)))
+            } else {
+            return (1)['$-'](self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile((1)['$-'](alpha))))
+          }}else if ("<"['$===']($case)) {if (param['$<'](self.context['$[]']("ref"))) {
+            return (1)['$-'](self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile(alpha)))
+            } else {
+            return self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile(alpha))
+          }}else if ("!="['$===']($case)) {if ((Math.abs(param['$-'](self.context['$[]']("ref"))))['$<'](0.0001)) {
+            return (2)['$*'](self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile(alpha['$/'](2.0))))
+            } else {
+            return self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile((1)['$-'](alpha['$/'](2.0))))['$-'](self.statTest.$distrib().$cdf(statTestQuantile.$distrib().$quantile(alpha['$/'](2.0))))
+          }}else { return nil }})();};
+        return (area['$*'](100)).$to_s()['$+']("%");
+      }, nil) && 'tooltipContent';
     })(self, $scope.get('Child'));
 
     (function($base, $super) {
@@ -13987,254 +14159,255 @@ if (e == null) e = nil;if (e2 == null) e2 = nil;
 
       var def = self.$$proto, $scope = self.$$scope;
 
-      def.plotExp = def.plotHist = def.graphHist = def.graphExp = def.exp = def.hist = def.ratioExpAxis = def.transf = def.checkTCL = def.n = def.x = def.y = def.mLevel = def.mLevels = def.nold = def.transfList = def.curIndHist = def.histCur = def.statMode = def.n01 = def.alpha = def.ind = def.aep = def.w = def.h = def.wX = def.hY = def.modeHidden = def.time = def.cptIC = def.nbSim = nil;
+      def.plotParam = def.plotDelta = def.paramEst = def.deltaEst = def.context = def.paramLim = def.deltaLim = def.paramTypeIRisk = def.deltaTypeIRisk = def.paramTypeGenRisk = def.deltaTypeGenRisk = def.paramEstLim = def.deltaEstLim = def.paramPvalRisk = def.deltaPvalRisk = def.styles = def.alpha = def.graphParam = def.graphDelta = nil;
       self.$attr_accessor("exp");
 
-      def.$initialize = function(plotExp, plotHist) {
-        var $a, self = this;
+      def.$initialize = function(plotParam, plotDelta) {
+        var $a, $b, $c, $d, self = this;
 
-        if (plotExp == null) {
-          plotExp = cqlsAEP.s.plot
+        if (plotParam == null) {
+          plotParam = cqlsHypo.s.plot
         }
-        if (plotHist == null) {
-          plotHist = cqlsAEP.h.plot
+        if (plotDelta == null) {
+          plotDelta = cqlsHypo.h.plot
         }
-        
-				cqlsAEP.actors={pt:[],rect:[],line:[]};
-				cqlsAEP.tweens={pt:[],rect:[],line:[]};
-	    		cqlsAEP.m.nbsSimMax=cqlsAEP.m.nbsSim["1000"][cqlsAEP.m.nbsSim["1000"].length-1];
-	    		//console.log("nbsSImMax="+cqlsAEP.m.nbsSimMax);
-	     		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
-					var rect=new createjs.Shape();
-	    			cqlsAEP.actors.rect.push(rect);
-			    	rect.visible=false;
-			    	cqlsAEP.m.stage.addChild(rect);
-	    		}
-	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
-					var line=new createjs.Shape();
-	    			cqlsAEP.actors.line.push(line);
-			    	line.visible=false;
-			    	cqlsAEP.m.stage.addChild(line);
-	    		}
-	    		for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
-	    			var pt=new createjs.Shape();
-	    			cqlsAEP.actors.pt.push(pt);
-			    	pt.visible=false;
-			    	pt.x=0;pt.y=0;
-			    	cqlsAEP.m.stage.addChild(pt);
-	    		}
-			
-        self.stage = cqlsAEP.m.stage;
-        $a = [plotExp, plotHist], self.plotExp = $a[0], self.plotHist = $a[1];
-        $a = [self.plotExp.$graph(), self.plotHist.$graph()], self.graphExp = $a[0], self.graphHist = $a[1];
-        self.graphHist.$syncTo(self.graphExp);
-        self.exp = [$scope.get('Curve').$new(), $scope.get('Curve').$new()];
-        self.$setDistrib();
-        self.$setDistrib("chi2", [10], 1);
-        self.plotExp.$addChild(self.exp['$[]'](0));
-        self.plotExp.$addChild(self.exp['$[]'](1));
-        self.exp['$[]'](1).$style()['$[]=']("fill", createjs.Graphics.getRGB(200,200,200,.3));
-        self.exp['$[]'](1).$style()['$[]=']("thickness", 1);
-        self.hist = [$scope.get('Hist').$new(), $scope.get('Hist').$new()];
-        self.plotHist.$addChild(self.hist['$[]'](0));
-        self.plotHist.$addChild(self.hist['$[]'](1));
-        self.hist['$[]'](0).$attachCurve(self.exp['$[]'](0));
-        self.hist['$[]'](1).$attachCurve(self.exp['$[]'](1));
-        self.exp['$[]'](0).$attachSummary();
-        self.exp['$[]'](1).$attachSummary();
-        self.hist['$[]'](0).$attachSummary();
-        self.hist['$[]'](1).$attachSummary();
-        self.ratioExpAxis = [(1)['$-'](self.graphExp.$marg()['$[]']("b")['$/'](self.graphExp.$dim()['$[]']("h"))), 0.2];
-        self.yExpAxis = [self.ratioExpAxis['$[]'](0)['$*'](self.graphExp.$dim()['$[]']("h")), self.ratioExpAxis['$[]'](1)['$*'](self.graphExp.$dim()['$[]']("h"))];
-        self.exp['$[]'](0).$attachExpAxis(self.ratioExpAxis['$[]'](0));
-        self.exp['$[]'](1).$attachExpAxis(self.ratioExpAxis['$[]'](1));
+        self.stage = cqlsHypo.m.stage;
+        $a = [plotParam, plotDelta], self.plotParam = $a[0], self.plotDelta = $a[1];
+        $a = [self.plotParam.$graph(), self.plotDelta.$graph()], self.graphParam = $a[0], self.graphDelta = $a[1];
+        self.$setStyles();
+        self.paramEst = [$scope.get('StatTestCurve').$new("p", [1000, 0.15], false), $scope.get('StatTestCurve').$new("p", [1000, 0.2])];
+        self.plotParam.$addChild(self.paramEst['$[]'](0));
+        self.plotParam.$addChild(self.paramEst['$[]'](1));
+        self.paramEst['$[]'](1).$style()['$[]=']("fill", createjs.Graphics.getRGB(200,200,200,.3));
+        self.paramEst['$[]'](1).$style()['$[]=']("thickness", 1);
+        self.deltaEst = [$scope.get('StatTestCurve').$new("dp0", [self.paramEst['$[]'](0)], false), $scope.get('StatTestCurve').$new("dp1", [self.paramEst['$[]'](1), 0.15], false)];
+        self.plotDelta.$addChild(self.deltaEst['$[]'](0));
+        self.plotDelta.$addChild(self.deltaEst['$[]'](1));
+        self.deltaEst['$[]'](1).$style()['$[]=']("fill", createjs.Graphics.getRGB(200,200,200,.3));
+        self.deltaEst['$[]'](1).$style()['$[]=']("thickness", 1);
+        self.context = $hash2([], {});
+        self.paramLim = $scope.get('AcceptanceRegion').$new(self.paramEst['$[]'](0), self.context);
+        self.deltaLim = $scope.get('AcceptanceRegion').$new(self.deltaEst['$[]'](0), self.context);
+        self.paramLim.$setPlot(self.plotParam);
+        self.deltaLim.$setPlot(self.plotDelta);
+        self.paramTypeIRisk = $scope.get('AreaRisk').$new(self.paramEst['$[]'](0), self.context);
+        self.deltaTypeIRisk = $scope.get('AreaRisk').$new(self.deltaEst['$[]'](0), self.context);
+        self.paramTypeIRisk.$setPlot(self.plotParam);
+        self.deltaTypeIRisk.$setPlot(self.plotDelta);
+        self.paramTypeGenRisk = $scope.get('AreaRisk').$new(self.paramEst['$[]'](1), self.context);
+        (($a = ["paramH0"]), $b = self.paramTypeGenRisk, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.paramTypeGenRisk.$setPlot(self.plotParam);
+        self.deltaTypeGenRisk = $scope.get('AreaRisk').$new(self.deltaEst['$[]'](1), self.context);
+        (($a = ["deltaH0"]), $b = self.deltaTypeGenRisk, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.deltaTypeGenRisk.$setPlot(self.plotDelta);
+        self.paramEstLim = $scope.get('AcceptanceRegion').$new(self.paramEst['$[]'](0), self.context);
+        (($a = ["paramPval"]), $b = self.paramEstLim, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.deltaEstLim = $scope.get('AcceptanceRegion').$new(self.deltaEst['$[]'](0), self.context);
+        (($a = ["deltaPval"]), $b = self.deltaEstLim, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.paramEstLim.$setPlot(self.plotParam);
+        self.deltaEstLim.$setPlot(self.plotDelta);
+        self.paramPvalRisk = $scope.get('AreaRisk').$new(self.paramEst['$[]'](0), self.context);
+        (($a = ["paramEstLim"]), $b = self.paramPvalRisk, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.deltaPvalRisk = $scope.get('AreaRisk').$new(self.deltaEst['$[]'](0), self.context);
+        (($a = ["deltaEstLim"]), $b = self.deltaPvalRisk, $b['$alpha='].apply($b, $a), $a[$a.length-1]);
+        self.paramPvalRisk.$setPlot(self.plotParam);
+        self.deltaPvalRisk.$setPlot(self.plotDelta);
+        (($a = [(($c = [self.styles['$[]']("lim")]), $d = self.deltaLim, $d['$style='].apply($d, $c), $c[$c.length-1])]), $b = self.paramLim, $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [(($c = [self.styles['$[]']("estLim")]), $d = self.deltaEstLim, $d['$style='].apply($d, $c), $c[$c.length-1])]), $b = self.paramEstLim, $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [(($c = [self.styles['$[]']("estLim")]), $d = self.deltaPvalRisk, $d['$style='].apply($d, $c), $c[$c.length-1])]), $b = self.paramPvalRisk, $b['$style='].apply($b, $a), $a[$a.length-1]);
+        self.paramLim.$initEvents();
+        self.paramLim.$addCallable([self.paramTypeIRisk, "draw"]);
+        self.paramLim.$addCallable([self.paramTypeGenRisk, "draw"]);
+        self.paramLim.$addCallable([self.deltaLim, "draw"]);
+        self.paramLim.$addCallable([self.deltaTypeIRisk, "draw"]);
+        self.paramLim.$addCallable([self.deltaTypeGenRisk, "draw"]);
+        self.deltaLim.$initEvents();
+        self.deltaLim.$addCallable([self.deltaTypeIRisk, "draw"]);
+        self.deltaLim.$addCallable([self.deltaTypeGenRisk, "draw"]);
+        self.deltaLim.$addCallable([self.paramLim, "draw"]);
+        self.deltaLim.$addCallable([self.paramTypeIRisk, "draw"]);
+        self.deltaLim.$addCallable([self.paramTypeGenRisk, "draw"]);
+        self.paramEst['$[]'](0).$initEvents(["sd"]);
+        self.paramEst['$[]'](0).$addCallable([self.paramEst['$[]'](1), "paramsFrameAtFrom", [2, self.paramEst['$[]'](0)]], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramEst['$[]'](1), "updateStatTestDistrib"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramEst['$[]'](1), "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramEst['$[]'](1), "drawSD"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramLim, "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramTypeIRisk, "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramTypeGenRisk, "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.deltaEst['$[]'](1), "updateStatTestDistrib"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.deltaEst['$[]'](1), "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.deltaEst['$[]'](1), "drawMean"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.deltaEst['$[]'](1), "drawSD"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.deltaTypeGenRisk, "draw"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self, "setPval"], "sd");
+        self.paramEst['$[]'](0).$addCallable([self.paramPvalRisk, "draw"], "sd");
+        self.paramEst['$[]'](1).$initEvents();
+        self.paramEst['$[]'](1).$addCallable([self.paramTypeGenRisk, "draw"]);
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "updateStatTestDistrib"]);
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "draw"]);
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "drawMean"]);
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "drawSD"]);
+        self.paramEst['$[]'](1).$addCallable([self.deltaTypeGenRisk, "draw"]);
+        self.paramEst['$[]'](1).$addCallable([self.paramEst['$[]'](0), "paramsFrameAtFrom", [2, self.paramEst['$[]'](1)]], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramEst['$[]'](0), "updateStatTestDistrib"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramEst['$[]'](0), "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramEst['$[]'](0), "drawSD"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramLim, "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramTypeIRisk, "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramTypeGenRisk, "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "updateStatTestDistrib"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "drawMean"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.deltaEst['$[]'](1), "drawSD"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.deltaTypeGenRisk, "draw"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self, "setPval"], "sd");
+        self.paramEst['$[]'](1).$addCallable([self.paramPvalRisk, "draw"], "sd");
+        self.paramLim.$attachShapes();
+        self.deltaLim.$attachShapes();
+        self.paramTypeIRisk.$attachShapes();
+        self.deltaTypeIRisk.$attachShapes();
+        self.paramTypeGenRisk.$attachShapes();
+        self.deltaTypeGenRisk.$attachShapes();
+        self.paramEstLim.$attachShapes();
+        self.deltaEstLim.$attachShapes();
+        self.paramPvalRisk.$attachShapes();
+        self.deltaPvalRisk.$attachShapes();
+        self.paramEst['$[]'](0).$attachShapes();
+        self.paramEst['$[]'](1).$attachShapes();
+        self.deltaEst['$[]'](0).$attachShapes();
+        self.deltaEst['$[]'](1).$attachShapes();
+        self.plotParam.$attachAxis();
+        self.plotDelta.$attachAxis();
         self.n01 = $scope.get('Distribution').$new("normal", [0, 1]);
         self.$setAlpha(0.05);
         self.$setStatMode("none");
-        self['$isModeHidden?']();
-        self.$setTransf();
         self.$reset();
-        $a = [[], []], self.x = $a[0], self.y = $a[1];
-        self.aep = [];
-        $a = [[], [], [], []], self.w = $a[0], self.h = $a[1], self.wX = $a[2], self.hY = $a[3];
-        self.style = $hash2(["fp", "sp", "fl", "sl", "fr", "sr"], {"fp": "#FFF", "sp": "#000000", "fl": "#FFF", "sl": "#000000", "fr": "rgba(100,100,255,0.8)", "sr": "#000000"});
-        self.$setMLevel(3, "set");
-        return self.$setN(1);
+        return self.style = $hash2(["fp", "sp", "fl", "sl", "fr", "sr"], {"fp": "#FFF", "sp": "#000000", "fl": "#FFF", "sl": "#000000", "fr": "rgba(100,100,255,0.8)", "sr": "#000000"});
+      };
+
+      def.$setStyles = function() {
+        var $a, self = this;
+
+        if ((($a = self.styles) !== nil && (!$a.$$is_boolean || $a == true))) {
+          } else {
+          self.styles = $hash2([], {})
+        };
+        self.styles['$[]=']("estLim", $hash2(["fill", "stroke", "thickness"], {"fill": "rgba(240,130,40,.3)", "stroke": "rgba(240,130,40,.8)", "thickness": 6}));
+        self.styles['$[]=']("known", $hash2(["close", "fill", "stroke", "thickness"], {"close": true, "fill": "rgba(50,100,250,.1)", "stroke": "rgba(50,150,250,.8)", "thickness": 3}));
+        self.styles['$[]=']("knownMovable", $hash2(["close", "fill", "stroke", "thickness"], {"close": true, "fill": "rgba(50,100,250,.1)", "stroke": "rgba(50,150,250,.8)", "thickness": 6}));
+        self.styles['$[]=']("unknown", $hash2(["close", "fill", "stroke", "thickness"], {"close": true, "fill": "rgba(250,50,100,.1)", "stroke": "rgba(250,50,100,.8)", "thickness": 3}));
+        self.styles['$[]=']("unknownMovable", $hash2(["close", "fill", "stroke", "thickness"], {"close": true, "fill": "rgba(250,50,100,.1)", "stroke": "rgba(250,50,100,.8)", "thickness": 6}));
+        return self.styles['$[]=']("lim", $hash2(["close", "fill", "stroke", "thickness"], {"close": true, "fill": "rgba(20,150,20,.1)", "stroke": "rgba(20,150,20,.8)", "thickness": 6}));
+      };
+
+      def.$setPval = function() {
+        var self = this;
+
+        self.context['$[]=']("paramPval", self.context['$[]']("paramEstH0").$distrib().$cdf(self.context['$[]']("paramEstLim")));
+        self.context['$[]=']("deltaPval", self.context['$[]']("deltaEstH0").$distrib().$cdf(self.context['$[]']("deltaEstLim")));
+        if (self.context['$[]']("side")['$=='](">")) {
+          self.context['$[]=']("paramPval", (1)['$-'](self.context['$[]']("paramPval")));
+          return self.context['$[]=']("deltaPval", (1)['$-'](self.context['$[]']("deltaPval")));
+        } else if (self.context['$[]']("side")['$==']("!=")) {
+          self.context['$[]=']("paramPval", (2)['$*']([self.context['$[]']("paramPval"), (1)['$-'](self.context['$[]']("paramPval"))].$min()));
+          return self.context['$[]=']("deltaPval", (2)['$*']([self.context['$[]']("deltaPval"), (1)['$-'](self.context['$[]']("deltaPval"))].$min()));
+          } else {
+          return nil
+        };
+      };
+
+      def.$getContext = function() {
+        var $a, $b, self = this, $case = nil, sd = nil;
+
+        self.context['$[]=']("param", cqlsHypo.f.getValue('param'));
+        self.context['$[]=']("side", cqlsHypo.f.getValue('side'));
+        self.context['$[]=']("ref", parseFloat(cqlsHypo.f.getValue('refValue')));
+        self.context['$[]=']("n", parseInt(cqlsHypo.f.getValue('nValue')));
+        self.context['$[]=']("alpha", self.alpha);
+        self.context['$[]=']("sigma", 1);
+        $case = self.context['$[]']("param");if ("p"['$===']($case)) {(($a = [[self.context['$[]']("n"), self.context['$[]']("ref")]]), $b = self.paramEst['$[]'](0), $b['$paramsFrame='].apply($b, $a), $a[$a.length-1]);
+        (($a = [[self.context['$[]']("n"), self.context['$[]']("ref").$to_f()['$*'](((function() {if (self.context['$[]']("side")['$==']("<")) {
+          return 0.5
+          } else {
+          return 1.5
+        }; return nil; })()))]]), $b = self.paramEst['$[]'](1), $b['$paramsFrame='].apply($b, $a), $a[$a.length-1]);
+        self.context['$[]=']("paramEstLim", parseFloat(cqlsHypo.f.getValue('meanValue')));
+        self.context['$[]=']("deltaEstLim", (self.context['$[]']("paramEstLim")['$-'](self.context['$[]']("ref")))['$/']((Math.sqrt(self.context['$[]']("ref")['$*'](((1)['$-'](self.context['$[]']("ref"))))['$/'](self.context['$[]']("n"))))));}else if ("mu"['$===']($case)) {self.context['$[]=']("param", "m");
+        (($a = [[self.context['$[]']("n"), self.context['$[]']("ref"), self.context['$[]']("sigma")]]), $b = self.paramEst['$[]'](0), $b['$paramsFrame='].apply($b, $a), $a[$a.length-1]);
+        (($a = [[self.context['$[]']("n"), self.context['$[]']("ref").$to_f()['$*'](((function() {if (self.context['$[]']("side")['$==']("<")) {
+          return 0.5
+          } else {
+          return 1.5
+        }; return nil; })())), self.context['$[]']("sigma")]]), $b = self.paramEst['$[]'](1), $b['$paramsFrame='].apply($b, $a), $a[$a.length-1]);
+        self.context['$[]=']("paramEstLim", parseFloat(cqlsHypo.f.getValue('meanValue')));
+        sd = parseFloat(cqlsHypo.f.getValue('sdValue'));
+        self.context['$[]=']("deltaEstLim", (self.context['$[]']("paramEstLim")['$-'](self.context['$[]']("ref")))['$/']((sd['$/'](Math.sqrt(self.context['$[]']("n"))))));};
+        (($a = [self.context['$[]']("param")]), $b = self.paramEst['$[]'](0), $b['$typeStatTest='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.context['$[]']("param")]), $b = self.paramEst['$[]'](1), $b['$typeStatTest='].apply($b, $a), $a[$a.length-1]);
+        self.context['$[]=']("paramEstH0", self.paramEst['$[]'](0));
+        self.context['$[]=']("deltaEstH0", self.deltaEst['$[]'](0));
+        (($a = ["d"['$+'](self.context['$[]']("param"))['$+']("0")]), $b = self.deltaEst['$[]'](0), $b['$typeStatTest='].apply($b, $a), $a[$a.length-1]);
+        (($a = ["d"['$+'](self.context['$[]']("param"))['$+']("1")]), $b = self.deltaEst['$[]'](1), $b['$typeStatTest='].apply($b, $a), $a[$a.length-1]);
+        self.paramEst['$[]'](1).$updateStatTestDistrib();
+        self.paramEst['$[]'](0).$updateStatTestDistrib();
+        self.deltaEst['$[]'](1).$updateStatTestDistrib();
+        self.$setPval();
+        return (function() {$case = self.context['$[]']("param");if ("p"['$===']($case)) {(($a = [self.styles['$[]']("known")]), $b = self.paramEst['$[]'](0), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.paramEst['$[]'](0), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.paramEst['$[]'](0), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.paramEst['$[]'](1), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknownMovable")]), $b = self.paramEst['$[]'](1), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknownMovable")]), $b = self.paramEst['$[]'](1), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        return (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);}else if ("m"['$===']($case)) {(($a = [self.styles['$[]']("unknown")]), $b = self.paramEst['$[]'](0), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.paramEst['$[]'](0), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknownMovable")]), $b = self.paramEst['$[]'](0), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.paramEst['$[]'](1), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknownMovable")]), $b = self.paramEst['$[]'](1), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknownMovable")]), $b = self.paramEst['$[]'](1), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("known")]), $b = self.deltaEst['$[]'](0), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$style='].apply($b, $a), $a[$a.length-1]);
+        (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$meanStyle='].apply($b, $a), $a[$a.length-1]);
+        return (($a = [self.styles['$[]']("unknown")]), $b = self.deltaEst['$[]'](1), $b['$sdStyle='].apply($b, $a), $a[$a.length-1]);}else { return nil }})();
       };
 
       def.$reset = function(curs) {
-        var $a, $b, $c, TMP_35, self = this;
+        var $a, $b, TMP_25, self = this;
 
         if (curs == null) {
-          curs = [0]
+          curs = [0, 1]
         }
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          curs['$<<'](1)};
-        (($a = [(function() {if ((($c = self.transf) !== nil && (!$c.$$is_boolean || $c == true))) {
-          return ["curve0", "curve1"]
-          } else {
-          return ["curve0"]
-        }; return nil; })()]), $b = self.graphExp, $b['$active='].apply($b, $a), $a[$a.length-1]);
-        self.graphExp.$update();
-        self.plotExp.$update();
-        ($a = ($b = curs).$each, $a.$$p = (TMP_35 = function(cur){var self = TMP_35.$$s || this;
-          if (self.hist == null) self.hist = nil;
-          if (self.exp == null) self.exp = nil;
+        self.$getContext();
+        (($a = [["curve0", "curve1"]]), $b = self.graphParam, $b['$active='].apply($b, $a), $a[$a.length-1]);
+        self.graphParam.$update();
+        self.plotParam.$update();
+        (($a = [["curve2", "curve3"]]), $b = self.graphDelta, $b['$active='].apply($b, $a), $a[$a.length-1]);
+        self.graphDelta.$update();
+        self.plotDelta.$update();
+        ($a = ($b = curs).$each, $a.$$p = (TMP_25 = function(cur){var self = TMP_25.$$s || this;
+          if (self.paramEst == null) self.paramEst = nil;
+          if (self.deltaEst == null) self.deltaEst = nil;
 if (cur == null) cur = nil;
-        self.hist['$[]'](cur).$reset();
-          self.exp['$[]'](cur).$draw();
-          self.hist['$[]'](cur).$drawCurve();
-          return self.hist['$[]'](cur).$draw();}, TMP_35.$$s = self, TMP_35), $a).call($b);
-        self.plotHist.$update();
-        self.$setCurHist((function() {if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return 1
-          } else {
-          return 0
-        }; return nil; })());
-        self.$setTCL();
-        self.$updateTCL(false);
+        self.paramEst['$[]'](cur).$draw();
+          return self.deltaEst['$[]'](cur).$draw();}, TMP_25.$$s = self, TMP_25), $a).call($b);
         return self.$updateVisible();
       };
 
-      def.$setTCL = function() {
-        var $a, $b, self = this, $case = nil;
-
-        if ((($a = self.checkTCL) !== nil && (!$a.$$is_boolean || $a == true))) {
-          } else {
-          self.checkTCL = $scope.get('Curve').$new();
-          (($a = [$hash2(["close", "stroke", "fill", "thickness"], {"close": true, "stroke": "#000", "fill": "rgba(100,200,255,0.5)", "thickness": 5})]), $b = self.checkTCL, $b['$style='].apply($b, $a), $a[$a.length-1]);
-          self.plotHist.$addChild(self.checkTCL);
-        };
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return (function() {$case = self.transf['$[]']("name");if ("mean"['$===']($case)) {return self.checkTCL.$setDistrib("normal", [self.exp['$[]'](0).$distrib().$mean(), Math.sqrt(self.exp['$[]'](0).$distrib().$variance()['$/'](self.n))])}else if ("stdMean"['$===']($case)) {return self.checkTCL.$setDistrib("normal", [0, 1])}else if ("sum"['$===']($case)) {return self.checkTCL.$setDistrib("normal", [self.exp['$[]'](0).$distrib().$mean()['$*'](self.n), Math.sqrt(self.exp['$[]'](0).$distrib().$variance()['$*'](self.n))])}else { return nil }})()
-          } else {
-          return nil
-        };
-      };
-
-      def.$updateTCL = function(state) {
-        var $a, $b, self = this;
-
-        if (state == null) {
-          state = true
-        }
-        if ((($a = ($b = self.transf, $b !== false && $b !== nil ?(["mean", "sum", "stdMean"]['$include?'](self.transf['$[]']("name"))) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          } else {
-          state = false
-        };
-        if (state !== false && state !== nil) {
-          self.$setTCL();
-          self.checkTCL.$draw();};
-        return self.checkTCL.shape.visible=state;
-      };
-
-      def.$setDistrib = function(name, params, cur) {
-        var $a, $b, self = this, to_set = nil, $case = nil;
-
-        if (name == null) {
-          name = "normal"
-        }
-        if (params == null) {
-          params = nil
-        }
-        if (cur == null) {
-          cur = 0
-        }
-        to_set = true;
-        $case = name;if ("discreteUniform"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [1, 6, 1]
-        }}else if ("bernoulli"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [0.15]
-        }}else if ("binomial"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [5, 0.15]
-        }}else if ("birthday"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [365, 50]
-        }}else if ("uniform"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [0, 1]
-        }}else if ("stdNormal"['$===']($case)) {name = "normal";
-        if (params !== false && params !== nil) {
-          } else {
-          params = [0, 1]
-        };}else if ("normal"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [2, 0.5]
-        }}else if ("t"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [10]
-        }}else if ("chi2"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [10]
-        }}else if ("exp"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [1]
-        }}else if ("cauchy"['$===']($case)) {if (params !== false && params !== nil) {
-          } else {
-          params = [0, 1]
-        }}else if ("saljus"['$===']($case)) {self.$setDistribAs($scope.get('Distribution').$new("exp", [1], $hash2(["name", "args"], {"name": "locationScale", "args": [90, 10]})));
-        to_set = false;};
-        if (to_set !== false && to_set !== nil) {
-          self.exp['$[]'](cur).$setDistrib(name, params)};
-        if ((($a = ($b = self.transf, $b !== false && $b !== nil ?cur['$=='](0) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.$setTransf(self.transf['$[]']("name"))
-          } else {
-          return nil
-        };
-      };
-
-      def.$setDistribAs = function(dist, cur) {
+      def.$setStatMode = function(mode) {
         var self = this;
 
-        if (cur == null) {
-          cur = 0
-        }
-        return self.exp['$[]'](cur).$setDistribAs(dist);
-      };
-
-      def.$setTransfDistrib = function(dist, transf, cur) {
-        var self = this;
-
-        if (cur == null) {
-          cur = 0
-        }
-        return self.exp['$[]'](cur).$setDistribAsTransf(transf, dist);
-      };
-
-      def.$addXY = function(n, cur) {
-        var $a, self = this, xy = nil;
-
-        if (n == null) {
-          n = 1
-        }
-        if (cur == null) {
-          cur = 0
-        }
-        xy = self.exp['$[]'](cur).$xy(n);
-        return $a = [xy['$[]']("x"), xy['$[]']("y")], self.x['$[]='](cur, $a[0]), self.y['$[]='](cur, $a[1]);
-      };
-
-      def.$setN = function(n) {
-        var $a, self = this;
-
-        self.n = n;
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          self.$setTransf(self.transf['$[]']("name"))};
-        return self.$setNbSim();
-      };
-
-      def.$setStatMode = function(transf) {
-        var self = this;
-
-        self.statMode = ((function() {if (transf['$==']("meanIC")) {
+        return self.statMode = ((function() {if (mode['$==']("meanIC")) {
           return "ic"
           } else {
           return "none"
         }; return nil; })());
-        return self['$isModeHidden?']();
       };
 
       def.$setAlpha = function(alpha) {
@@ -14243,1241 +14416,57 @@ if (cur == null) cur = nil;
         return self.alpha = alpha;
       };
 
-      def.$setMLevel = function(val, mode) {
-        var $a, $b, self = this;
-
-        if (val == null) {
-          val = 3
-        }
-        if (mode == null) {
-          mode = "inc"
-        }
-        if ((($a = (($b = mode['$==']("inc")) ? val['$=='](0) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.mLevel};
-        if ((($a = self.mLevels) !== nil && (!$a.$$is_boolean || $a == true))) {
-          } else {
-          self.mLevels = [1, 3, 5, 10, 30, 100, 1000, 3000]
-        };
-        self.mLevel = ((function() {if (mode['$==']("inc")) {
-          return self.mLevel
-          } else {
-          return 0
-        }; return nil; })())['$+'](val);
-        if (self.mLevel['$<'](0)) {
-          self.mLevel = 0};
-        if (self.mLevel['$>'](self.mLevels.$length()['$-'](1))) {
-          self.mLevel = self.mLevels.$length()['$-'](1)};
-        return self.$setNbSim();
-      };
-
-      def.$setNbSim = function() {
+      return (def.$updateVisible = function() {
         var self = this;
 
-        return self.nbSim = [self.n['$*'](self.mLevels['$[]'](self.mLevel)), cqlsAEP.m.nbSimMax].$min();
-      };
-
-      def.$setTransf = function(transf) {
-        var $a, self = this, dist0 = nil, $case = nil, name = nil, params = nil;
-
-        if (transf == null) {
-          transf = nil
-        }
-        self.transf = transf;
-        if (self.transf['$==']("none")) {
-          self.transf = nil};
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          if (self.n['$=='](1)) {
-            if ((($a = self.nold) !== nil && (!$a.$$is_boolean || $a == true))) {
-              } else {
-              self.nold = 10
-            };
-            self.n = self.nold;
-            self.$setNbSim();};
-          if ((($a = self.transfList) !== nil && (!$a.$$is_boolean || $a == true))) {
-            } else {
-            self.$initTransfList()
-          };
-          self.transf = self.transfList['$[]'](transf);
-          self.transf['$[]=']("name", transf);
-          self.transf['$[]=']("origDist", dist0 = self.exp['$[]'](0).$distrib());
-          return (function() {$case = self.transf['$[]']("name");if ("sum"['$===']($case)) {self.transf['$[]=']("args", [self.n]);
-          if (self.exp['$[]'](0).$distrib().$name()['$==']("bernoulli")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setDistrib("binomial", [self.n, dist0.$mean()], 1);
-          } else if (self.exp['$[]'](0).$distrib().$name()['$==']("normal")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setDistrib(name = "normal", params = [self.n['$*'](dist0.$mean()), Math.sqrt(dist0.$variance()['$*'](self.n))], 1);
-          } else if (dist0.$type()['$==']("disc")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setTransfDistrib(dist0, self.transf, 1);
-          } else if (self.n['$>='](30)) {
-            self.transf['$[]=']("dist", "approx");
-            return self.$setDistrib(name = "normal", params = [self.n['$*'](dist0.$mean()), Math.sqrt(dist0.$variance()['$*'](self.n))], 1);
-            } else {
-            self.transf['$[]=']("dist", "xylim");
-            return self.$setTransfDistrib(dist0, self.transf, 1);
-          };}else if ("mean"['$===']($case)) {self.transf['$[]=']("args", [self.n]);
-          if (self.exp['$[]'](0).$distrib().$name()['$==']("bernoulli")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setDistribAs($scope.get('Distribution').$new("binomial", [self.n, dist0.$mean()], $hash2(["name", "args"], {"name": "locationScale", "args": [0, (1)['$/'](self.n)]})), 1);
-          } else if (self.exp['$[]'](0).$distrib().$name()['$==']("normal")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setDistrib(name = "normal", params = [dist0.$mean(), Math.sqrt(dist0.$variance()['$/'](self.n))], 1);
-          } else if (self.exp['$[]'](0).$distrib().$name()['$==']("cauchy")) {
-            self.transf['$[]=']("dist", "exact2");
-            return self.$setDistrib(name = "cauchy", params = [0, 1], 1);
-          } else if (dist0.$type()['$==']("disc")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setTransfDistrib(dist0, self.transf, 1);
-          } else if (self.n['$>='](30)) {
-            self.transf['$[]=']("dist", "approx");
-            return self.$setDistrib(name = "normal", params = [dist0.$mean(), Math.sqrt(dist0.$variance()['$/'](self.n))], 1);
-            } else {
-            self.transf['$[]=']("dist", "xylim");
-            return self.$setTransfDistrib(dist0, self.transf, 1);
-          };}else if ("stdMean"['$===']($case)) {self.transf['$[]=']("args", [dist0.$mean()]);
-          if (self.exp['$[]'](0).$distrib().$name()['$==']("normal")) {
-            self.transf['$[]=']("dist", "exact");
-            return self.$setDistrib(name = "t", params = [self.n['$-'](1)], 1);
-          } else if (self.n['$>='](30)) {
-            self.transf['$[]=']("dist", "approx");
-            return self.$setDistrib(name = "normal", params = [0, 1], 1);
-            } else {
-            self.transf['$[]=']("dist", "xylim");
-            return self.$setDistrib(name = "normal", params = [0, 1], 1);
-          };}else if ("sumOfSq"['$===']($case)) {self.transf['$[]=']("args", [self.n]);
-          self.transf['$[]=']("dist", "exact2");
-          if (self.exp['$[]'](0).$distrib().$name()['$==']("normal")) {
-            return self.$setDistrib("chi2", [self.n], 1)
-            } else {
-            return self.$setTransfDistrib(dist0, self.transf, 1)
-          };}else if ("locationScale"['$===']($case)) {$a = [self.n, 1], self.nold = $a[0], self.n = $a[1];
-          self.transf['$[]=']("dist", "exact");
-          self.transf['$[]=']("args", [dist0.$mean()['$-@']()['$/'](Math.sqrt(dist0.$variance())), (1)['$/'](Math.sqrt(dist0.$variance()))]);
-          return self.$setTransfDistrib(dist0, self.transf, 1);}else if ("square"['$===']($case)) {$a = [self.n, 1], self.nold = $a[0], self.n = $a[1];
-          self.transf['$[]=']("dist", "exact");
-          self.transf['$[]=']("args", []);
-          return self.$setTransfDistrib(dist0, self.transf, 1);}else if ("center"['$===']($case)) {$a = [self.n, 1], self.nold = $a[0], self.n = $a[1];
-          self.transf['$[]=']("dist", "exact");
-          self.transf['$[]=']("transf", "locationScale");
-          self.transf['$[]=']("args", [dist0.$mean()['$-@'](), 1]);
-          return self.$setTransfDistrib(dist0, $hash2(["name", "args"], {"name": self.transf['$[]']("transf"), "args": self.transf['$[]']("args")}), 1);}else { return nil }})();
-          } else {
-          self.nold = self.n;
-          return self.n = 1;
-        };
-      };
-
-      def.$animMode = function() {
-        var $a, self = this;
-
-        cqlsAEP.i.anim=cqlsAEP.f.getValue("animMode");
-        cqlsAEP.i.prior=cqlsAEP.f.getValue("priorMode");
-        if ((($a = cqlsAEP.i.anim) !== nil && (!$a.$$is_boolean || $a == true))) {
-          if ((($a = cqlsAEP.i.prior) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return "prior"
-            } else {
-            return "normal"
-          }
-          } else {
-          return "fast"
-        };
-      };
-
-      def.$transfMode = function() {
-        var $a, self = this;
-
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.transf['$[]']("mode")
-          } else {
-          return "none"
-        };
-      };
-
-      def.$initTransfList = function() {
-        var self = this;
-
-        return self.transfList = $hash2(["sum", "mean", "stdMean", "sumOfSq", "locationScale", "square", "addition", "center"], {"sum": $hash2(["args", "mode"], {"args": [], "mode": "sample"}), "mean": $hash2(["args", "mode"], {"args": [], "mode": "sample"}), "stdMean": $hash2(["args", "mode"], {"args": [], "mode": "sample"}), "sumOfSq": $hash2(["args", "mode"], {"args": [], "mode": "sample"}), "locationScale": $hash2(["args", "mode"], {"args": [], "mode": "all"}), "square": $hash2(["args", "mode"], {"args": [], "mode": "all"}), "addition": $hash2(["args", "mode"], {"args": [], "mode": "all"}), "center": $hash2(["args", "mode"], {"args": [], "mode": "all"})});
-      };
-
-      def.$applyTransfByValue = function(v) {
-        var $a, $b, self = this;
-
-        return ($a = self.$method((((($b = self.transf['$[]']("transf")) !== false && $b !== nil) ? $b : self.transf['$[]']("name")))['$+']("_transf"))).$call.apply($a, [v].concat(self.transf['$[]']("args")));
-      };
-
-      def.$applyTransfByIndex = function(inds, v) {
-        var $a, $b, self = this;
-
-        return ($a = self.$method((((($b = self.transf['$[]']("transf")) !== false && $b !== nil) ? $b : self.transf['$[]']("name")))['$+']("_transf_by_index"))).$call.apply($a, [inds, v].concat(self.transf['$[]']("args")));
-      };
-
-      def.$sum_transf = function(v) {
-        var $a, $b, TMP_36, self = this;
-
-        return ($a = ($b = v).$inject, $a.$$p = (TMP_36 = function(e, v2){var self = TMP_36.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2)}, TMP_36.$$s = self, TMP_36), $a).call($b, 0);
-      };
-
-      def.$sum_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_37, self = this;
-
-        return ($a = ($b = inds).$inject, $a.$$p = (TMP_37 = function(e, i){var self = TMP_37.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i))}, TMP_37.$$s = self, TMP_37), $a).call($b, 0);
-      };
-
-      def.$mean_transf = function(v) {
-        var $a, $b, TMP_38, self = this;
-
-        return (($a = ($b = v).$inject, $a.$$p = (TMP_38 = function(e, v2){var self = TMP_38.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2)}, TMP_38.$$s = self, TMP_38), $a).call($b, 0))['$/'](self.n);
-      };
-
-      def.$mean_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_39, self = this;
-
-        return (($a = ($b = inds).$inject, $a.$$p = (TMP_39 = function(e, i){var self = TMP_39.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i))}, TMP_39.$$s = self, TMP_39), $a).call($b, 0))['$/'](self.n);
-      };
-
-      def.$stdMean_transf = function(v, mu) {
-        var $a, $b, TMP_40, $c, TMP_41, self = this, m = nil, m2 = nil;
-
-        m = (($a = ($b = v).$inject, $a.$$p = (TMP_40 = function(e, v2){var self = TMP_40.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2)}, TMP_40.$$s = self, TMP_40), $a).call($b, 0))['$/'](self.n);
-        m2 = (($a = ($c = v).$inject, $a.$$p = (TMP_41 = function(e, v2){var self = TMP_41.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2['$**'](2))}, TMP_41.$$s = self, TMP_41), $a).call($c, 0))['$/'](self.n);
-        return (m['$-'](mu))['$/'](Math.sqrt((m2['$-'](m['$**'](2)))/self.n['$-'](1)));
-      };
-
-      def.$stdMean_transf_by_index = function(inds, v, mu) {
-        var $a, $b, TMP_42, $c, TMP_43, self = this, m = nil, m2 = nil;
-
-        m = (($a = ($b = inds).$inject, $a.$$p = (TMP_42 = function(e, i){var self = TMP_42.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i))}, TMP_42.$$s = self, TMP_42), $a).call($b, 0))['$/'](self.n);
-        m2 = ($a = ($c = inds).$inject, $a.$$p = (TMP_43 = function(e, i){var self = TMP_43.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i)['$**'](2))}, TMP_43.$$s = self, TMP_43), $a).call($c, 0)['$/'](self.n);
-        return (m['$-'](mu))['$/'](Math.sqrt((m2['$-'](m['$**'](2)))/self.n['$-'](1)));
-      };
-
-      def.$sumOfSq_transf = function(v) {
-        var $a, $b, TMP_44, self = this, m = nil, s = nil;
-
-        $a = [self.transf['$[]']("origDist").$mean(), self.transf['$[]']("origDist").$stdDev()], m = $a[0], s = $a[1];
-        return ($a = ($b = v).$inject, $a.$$p = (TMP_44 = function(e, v2){var self = TMP_44.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](((v2['$-'](m))['$/'](s))['$**'](2))}, TMP_44.$$s = self, TMP_44), $a).call($b, 0);
-      };
-
-      def.$sumOfSq_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_45, self = this, m = nil, s = nil;
-
-        $a = [self.transf['$[]']("origDist").$mean(), self.transf['$[]']("origDist").$stdDev()], m = $a[0], s = $a[1];
-        return ($a = ($b = inds).$inject, $a.$$p = (TMP_45 = function(e, i){var self = TMP_45.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](((v['$[]'](i)['$-'](m))['$/'](s))['$**'](2))}, TMP_45.$$s = self, TMP_45), $a).call($b, 0);
-      };
-
-      def.$seMean_transf = function(v) {
-        var $a, $b, TMP_46, $c, TMP_47, self = this, m = nil, m2 = nil;
-
-        m = (($a = ($b = v).$inject, $a.$$p = (TMP_46 = function(e, v2){var self = TMP_46.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2)}, TMP_46.$$s = self, TMP_46), $a).call($b, 0))['$/'](self.n);
-        m2 = (($a = ($c = v).$inject, $a.$$p = (TMP_47 = function(e, v2){var self = TMP_47.$$s || this;
-if (e == null) e = nil;if (v2 == null) v2 = nil;
-        return e = e['$+'](v2['$**'](2))}, TMP_47.$$s = self, TMP_47), $a).call($c, 0))['$/'](self.n);
-        return Math.sqrt((m2['$-'](m['$**'](2)))/self.n['$-'](1));
-      };
-
-      def.$seMean_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_48, $c, TMP_49, self = this, m = nil, m2 = nil;
-
-        m = (($a = ($b = inds).$inject, $a.$$p = (TMP_48 = function(e, i){var self = TMP_48.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i))}, TMP_48.$$s = self, TMP_48), $a).call($b, 0))['$/'](self.n);
-        m2 = (($a = ($c = inds).$inject, $a.$$p = (TMP_49 = function(e, i){var self = TMP_49.$$s || this;
-if (e == null) e = nil;if (i == null) i = nil;
-        return e = e['$+'](v['$[]'](i)['$**'](2))}, TMP_49.$$s = self, TMP_49), $a).call($c, 0))['$/'](self.n);
-        return Math.sqrt((m2['$-'](m['$**'](2)))/self.n['$-'](1));
-      };
-
-      def.$locationScale_transf = function(v) {
-        var $a, $b, TMP_50, self = this;
-
-        return ($a = ($b = v).$map, $a.$$p = (TMP_50 = function(e){var self = TMP_50.$$s || this;
-          if (self.transf == null) self.transf = nil;
-if (e == null) e = nil;
-        return self.transf['$[]']("args")['$[]'](0)['$+'](e['$*'](self.transf['$[]']("args")['$[]'](1)))}, TMP_50.$$s = self, TMP_50), $a).call($b);
-      };
-
-      def.$locationScale_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_51, self = this;
-
-        return ($a = ($b = inds).$map, $a.$$p = (TMP_51 = function(i){var self = TMP_51.$$s || this;
-          if (self.transf == null) self.transf = nil;
-if (i == null) i = nil;
-        return self.transf['$[]']("args")['$[]'](0)['$+'](v['$[]'](i)['$*'](self.transf['$[]']("args")['$[]'](1)))}, TMP_51.$$s = self, TMP_51), $a).call($b);
-      };
-
-      def.$square_transf = function(v) {
-        var $a, $b, TMP_52, self = this;
-
-        return ($a = ($b = v).$map, $a.$$p = (TMP_52 = function(e){var self = TMP_52.$$s || this;
-if (e == null) e = nil;
-        return e['$**'](2)}, TMP_52.$$s = self, TMP_52), $a).call($b);
-      };
-
-      def.$square_transf_by_index = function(inds, v) {
-        var $a, $b, TMP_53, self = this;
-
-        return ($a = ($b = inds).$map, $a.$$p = (TMP_53 = function(i){var self = TMP_53.$$s || this;
-if (i == null) i = nil;
-        return v['$[]'](i)['$**'](2)}, TMP_53.$$s = self, TMP_53), $a).call($b);
-      };
-
-      def.$setCurHist = function(ind) {
-        var self = this;
-
-        if (ind == null) {
-          ind = 0
-        }
-        self.curIndHist = ind;
-        self.histCur = self.hist['$[]'](self.curIndHist);
-        return self.expCur = self.exp['$[]'](self.curIndHist);
-      };
-
-      def.$drawHist = function() {
-        var self = this;
-
-        return nil;
-      };
-
-      def.$allowLevelChange = function(state) {
-        var self = this;
-
-        cqlsAEP.i.allowLevelChange=state;
-        if (state !== false && state !== nil) {
-          return self.histCur.$acceptLevelNext()
-          } else {
-          return nil
-        };
-      };
-
-      def.$transitionInitTransf = function(o, t) {
-        var $a, $b, TMP_54, $c, TMP_55, $d, TMP_56, $e, TMP_57, $f, TMP_58, $g, TMP_59, $h, TMP_60, self = this, q = nil, mu = nil, opdf = nil, tpdf = nil;
-
-        if (o == null) {
-          o = 0
-        }
-        if (t == null) {
-          t = 1
-        }
-        if (self.$transfMode()['$==']("sample")) {
-          self.ind = [];
-          ($a = ($b = ($range(0, (self.x['$[]'](o).$length()['$/'](self.n)), true))).$each, $a.$$p = (TMP_54 = function(i){var self = TMP_54.$$s || this;
-            if (self.ind == null) self.ind = nil;
-if (i == null) i = nil;
-          return self.ind['$<<']([])}, TMP_54.$$s = self, TMP_54), $a).call($b);
-          ($a = ($c = ($range(0, self.x['$[]'](o).$length(), true))).$each, $a.$$p = (TMP_55 = function(i){var self = TMP_55.$$s || this;
-            if (self.ind == null) self.ind = nil;
-            if (self.n == null) self.n = nil;
-if (i == null) i = nil;
-          return self.ind['$[]']((i['$/'](self.n)).$floor())['$<<'](i)}, TMP_55.$$s = self, TMP_55), $a).call($c);
-          self.x['$[]='](t, [0]['$*']((self.x['$[]'](o).$length()['$/'](self.n))));
-          if (self.statMode['$==']("ic")) {
-            $a = [[0]['$*']((self.x['$[]'](t).$length())), [0]['$*']((self.x['$[]'](t).$length())), 0, self.n01.$quantile((1)['$-'](self.alpha['$/'](2))), self.exp['$[]'](t).$distrib().$mean()], self.icSide = $a[0], self.icGood = $a[1], self.cptIC = $a[2], q = $a[3], mu = $a[4]};
-          self.col = [];
-          ($a = ($d = self.ind).$each_with_index, $a.$$p = (TMP_56 = function(s, i){var self = TMP_56.$$s || this, $a, $b;
-            if (self.x == null) self.x = nil;
-            if (self.col == null) self.col = nil;
-            if (self.statMode == null) self.statMode = nil;
-            if (self.icSide == null) self.icSide = nil;
-            if (self.icGood == null) self.icGood = nil;
-            if (self.cptIC == null) self.cptIC = nil;
-if (s == null) s = nil;if (i == null) i = nil;
-          self.x['$[]'](t)['$[]='](i, self.$applyTransfByIndex(s, self.x['$[]'](o)));
-            self.col['$[]='](i, [(Math.random()*256).$floor(), (Math.random()*256).$floor(), (Math.random()*256).$floor(), 0.8]);
-            if (self.statMode['$==']("ic")) {
-              self.icSide['$[]='](i, q['$*'](self.$seMean_transf_by_index(s, self.x['$[]'](o))));
-              if ((($a = ($b = (self.x['$[]'](t)['$[]'](i)['$-'](self.icSide['$[]'](i))['$<='](mu)), $b !== false && $b !== nil ?(mu['$<='](self.x['$[]'](t)['$[]'](i)['$+'](self.icSide['$[]'](i)))) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-                self.icGood['$[]='](i, 1)};
-              return self.cptIC = self.cptIC['$+'](self.icGood['$[]'](i));
-              } else {
-              return nil
-            };}, TMP_56.$$s = self, TMP_56), $a).call($d);
-          return self.y['$[]='](t, self.exp['$[]'](t).$y(self.x['$[]'](t)));
-        } else if (self.$transfMode()['$==']("all")) {
-          self.ind = ($a = ($e = ($range(0, self.x['$[]'](o).$length(), true))).$map, $a.$$p = (TMP_57 = function(i){var self = TMP_57.$$s || this;
-if (i == null) i = nil;
-          return [i]}, TMP_57.$$s = self, TMP_57), $a).call($e);
-          self.x['$[]='](t, self.$applyTransfByValue(self.x['$[]'](o)));
-          self.col = [[0, 0, 0, 1]]['$*']((self.x['$[]'](t).$length()));
-          self.y['$[]='](t, self.exp['$[]'](t).$y(self.x['$[]'](t)));
-          opdf = ($a = ($f = self.exp['$[]'](o).$distrib().$pdf(self.x['$[]'](o))).$map, $a.$$p = (TMP_58 = function(e){var self = TMP_58.$$s || this;
-            if (self.exp == null) self.exp = nil;
-if (e == null) e = nil;
-          return e['$/'](self.exp['$[]'](o).$distrib().$step())}, TMP_58.$$s = self, TMP_58), $a).call($f);
-          tpdf = ($a = ($g = self.exp['$[]'](t).$distrib().$pdf(self.x['$[]'](t))).$map, $a.$$p = (TMP_59 = function(e){var self = TMP_59.$$s || this;
-            if (self.exp == null) self.exp = nil;
-if (e == null) e = nil;
-          return e['$/'](self.exp['$[]'](t).$distrib().$step())}, TMP_59.$$s = self, TMP_59), $a).call($g);
-          return self.y['$[]='](t, ($a = ($h = ($range(0, self.x['$[]'](o).$length(), true))).$map, $a.$$p = (TMP_60 = function(i){var self = TMP_60.$$s || this;
-            if (self.y == null) self.y = nil;
-if (i == null) i = nil;
-          return (self.y['$[]'](o)['$[]'](i))['$/'](opdf['$[]'](i))['$*'](tpdf['$[]'](i))}, TMP_60.$$s = self, TMP_60), $a).call($h));
-          } else {
-          return nil
-        };
-      };
-
-      def.$transitionInitHist = function(cur, mode) {
-        var $a, self = this;
-
-        if (mode == null) {
-          mode = "normal"
-        }
-        self.$allowLevelChange(false);
-        self.hist['$[]'](cur).$updateHistAEP(self.x['$[]'](cur), mode);
-        self.aep['$[]='](cur, self.hist['$[]'](cur).$aep());
-        $a = [self.aep['$[]'](cur)['$[]']("step"), (1)['$/'](self.aep['$[]'](cur)['$[]']("nbTot").$to_f())['$/'](self.aep['$[]'](cur)['$[]']("step"))], self.w['$[]='](cur, $a[0]), self.h['$[]='](cur, $a[1]);
-        return $a = [self.graphHist.$to_X(self.w['$[]'](cur))['$-'](self.graphHist.$to_X(0)), self.graphHist.$to_Y(0)['$-'](self.graphHist.$to_Y(self.h['$[]'](cur)))], self.wX['$[]='](cur, $a[0]), self.hY['$[]='](cur, $a[1]);
-      };
-
-      def.$transitionInitPts = function(cur) {
-        var $a, $b, TMP_61, self = this;
-
-        return ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_61 = function(i){var self = TMP_61.$$s || this;
-          if (self.style == null) self.style = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
         
-					//draw points
-					cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(self.style['$[]']("fp")).drawCircle(0,0,cqlsAEP.i.ptSize);
-					//tweens for points
-					cqlsAEP.tweens.pt[i]=createjs.Tween.get(cqlsAEP.actors.pt[i],{override:true});
-				;
-          if (self.hist['$[]'](cur).$type()['$==']("disc")) {
-            
-						//draw lines
-						cqlsAEP.actors.line[i].graphics.c().s(self.style['$[]']("sl")).f(self.style['$[]']("fl"))
-						.drawRect(0,0,self.wX['$[]'](cur),0);
-						cqlsAEP.actors.line[i].regX=self.wX['$[]'](cur)/2.0;
-						//tweens for lines
-						cqlsAEP.tweens.line[i]=createjs.Tween.get(cqlsAEP.actors.line[i],{override:true});
-					;
-            } else {
-            return nil
-          };}, TMP_61.$$s = self, TMP_61), $a).call($b);
-      };
+				self.paramEst['$[]'](0).shape.visible=cqlsHypo.f.getValue('checkParam0Curve');
+				self.paramEst['$[]'](1).shape.visible=cqlsHypo.f.getValue('checkParam1Curve');
+				self.deltaEst['$[]'](0).shape.visible=cqlsHypo.f.getValue('checkDelta0Curve');
+				self.deltaEst['$[]'](1).shape.visible=cqlsHypo.f.getValue('checkDelta1Curve');
+			 	
 
-      def.$transitionInitPtsTransf = function(cur) {
-        var $a, $b, TMP_62, $c, TMP_64, self = this;
+				// Lim
+				self.paramLim.shapes[0].visible= cqlsHypo.f.getValue('checkParamLim');
+				self.paramLim.shapes[1].visible= cqlsHypo.f.getValue('checkParamLim');
+				self.deltaLim.shapes[0].visible= cqlsHypo.f.getValue('checkDeltaLim');
+				self.deltaLim.shapes[1].visible= cqlsHypo.f.getValue('checkDeltaLim');
+				self.paramEstLim.shapes[0].visible= cqlsHypo.f.getValue('checkData');
+				self.paramEstLim.shapes[1].visible= cqlsHypo.f.getValue('checkData');
+				self.deltaEstLim.shapes[0].visible= cqlsHypo.f.getValue('checkData');
+				self.deltaEstLim.shapes[1].visible= cqlsHypo.f.getValue('checkData');
 
-        if (self.transf['$[]']("mode")['$==']("sample")) {
-          } else {
-          return nil
-        };
-        if (cur['$=='](0)) {
-          return ($a = ($b = self.ind).$each_with_index, $a.$$p = (TMP_62 = function(s, i2){var self = TMP_62.$$s || this, $a, $b, TMP_63, col = nil;
-            if (self.col == null) self.col = nil;
-if (s == null) s = nil;if (i2 == null) i2 = nil;
-          col = "rgba(" + (self.col['$[]'](i2)['$[]'](0)) + "," + (self.col['$[]'](i2)['$[]'](1)) + "," + (self.col['$[]'](i2)['$[]'](2)) + "," + (self.col['$[]'](i2)['$[]'](3)) + ")";
-            return ($a = ($b = s).$each, $a.$$p = (TMP_63 = function(i){var self = TMP_63.$$s || this;
-              if (self.style == null) self.style = nil;
-              if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
-            
-							cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqlsAEP.i.ptSize);
-							cqlsAEP.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
-						;}, TMP_63.$$s = self, TMP_63), $a).call($b);}, TMP_62.$$s = self, TMP_62), $a).call($b)
-          } else {
-          return ($a = ($c = ($range(0, self.x['$[]'](cur).$length(), true))).$each_with_index, $a.$$p = (TMP_64 = function(i){var self = TMP_64.$$s || this, col = nil;
-            if (self.col == null) self.col = nil;
-            if (self.style == null) self.style = nil;
-            if (self.hist == null) self.hist = nil;
-            if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
-          col = "rgba(" + (self.col['$[]'](i)['$[]'](0)) + "," + (self.col['$[]'](i)['$[]'](1)) + "," + (self.col['$[]'](i)['$[]'](2)) + "," + (self.col['$[]'](i)['$[]'](3)) + ")";
-            
-						cqlsAEP.actors.pt[i].graphics.c().s(self.style['$[]']("sp")).f(col).drawCircle(0,0,cqlsAEP.i.ptSize);
-					;
-            if (self.hist['$[]'](cur).$type()['$==']("disc")) {
-              
-							//cqlsAEP.actors.line[i].graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
-							cqlsAEP.tweens.line[i].call(function(tween) {
-					 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](cur),2);
-					 		})
-					;
-              } else {
-              return nil
-            };}, TMP_64.$$s = self, TMP_64), $a).call($c)
-        };
-      };
+				//Risk
+				self.paramTypeIRisk.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');
+				self.paramTypeIRisk.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');
+				self.deltaTypeIRisk.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkDelta0Curve');
+				self.deltaTypeIRisk.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkDelta0Curve');
 
-      def.$transitionInitTime = function() {
-        var self = this;
+				self.paramTypeGenRisk.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkParam1Curve');
+				self.paramTypeGenRisk.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkParam1Curve');
+				self.deltaTypeGenRisk.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkDelta1Curve');
+				self.deltaTypeGenRisk.shapes[1].visible= cqlsHypo.f.getValue('checkRiskTypeGen') & cqlsHypo.f.getValue('checkDelta1Curve');
 
-        return self.time = 0;
-      };
+				self.paramPvalRisk.shapes[0].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkParam0Curve');
+				self.paramPvalRisk.shapes[1].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkParam0Curve');
+				self.deltaPvalRisk.shapes[0].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkDelta0Curve');
+				self.deltaPvalRisk.shapes[1].visible= cqlsHypo.f.getValue('checkPval') & cqlsHypo.f.getValue('checkDelta0Curve');
 
-      def.$transitionInitExpRects = function(cur) {
-        var $a, $b, TMP_65, self = this, scale = nil;
 
-        if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-          scale = (self.graphExp.$dim()['$[]']("h")['$*'](0.2))['$/']((self.x['$[]'](cur).$length()));
-          if (scale['$>'](1)) {
-            scale = 1};};
-        return ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_65 = function(i){var self = TMP_65.$$s || this, y = nil;
-          if (self.yExpAxis == null) self.yExpAxis = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.hY == null) self.hY = nil;
-          if (self.style == null) self.style = nil;
-          if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
-        y = self.yExpAxis['$[]'](0)['$-'](((function() {if (self.hist['$[]'](cur).$type()['$==']("disc")) {
-            return (i['$*'](scale))
-            } else {
-            return 0
-          }; return nil; })()));
-          
-					//draw rect first
-					cqlsAEP.actors.rect[i].x=self.graphExp.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqlsAEP.actors.rect[i].y=y;
-					cqlsAEP.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
-					cqlsAEP.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
-					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
-				;}, TMP_65.$$s = self, TMP_65), $a).call($b);
-      };
-
-      def.$transitionInitRects = function(cur) {
-        var $a, $b, TMP_66, self = this;
-
-        return ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_66 = function(i){var self = TMP_66.$$s || this;
-          if (self.graphHist == null) self.graphHist = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.plotHist == null) self.plotHist = nil;
-          if (self.hY == null) self.hY = nil;
-          if (self.style == null) self.style = nil;
-          if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
-        
-					//draw rect first
-					cqlsAEP.actors.rect[i].x=self.graphHist.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i));cqlsAEP.actors.rect[i].y=self.plotHist.$dim()['$[]']("y");
-					cqlsAEP.actors.rect[i].regY=self.hY['$[]'](cur)['$/'](2);
-					cqlsAEP.actors.rect[i].graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
-					cqlsAEP.tweens.rect[i]=createjs.Tween.get(cqlsAEP.actors.rect[i],{override:true});
-				;}, TMP_66.$$s = self, TMP_66), $a).call($b);
-      };
-
-      def.$transitionDrawPts = function(cur, wait) {
-        var $a, $b, TMP_67, self = this, scale = nil;
-
-        if (wait == null) {
-          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-          scale = (self.graphExp.$dim()['$[]']("h")['$*'](0.2))['$/']((self.x['$[]'](cur).$length()));
-          if (scale['$>'](1)) {
-            scale = 1};
-          if (cur['$=='](0)) {
-            self.remember = $hash2(["lag"], {"lag": wait['$/'](self.x['$[]'](cur).$length())})};};
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_67 = function(i){var self = TMP_67.$$s || this, $a, $b, $c, y = nil, wait2 = nil;
-          if (self.modeHidden == null) self.modeHidden = nil;
-          if (self.yExpAxis == null) self.yExpAxis = nil;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.y == null) self.y = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.transf == null) self.transf = nil;
-          if (self.remember == null) self.remember = nil;
-          if (self.x == null) self.x = nil;
-if (i == null) i = nil;
-        y = (function() {if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return self.yExpAxis['$[]'](0)
-            } else {
-            return self.graphExp.$to_Y(self.y['$[]'](cur)['$[]'](i))
-          }; return nil; })();
-          if ((($a = ($b = self.modeHidden, $b !== false && $b !== nil ?self.hist['$[]'](cur).$type()['$==']("disc") : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            y = y['$-'](i['$*'](scale))};
-          wait2 = wait;
-          if ((($a = ($b = ($c = self.modeHidden, $c !== false && $c !== nil ?cur['$=='](0) : $c), $b !== false && $b !== nil ?self.transf : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            wait2 = wait2['$-'](i['$*'](self.remember['$[]']("lag")))};
-          
-					cqlsAEP.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:y})
-					.set({visible:true})
-					.wait(wait2)
-				;
-          if ((($a = (($b = self.hist['$[]'](cur).$type()['$==']("disc")) ? self.modeHidden['$!']() : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            
-						cqlsAEP.tweens.line[i].to({x:self.graphExp.$to_X(self.x['$[]'](cur)['$[]'](i)),y:self.graphExp.$to_Y(self.y['$[]'](cur)['$[]'](i))})
-						.set({visible:true})
-						.wait(wait);
-					;
-            } else {
-            return nil
-          };}, TMP_67.$$s = self, TMP_67), $a).call($b);
-        return self.time = self.time['$+'](wait);
-      };
-
-      def.$transitionPtsTransf = function(t, merge, wait) {
-        var $a, $b, TMP_68, self = this, scale = nil;
-
-        if (t == null) {
-          t = 1
-        }
-        if (merge == null) {
-          merge = (1500)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (wait == null) {
-          wait = (500)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-          scale = (self.graphExp.$dim()['$[]']("h")['$*'](0.2))['$/']((self.ind.$length()));
-          if (scale['$>'](1)) {
-            scale = 1};};
-        ($a = ($b = self.ind).$each_with_index, $a.$$p = (TMP_68 = function(s, i2){var self = TMP_68.$$s || this, $a, $b, TMP_69, col = nil, y = nil;
-          if (self.col == null) self.col = nil;
-          if (self.modeHidden == null) self.modeHidden = nil;
-          if (self.yExpAxis == null) self.yExpAxis = nil;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.y == null) self.y = nil;
-          if (self.hist == null) self.hist = nil;
-if (s == null) s = nil;if (i2 == null) i2 = nil;
-        col = "rgba(" + (self.col['$[]'](i2)['$[]'](0)) + "," + (self.col['$[]'](i2)['$[]'](1)) + "," + (self.col['$[]'](i2)['$[]'](2)) + "," + (self.col['$[]'](i2)['$[]'](3)) + ")";
-          y = (function() {if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return self.yExpAxis['$[]'](1)
-            } else {
-            return self.graphExp.$to_Y(self.y['$[]'](t)['$[]'](i2))
-          }; return nil; })();
-          if ((($a = ($b = self.modeHidden, $b !== false && $b !== nil ?self.hist['$[]'](t).$type()['$==']("disc") : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-            y = y['$-'](i2['$*'](scale))};
-          return ($a = ($b = s).$each, $a.$$p = (TMP_69 = function(i){var self = TMP_69.$$s || this, $a, $b, $c, wait2 = nil;
-            if (self.modeHidden == null) self.modeHidden = nil;
-            if (self.n == null) self.n = nil;
-            if (self.remember == null) self.remember = nil;
-            if (self.graphExp == null) self.graphExp = nil;
-            if (self.x == null) self.x = nil;
-            if (self.transf == null) self.transf = nil;
-            if (self.hist == null) self.hist = nil;
-            if (self.wX == null) self.wX = nil;
-            if (self.style == null) self.style = nil;
-            if (self.y == null) self.y = nil;
-if (i == null) i = nil;
-          wait2 = wait;
-            if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-              wait2 = wait2['$-']((self.n['$-'](i))['$*'](self.remember['$[]']("lag")))};
-            
-						cqlsAEP.tweens.pt[i].to({x:self.graphExp.$to_X(self.x['$[]'](t)['$[]'](i2)),y:y},merge)
-						if(self.modeHidden) cqlsAEP.tweens.pt[i].to({y:self.graphExp.$to_Y(0)},merge)
-						cqlsAEP.tweens.pt[i].wait(wait2).set({visible:false})
-						if(($a = ($b = ($c = self.transf, $c !== false && $c !== nil ?self.hist['$[]'](0).$type()['$==']("disc") : $c), $b !== false && $b !== nil ?self.hist['$[]'](1).$type()['$==']("disc") : $b), $a !== false && $a !== nil ?self.modeHidden['$!']() : $a)) {
-					 		cqlsAEP.tweens.line[i].call(function(tween) {
-					 			tween._target.regX=self.wX['$[]'](t)/2.0;
-					 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,self.wX['$[]'](t),2);
-					 		})
-					 		.to({x:self.graphExp.$to_X(self.x['$[]'](t)['$[]'](i2)),y:self.graphExp.$to_Y(self.y['$[]'](t)['$[]'](i2))},merge)
-							.wait(wait).set({visible:false})
-					 		//cqlsAEP.tweens.line[i].wait(wait['$+'](merge)).set({visible:false});
-						}
-					;}, TMP_69.$$s = self, TMP_69), $a).call($b);}, TMP_68.$$s = self, TMP_68), $a).call($b);
-        self.time = self.time['$+'](merge['$+'](wait));
-        if ((($a = self.modeHidden) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.time = self.time['$+'](merge)
-          } else {
-          return nil
-        };
-      };
-
-      def.$transitionFallPts = function(cur, fall, wait) {
-        var $a, $b, TMP_70, self = this;
-
-        if (fall == null) {
-          fall = (2000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (wait == null) {
-          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        cqlsAEP.durations.ptsBeforeFall=self.time;
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_70 = function(i){var self = TMP_70.$$s || this;
-          if (self.plotHist == null) self.plotHist = nil;
-          if (self.hist == null) self.hist = nil;
-if (i == null) i = nil;
-        
-					cqlsAEP.tweens.pt[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
-					.wait(wait)
-				;
-          if (self.hist['$[]'](cur).$type()['$==']("disc")) {
-            
-						cqlsAEP.tweens.line[i].to({y:self.plotHist.$dim()['$[]']("y")},fall,createjs.Ease.bounceOut)
-						.wait(wait).set({visible:false});
-					;
-            } else {
-            return nil
-          };}, TMP_70.$$s = self, TMP_70), $a).call($b);
-        return self.time = self.time['$+'](fall['$+'](wait));
-      };
-
-      def.$transitionExpPtsAndRects = function(cur, from, before, fall, after) {
-        var $a, $b, TMP_71, self = this;
-
-        if (from == null) {
-          from = self.time
-        }
-        if (before == null) {
-          before = (2000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (fall == null) {
-          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (after == null) {
-          after = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        fall = fall['$+'](self.x['$[]'](cur).$length());
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_71 = function(i){var self = TMP_71.$$s || this;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.hY == null) self.hY = nil;
-if (i == null) i = nil;
-        
-					cqlsAEP.tweens.pt[i].wait(before+i)
-					.to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-					//rect start here so wait "from" ms first
-					cqlsAEP.tweens.rect[i].set({visible:false})
-					.wait(from).set({visible:true})
-					.wait(before+i)
-					.to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-				;}, TMP_71.$$s = self, TMP_71), $a).call($b);
-        return self.time = self.time['$+'](before['$+'](fall)['$+'](after));
-      };
-
-      def.$transitionDrawRectsHidden = function(cur, from, after) {
-        var $a, $b, TMP_72, self = this;
-
-        if (from == null) {
-          from = self.time
-        }
-        if (after == null) {
-          after = (500)['$*'](cqlsAEP.i.scaleTime)
-        }
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_72 = function(i){var self = TMP_72.$$s || this;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.hY == null) self.hY = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.style == null) self.style = nil;
-          if (self.wX == null) self.wX = nil;
-if (i == null) i = nil;
-        
-					 
-					cqlsAEP.tweens.pt[i].to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0})
-					.wait(after);
-
-					if(i==0) {
-						cqlsAEP.tweens.rect[i].call(function(tween) {
-							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
-							self.$allowLevelChange(true);
-						})
-					}
-					//redraw rect first
-					cqlsAEP.tweens.rect[i].call(function(tween) {
-						tween._target.regY=self.hY['$[]'](cur)['$/'](2);
-					 	tween._target.graphics.c().f(self.style['$[]']("fr")).s(self.style['$[]']("sr")).drawRect(0,0,self.wX['$[]'](cur),self.hY['$[]'](cur));
-					})
-					.to({y:self.graphExp.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0})
-					.wait(after);
-
-				;}, TMP_72.$$s = self, TMP_72), $a).call($b);
-        return self.time = self.time['$+'](after);
-      };
-
-      def.$transitionHistPtsAndRectsHidden = function(cur, from, before, fall, after) {
-        var $a, $b, TMP_73, self = this;
-
-        if (from == null) {
-          from = self.time
-        }
-        if (before == null) {
-          before = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (fall == null) {
-          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (after == null) {
-          after = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        fall = fall['$+'](self.x['$[]'](cur).$length());
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_73 = function(i){var self = TMP_73.$$s || this;
-          if (self.graphHist == null) self.graphHist = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.hY == null) self.hY = nil;
-if (i == null) i = nil;
-        
-					cqlsAEP.tweens.pt[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-					cqlsAEP.tweens.rect[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-				;}, TMP_73.$$s = self, TMP_73), $a).call($b);
-        
-				//only once
-				cqlsAEP.tweens.pt[0].call(function(tween) {
-						self.$hideAll(cur)
-        self.hist['$[]'](cur).$add(self.x['$[]'](cur))
-        self.hist['$[]'](cur).$draw()
-        self.$drawSummary(cur);
-				})
-			;
-        return self.time = self.time['$+'](before['$+'](fall)['$+'](after));
-      };
-
-      def.$transitionHistPtsAndRects = function(cur, from, before, fall, after) {
-        var $a, $b, TMP_74, self = this;
-
-        if (from == null) {
-          from = self.time
-        }
-        if (before == null) {
-          before = (2000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (fall == null) {
-          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (after == null) {
-          after = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        fall = fall['$+'](self.x['$[]'](cur).$length());
-        ($a = ($b = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_74 = function(i){var self = TMP_74.$$s || this;
-          if (self.graphHist == null) self.graphHist = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.hY == null) self.hY = nil;
-          if (self.hist == null) self.hist = nil;
-if (i == null) i = nil;
-        
-					cqlsAEP.tweens.pt[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-					//rect start here so wait "from" ms first
-					cqlsAEP.tweens.rect[i].set({visible:false})
-					.wait(from).set({visible:true})
-					if(i==0) {
-						cqlsAEP.tweens.rect[i].call(function(tween) {
-							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
-							self.$allowLevelChange(true);
-						})
-					}
-					cqlsAEP.tweens.rect[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-				;}, TMP_74.$$s = self, TMP_74), $a).call($b);
-        
-				//only once
-				cqlsAEP.tweens.pt[0].call(function(tween) {
-						self.$hideAll(cur)
-        self.hist['$[]'](cur).$add(self.x['$[]'](cur))
-        self.hist['$[]'](cur).$draw()
-        self.$drawSummary(cur);
-				})
-			;
-        return self.time = self.time['$+'](before['$+'](fall)['$+'](after));
-      };
-
-      def.$transitionDrawIC = function(from, wait, pause, before, fall, after) {
-        var $a, $b, TMP_75, $c, TMP_76, self = this, cur = nil;
-
-        if (from == null) {
-          from = self.time
-        }
-        if (wait == null) {
-          wait = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (pause == null) {
-          pause = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (before == null) {
-          before = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (fall == null) {
-          fall = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        if (after == null) {
-          after = (1000)['$*'](cqlsAEP.i.scaleTime)
-        }
-        ($a = ($b = self.ind).$each_with_index, $a.$$p = (TMP_75 = function(s, i2){var self = TMP_75.$$s || this, col = nil, y = nil, l = nil;
-          if (self.col == null) self.col = nil;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.y == null) self.y = nil;
-          if (self.icSide == null) self.icSide = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.style == null) self.style = nil;
-          if (self.x == null) self.x = nil;
-          if (self.icGood == null) self.icGood = nil;
-if (s == null) s = nil;if (i2 == null) i2 = nil;
-        col = "rgba(" + (self.col['$[]'](i2)['$[]'](0)) + "," + (self.col['$[]'](i2)['$[]'](1)) + "," + (self.col['$[]'](i2)['$[]'](2)) + "," + (self.col['$[]'](i2)['$[]'](3)) + ")";
-          y = self.graphExp.$to_Y(self.y['$[]'](1)['$[]'](i2));
-          l = self.graphExp.$to_X(self.icSide['$[]'](i2))['$-'](self.graphExp.$to_X(0));
-          cqlsAEP.tweens.pt[i2].wait(pause);
-          if (self.hist['$[]'](1).$type()['$==']("disc")) {
-            
-						cqlsAEP.tweens.line[i2]
-						.call(function(tween) {
-				 			tween._target.regX=l;
-				 			tween._target.regY=1;
-				 			tween._target.graphics.c().s(col).f(self.style['$[]']("fl")).drawRect(0,0,(2)['$*'](l),2);
-					 	})
-						.wait((2)['$*'](pause))
-					 	
-					;
-            } else {
-            
-						//draw lines
-						cqlsAEP.actors.line[i2].graphics.c().s(col).f(self.style['$[]']("fl"))
-						.drawRect(0,0,(2)['$*'](l),2);
-						cqlsAEP.actors.line[i2].regX=l;
-						cqlsAEP.actors.line[i2].regY=1;
-						//tweens for lines
-						cqlsAEP.tweens.line[i2]=createjs.Tween.get(cqlsAEP.actors.line[i2],{override:true});
-						cqlsAEP.tweens.line[i2].set({visible:false}).wait(from+wait)
-						.to({x:self.graphExp.$to_X(self.x['$[]'](1)['$[]'](i2)),y:y})
-				 		.set({visible:true}).wait(pause)
-				 	;
-          };
-          if (self.icGood['$[]'](i2)['$=='](0)) {
-            
-						cqlsAEP.tweens.pt[i2].wait(pause).to({scaleX:2.0,scaleY:2.0},pause) //.to({scaleX:1.0,scaleY:1.0})
-						cqlsAEP.tweens.line[i2].to({scaleY:3.0},pause).to({scaleY:1.0})
-					;
-            } else {
-            
-						cqlsAEP.tweens.pt[i2].wait((2)['$*'](pause))
-						cqlsAEP.tweens.line[i2].wait(pause)
-					;
-          };}, TMP_75.$$s = self, TMP_75), $a).call($b);
-        self.time = self.time['$+']((3)['$*'](pause));
-        cur = 1;
-        fall = fall['$+'](self.x['$[]'](cur).$length());
-        ($a = ($c = ($range(0, self.x['$[]'](cur).$length(), true))).$each, $a.$$p = (TMP_76 = function(i){var self = TMP_76.$$s || this;
-          if (self.time == null) self.time = nil;
-          if (self.graphExp == null) self.graphExp = nil;
-          if (self.aep == null) self.aep = nil;
-          if (self.y == null) self.y = nil;
-          if (self.hist == null) self.hist = nil;
-          if (self.graphHist == null) self.graphHist = nil;
-          if (self.hY == null) self.hY = nil;
-          if (self.icGood == null) self.icGood = nil;
-if (i == null) i = nil;
-        
-					//rect start here so wait "@time" ms first
-					cqlsAEP.tweens.rect[i].set({visible:false})
-					.wait(self.time)
-					.to({x:self.graphExp.$to_X(self.aep['$[]'](cur)['$[]']("xRect")['$[]'](i)),y:self.graphExp.$to_Y(self.y['$[]'](1)['$[]'](i))})
-					.set({visible:true})
-					if(i==0) {
-						cqlsAEP.tweens.rect[i].call(function(tween) {
-							self.hist['$[]'](cur).$draw(self.aep['$[]'](cur)['$[]']("nbTot"));
-							self.$allowLevelChange(true);
-						})
-					}
-
-					cqlsAEP.tweens.pt[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-					cqlsAEP.tweens.line[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-
-					cqlsAEP.tweens.rect[i].wait(before+i)
-					.to({y:self.graphHist.$to_Y(self.aep['$[]'](cur)['$[]']("yRect")['$[]'](i))+self.hY['$[]'](cur)/2.0},fall-i)
-					.wait(after);
-					if(self.icGood['$[]'](i)['$=='](0)) {
-						cqlsAEP.tweens.pt[i].to({scaleX:1.0,scaleY:1.0})
-						cqlsAEP.tweens.line[i].to({scaleY:1.0})
-					}
-
-				;}, TMP_76.$$s = self, TMP_76), $a).call($c);
-        
-				//only once
-				cqlsAEP.tweens.pt[0].call(function(tween) {
-						self.$hideAll(cur)
-        self.hist['$[]'](cur).$add(self.x['$[]'](cur))
-        self.hist['$[]'](cur).$incCptIC(self.cptIC)
-        self.hist['$[]'](cur).$draw()
-        self.$drawSummary(cur);
-				})
-			;
-        return self.time = self.time['$+'](before['$+'](fall)['$+'](after));
-      };
-
-      def.$hideAll = function(cur) {
-        var $a, self = this;
-
-        if ((($a = self.x['$[]'](cur)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          
-					for(i=0;i<cqlsAEP.m.nbsSimMax;i++) {
-						cqlsAEP.actors.pt[i].visible=false;
-						cqlsAEP.actors.line[i].visible=false;
-						cqlsAEP.actors.rect[i].visible=false;	
-					}
+				self.paramEst['$[]'](0).summaryShapes[0].visible=cqlsHypo.f.getValue('checkParam0Mean');
+				self.paramEst['$[]'](0).summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam0SD');
+				self.paramEst['$[]'](1).summaryShapes[0].visible=cqlsHypo.f.getValue('checkParam1Mean');
+				self.paramEst['$[]'](1).summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam1SD');
 				
-          } else {
-          return nil
-        };
-      };
-
-      def.$drawSummary = function(cur) {
-        var self = this, state = nil;
-
-        if (cur == null) {
-          cur = self.curIndHist
-        }
-        self.hist['$[]'](cur).$drawMean();
-        self.hist['$[]'](cur).$drawSD();
-        return state = cqlsAEP.f.getValue("checkSummary");
-      };
-
-      def.$updateVisible = function() {
-        var self = this, isTransf = nil, isSample = nil, state = nil;
-
-        isTransf = self.$transfMode()['$==']("none")['$!']();
-        isSample = self.$transfMode()['$==']("sample");
-        
-				self.exp['$[]'](0).shape.visible=cqlsAEP.f.getValue("checkExp0Curve");
-				self.exp['$[]'](1).shape.visible=isTransf & cqlsAEP.f.getValue("checkExp1Curve");
-				self.hist['$[]'](0).shape.visible=isTransf['$!']();
-				self.hist['$[]'](1).shape.visible=isTransf;
-				self.hist['$[]'](0).curveShape.visible=isTransf['$!']() & cqlsAEP.f.getValue("checkHistCurve");
-				self.hist['$[]'](1).curveShape.visible=isTransf & cqlsAEP.f.getValue("checkHistCurve");
-				self.hist['$[]'](0).summaryShapes[0].visible=false;
-				self.hist['$[]'](1).summaryShapes[0].visible=false;
-				self.hist['$[]'](0).summaryShapes[1].visible=false;
-				self.hist['$[]'](1).summaryShapes[1].visible=false;
-				self.checkTCL.shape.visible=isSample & cqlsAEP.f.getValue("checkTCL");
+				self.deltaEst['$[]'](0).summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta0Mean');
+				self.deltaEst['$[]'](0).summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta0SD');
+				self.deltaEst['$[]'](1).summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta1Mean');
+				self.deltaEst['$[]'](1).summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta1SD');
+				
+				// update stage since possible change of visibility
+				cqlsHypo.m.stage.update();
 			;
-        self.exp['$[]'](0).expAxisShape.visible= !cqlsAEP.f.getValue("checkExp0Curve");
-        self.exp['$[]'](1).expAxisShape.visible= false;
-        state = cqlsAEP.f.getValue("checkSummary");
-        self.exp['$[]'](0).summaryShapes[0].visible=cqlsAEP.f.getValue("checkExp0Mean");
-        self.exp['$[]'](0).summaryShapes[1].visible=cqlsAEP.f.getValue("checkExp0SD");
-        self.exp['$[]'](1).summaryShapes[0].visible=isTransf & cqlsAEP.f.getValue("checkExp1Mean");
-        self.exp['$[]'](1).summaryShapes[1].visible=isTransf & cqlsAEP.f.getValue("checkExp1SD");
-        self.histCur.summaryShapes[0].visible=cqlsAEP.f.getValue("checkHistMean");
-        self.histCur.summaryShapes[1].visible=cqlsAEP.f.getValue("checkHistSD");
-        self.$updateTCL(cqlsAEP.f.getValue("checkTCL"));
-        return cqlsAEP.m.stage.update();
-      };
-
-      def.$playShort = function(cur, duration) {
-        var $a, $b, $c, TMP_77, self = this, x = nil, q = nil, mu = nil;
-
-        if (cur == null) {
-          cur = self.curIndHist
-        }
-        if (duration == null) {
-          duration = 500
-        }
-        self.$hideAll(cur);
-        self.$animMode();
-        self.time = 0;
-        if ((($a = ($b = self.transf, $b !== false && $b !== nil ?(((($c = self.transf['$[]']("dist")['$==']("exact")['$!']()) !== false && $c !== nil) ? $c : self.statMode['$==']("ic"))) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-          x = [];
-          if (self.statMode['$==']("ic")) {
-            $a = [self.n01.$quantile((1)['$-'](self.alpha['$/'](2))), self.exp['$[]'](0).$distrib().$mean()], q = $a[0], mu = $a[1]};
-          ($a = ($b = ($range(0, ((10)['$**'](cqlsAEP.i.count)), true))).$each, $a.$$p = (TMP_77 = function(i){var self = TMP_77.$$s || this, $a, $b, xx = nil, icSide = nil;
-            if (self.exp == null) self.exp = nil;
-            if (self.n == null) self.n = nil;
-            if (self.statMode == null) self.statMode = nil;
-            if (self.hist == null) self.hist = nil;
-if (i == null) i = nil;
-          xx = self.exp['$[]'](0).$sample(self.n);
-            x['$[]='](i, self.$applyTransfByValue(xx));
-            if (self.statMode['$==']("ic")) {
-              icSide = q['$*'](self.$seMean_transf(xx));
-              if ((($a = ($b = (x['$[]'](i)['$-'](icSide)['$<='](mu)), $b !== false && $b !== nil ?(mu['$<='](x['$[]'](i)['$+'](icSide))) : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
-                return ($a = self.hist['$[]'](cur), $a['$cptICTot=']($a.$cptICTot()['$+'](1)))
-                } else {
-                return nil
-              };
-              } else {
-              return nil
-            };}, TMP_77.$$s = self, TMP_77), $a).call($b);
-          self.hist['$[]'](cur).$add(x);
-          } else {
-          self.hist['$[]'](cur).$add(self.exp['$[]'](cur).$sample((10)['$**'](cqlsAEP.i.count)))
-        };
-        self.hist['$[]'](cur).$draw();
-        self.$drawSummary(cur);
-        cqlsAEP.m.stage.update();
-        return self.$playNextAfter(duration);
-      };
-
-      def.$playLongDensityBasic = function(duration) {
-        var self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        self.$addXY(self.nbSim);
-        self.$transitionInitHist(0);
-        self.$transitionInitPts(0);
-        self.$transitionInitRects(0);
-        self.$transitionInitTime();
-        self.$transitionDrawPts(0);
-        self.$transitionFallPts(0);
-        self.$transitionHistPtsAndRects(0);
-        return self.$playNextAfter(self.time['$+'](duration));
-      };
-
-      def.$playLongDensityBasicHidden = function(duration) {
-        var self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        self.$addXY(self.nbSim);
-        self.$transitionInitHist(0, "new");
-        self.$transitionInitPts(0);
-        self.$transitionInitExpRects(0);
-        self.$transitionInitTime();
-        self.$transitionDrawPts(0);
-        self.$transitionExpPtsAndRects(0);
-        self.$transitionInitHist(0, "reduced");
-        self.$transitionDrawRectsHidden(0);
-        self.$transitionInitHist(0);
-        self.$transitionHistPtsAndRectsHidden(0);
-        return self.$playNextAfter(self.time['$+'](duration));
-      };
-
-      def.$playLongDensityWithTransf = function(duration) {
-        var self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        self.$addXY(self.nbSim);
-        self.$transitionInitTransf(0, 1);
-        self.$transitionInitHist(0);
-        self.$transitionInitHist(1);
-        self.$transitionInitPts(0);
-        self.$transitionInitPtsTransf(0);
-        self.$transitionInitRects(1);
-        self.$transitionInitTime();
-        self.$transitionDrawPts(0);
-        self.$transitionPtsTransf(1);
-        self.$transitionInitPtsTransf(1);
-        self.$transitionDrawPts(1);
-        self.$transitionFallPts(1);
-        self.$transitionHistPtsAndRects(1);
-        return self.$playNextAfter(self.time['$+'](duration));
-      };
-
-      def.$playLongDensityWithTransfHidden = function(duration) {
-        var self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        self.$addXY(self.nbSim);
-        self.$transitionInitTransf(0, 1);
-        self.$transitionInitHist(0);
-        self.$transitionInitHist(1, "new");
-        self.$transitionInitPts(0);
-        self.$transitionInitPtsTransf(0);
-        self.$transitionInitExpRects(1);
-        self.$transitionInitTime();
-        self.$transitionDrawPts(0);
-        self.$transitionPtsTransf(1);
-        self.$transitionInitPtsTransf(1);
-        self.$transitionDrawPts(1);
-        self.$transitionExpPtsAndRects(1);
-        self.$transitionInitHist(1, "reduced");
-        self.$transitionDrawRectsHidden(1);
-        self.$transitionInitHist(1);
-        self.$transitionHistPtsAndRectsHidden(1);
-        return self.$playNextAfter(self.time['$+'](duration));
-      };
-
-      def.$playLongDensityForIC = function(duration) {
-        var self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        self.$addXY(self.nbSim);
-        self.$transitionInitTransf(0, 1);
-        self.$transitionInitHist(0);
-        self.$transitionInitHist(1);
-        self.$transitionInitPts(0);
-        self.$transitionInitPtsTransf(0);
-        self.$transitionInitRects(1);
-        self.$transitionInitTime();
-        self.$transitionDrawPts(0);
-        self.$transitionPtsTransf(1);
-        self.$transitionInitPtsTransf(1);
-        self.$transitionDrawPts(1);
-        self.$transitionDrawIC();
-        return self.$playNextAfter(self.time['$+'](duration));
-      };
-
-      def['$isModeHidden?'] = function() {
-        var self = this;
-
-        self.$animMode();
-        self.modeHidden = !cqlsAEP.i.prior;
-        if (self.statMode['$==']("ic")) {
-          self.modeHidden = false};
-        return self.modeHidden;
-      };
-
-      def.$playLongDensity = function(duration) {
-        var $a, self = this;
-
-        if (duration == null) {
-          duration = 1000
-        }
-        if ((($a = self.transf) !== nil && (!$a.$$is_boolean || $a == true))) {
-          if ((($a = self['$isModeHidden?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-            return self.$playLongDensityWithTransfHidden(duration)
-          } else if (self.statMode['$==']("ic")) {
-            return self.$playLongDensityForIC(duration)
-            } else {
-            return self.$playLongDensityWithTransf(duration)
-          }
-        } else if ((($a = self['$isModeHidden?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-          return self.$playLongDensityBasicHidden(duration)
-          } else {
-          return self.$playLongDensityBasic(duration)
-        };
-      };
-
-      return (def.$playNextAfter = function(duration) {
-        var self = this;
-
-        
-				createjs.Tween.get(cqlsAEP.m.stage,{override:true}).wait(duration).call(
-					function(tween) {
-						if(cqlsAEP.i.loop) cqlsAEP.f.updateDemo();
-					}
-				);
-			;
-      }, nil) && 'playNextAfter';
+      }, nil) && 'updateVisible';
     })(self, null);
 
     (function($base, $super) {
@@ -15503,7 +14492,7 @@ if (i == null) i = nil;
         }
         if ((($a = (($b = Opal.cvars['@@list']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
-          (Opal.cvars['@@list'] = $hash2(["uniform", "normal", "t", "chi2", "exp", "cauchy", "discreteUniform", "bernoulli", "binomial", "birthday", "mean", "sum", "locationScale", "square", "sumOfSq"], {"uniform": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["UniformDistribution"], "qbounds": [0, 1]}), "normal": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["NormalDistribution"], "qbounds": [cqlsAEP.m.qmin, cqlsAEP.m.qmax]}), "t": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["StudentDistribution"], "qbounds": [cqlsAEP.m.qmin, cqlsAEP.m.qmax]}), "chi2": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ChiSquareDistribution"], "qbounds": [0, cqlsAEP.m.qmax]}), "exp": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ExponentialDistribution"], "qbounds": [0, cqlsAEP.m.qmax]}), "cauchy": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["CauchyDistribution"], "qbounds": [0.01, 0.99]}), "discreteUniform": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["DiscreteUniformDistribution"], "qbounds": [0, 1]}), "bernoulli": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BernoulliDistribution"], "qbounds": [0, 1]}), "binomial": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BinomialDistribution"], "qbounds": [0, 1]}), "birthday": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BirthdayDistribution"], "qbounds": [0.01, 1]}), "mean": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sum": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "locationScale": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "square": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sumOfSq": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]})}))
+          (Opal.cvars['@@list'] = $hash2(["uniform", "normal", "t", "chi2", "exp", "cauchy", "discreteUniform", "bernoulli", "binomial", "birthday", "mean", "sum", "locationScale", "square", "sumOfSq"], {"uniform": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["UniformDistribution"], "qbounds": [0, 1]}), "normal": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["NormalDistribution"], "qbounds": [cqlsHypo.m.qmin, cqlsHypo.m.qmax]}), "t": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["StudentDistribution"], "qbounds": [cqlsHypo.m.qmin, cqlsHypo.m.qmax]}), "chi2": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ChiSquareDistribution"], "qbounds": [0, cqlsHypo.m.qmax]}), "exp": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["ExponentialDistribution"], "qbounds": [0, cqlsHypo.m.qmax]}), "cauchy": $hash2(["type", "dist", "qbounds"], {"type": "cont", "dist": ["CauchyDistribution"], "qbounds": [0.01, 0.99]}), "discreteUniform": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["DiscreteUniformDistribution"], "qbounds": [0, 1]}), "bernoulli": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BernoulliDistribution"], "qbounds": [0, 1]}), "binomial": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BinomialDistribution"], "qbounds": [0, 1]}), "birthday": $hash2(["type", "dist", "qbounds"], {"type": "disc", "dist": ["BirthdayDistribution"], "qbounds": [0.01, 1]}), "mean": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sum": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "locationScale": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "square": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]}), "sumOfSq": $hash2(["dist", "qbounds"], {"dist": "none", "qbounds": [0, 1]})}))
         };
         self.list = (($a = Opal.cvars['@@list']) == null ? nil : $a);
         if (name !== false && name !== nil) {
@@ -15527,7 +14516,7 @@ if (i == null) i = nil;
       };
 
       def.$setAsTransfOf = function(dist, transf) {
-        var $a, $b, TMP_78, self = this, $case = nil, d = nil;
+        var $a, $b, TMP_26, self = this, $case = nil, d = nil;
 
         $a = [transf['$[]']("name"), transf['$[]']("args")], self.name = $a[0], self.params = $a[1];
         self.originalDistrib = dist;
@@ -15538,9 +14527,9 @@ if (i == null) i = nil;
           return self.distrib = new Convolution(d,self.params['$[]'](0))
           } else {
           self.distrib = $scope.get('Convolution').$power(d, self.params['$[]'](0));
-          return self.$p(["boundsDistrib", self.$step(), self.$bounds(), self.$pdf(self.$bounds()), ($a = ($b = self.$pdf(self.$bounds())).$inject, $a.$$p = (TMP_78 = function(e, e2){var self = TMP_78.$$s || this;
+          return self.$p(["boundsDistrib", self.$step(), self.$bounds(), self.$pdf(self.$bounds()), ($a = ($b = self.$pdf(self.$bounds())).$inject, $a.$$p = (TMP_26 = function(e, e2){var self = TMP_26.$$s || this;
 if (e == null) e = nil;if (e2 == null) e2 = nil;
-          return e = e['$+'](e2)}, TMP_78.$$s = self, TMP_78), $a).call($b, 0)]);
+          return e = e['$+'](e2)}, TMP_26.$$s = self, TMP_26), $a).call($b, 0)]);
         };}else { return nil }})();
       };
 
@@ -15557,23 +14546,23 @@ if (e == null) e = nil;if (e2 == null) e2 = nil;
       };
 
       def.$bounds = function() {
-        var $a, $b, TMP_79, $c, $d, TMP_80, TMP_81, self = this, qb = nil, $case = nil, a = nil, b = nil, s = nil;
+        var $a, $b, TMP_27, $c, $d, TMP_28, TMP_29, self = this, qb = nil, $case = nil, a = nil, b = nil, s = nil;
 
         qb = (function() {if ((($a = self.originalDistrib) !== nil && (!$a.$$is_boolean || $a == true))) {
           return self.originalDistrib.$qbounds()
           } else {
           return self.$qbounds()
         }; return nil; })();
-        return (function() {$case = self.$type();if ("cont"['$===']($case)) {return ($a = ($b = qb).$map, $a.$$p = (TMP_79 = function(e){var self = TMP_79.$$s || this;
+        return (function() {$case = self.$type();if ("cont"['$===']($case)) {return ($a = ($b = qb).$map, $a.$$p = (TMP_27 = function(e){var self = TMP_27.$$s || this;
 if (e == null) e = nil;
-        return self.$quantile(e)}, TMP_79.$$s = self, TMP_79), $a).call($b)}else if ("disc"['$===']($case)) {if ((($a = self['$regular?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
-          $a = Opal.to_ary(($c = ($d = qb).$map, $c.$$p = (TMP_80 = function(e){var self = TMP_80.$$s || this;
+        return self.$quantile(e)}, TMP_27.$$s = self, TMP_27), $a).call($b)}else if ("disc"['$===']($case)) {if ((($a = self['$regular?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
+          $a = Opal.to_ary(($c = ($d = qb).$map, $c.$$p = (TMP_28 = function(e){var self = TMP_28.$$s || this;
 if (e == null) e = nil;
-          return self.$quantile(e)}, TMP_80.$$s = self, TMP_80), $c).call($d)), a = ($a[0] == null ? nil : $a[0]), b = ($a[1] == null ? nil : $a[1]);
+          return self.$quantile(e)}, TMP_28.$$s = self, TMP_28), $c).call($d)), a = ($a[0] == null ? nil : $a[0]), b = ($a[1] == null ? nil : $a[1]);
           s = self.$step();
-          return ($a = ($c = $scope.get('Range').$new(0, ((b['$-'](a))['$/'](s))).$to_a()).$map, $a.$$p = (TMP_81 = function(e){var self = TMP_81.$$s || this;
+          return ($a = ($c = $scope.get('Range').$new(0, ((b['$-'](a))['$/'](s))).$to_a()).$map, $a.$$p = (TMP_29 = function(e){var self = TMP_29.$$s || this;
 if (e == null) e = nil;
-          return a['$+'](e['$*'](s))}, TMP_81.$$s = self, TMP_81), $a).call($c);
+          return a['$+'](e['$*'](s))}, TMP_29.$$s = self, TMP_29), $a).call($c);
           } else {
           return self.distrib.values();
         }}else { return nil }})();
@@ -15598,15 +14587,15 @@ if (e == null) e = nil;
       };
 
       def.$step = function() {
-        var $a, $b, TMP_82, self = this, b = nil;
+        var $a, $b, TMP_30, self = this, b = nil;
 
         if ((($a = self['$regular?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
           return self.distrib.step();
           } else {
           b = self.$bounds();
-          return ($a = ($b = ($range(1, b.$length(), true))).$map, $a.$$p = (TMP_82 = function(i){var self = TMP_82.$$s || this;
+          return ($a = ($b = ($range(1, b.$length(), true))).$map, $a.$$p = (TMP_30 = function(i){var self = TMP_30.$$s || this;
 if (i == null) i = nil;
-          return (b['$[]'](i)['$-'](b['$[]'](i['$-'](1)))).$abs()}, TMP_82.$$s = self, TMP_82), $a).call($b).$min().$to_f();
+          return (b['$[]'](i)['$-'](b['$[]'](i['$-'](1)))).$abs()}, TMP_30.$$s = self, TMP_30), $a).call($b).$min().$to_f();
         };
       };
 
@@ -15655,6 +14644,12 @@ if (i == null) i = nil;
         return x.map(function(e) {return self.distrib.density(e);});
       };
 
+      def.$cdf = function(x) {
+        var self = this;
+
+        return self.distrib.CDF(x);
+      };
+
       return (def.$quantile = function(alpha) {
         var self = this;
 
@@ -15670,7 +14665,7 @@ if (i == null) i = nil;
 
       def.b1 = def.bounds = nil;
       Opal.defs($scope.get('Convolution'), '$power', function(d, n) {
-        var $a, $b, TMP_83, self = this, dist = nil, b = nil, dist2 = nil, b2 = nil;
+        var $a, $b, TMP_31, self = this, dist = nil, b = nil, dist2 = nil, b2 = nil;
 
         if ((($a = d instanceof Distribution) !== nil && (!$a.$$is_boolean || $a == true))) {
           $a = [d, d.values()], dist = $a[0], b = $a[1];
@@ -15679,10 +14674,10 @@ if (i == null) i = nil;
           $a = [d.$distrib(), d.$bounds()], dist = $a[0], b = $a[1];
           $a = [d.$distrib(), d.$bounds()], dist2 = $a[0], b2 = $a[1];
         };
-        ($a = ($b = ($range(1, n, true))).$each, $a.$$p = (TMP_83 = function(i){var self = TMP_83.$$s || this;
+        ($a = ($b = ($range(1, n, true))).$each, $a.$$p = (TMP_31 = function(i){var self = TMP_31.$$s || this;
 if (i == null) i = nil;
         dist2 = new Convolution2(dist,dist2,b,b2);
-          return b2 = dist2.values();}, TMP_83.$$s = self, TMP_83), $a).call($b);
+          return b2 = dist2.values();}, TMP_31.$$s = self, TMP_31), $a).call($b);
         return dist2;
       });
 
@@ -15702,40 +14697,40 @@ if (i == null) i = nil;
       };
 
       return (def.$prepare = function() {
-        var $a, $b, TMP_84, $c, TMP_86, self = this, ind = nil;
+        var $a, $b, TMP_32, $c, TMP_34, self = this, ind = nil;
 
         ind = $hash2([], {});
-        ($a = ($b = self.b1).$each_with_index, $a.$$p = (TMP_84 = function(v1, i1){var self = TMP_84.$$s || this, $a, $b, TMP_85;
+        ($a = ($b = self.b1).$each_with_index, $a.$$p = (TMP_32 = function(v1, i1){var self = TMP_32.$$s || this, $a, $b, TMP_33;
           if (self.b2 == null) self.b2 = nil;
 if (v1 == null) v1 = nil;if (i1 == null) i1 = nil;
-        return ($a = ($b = self.b2).$each_with_index, $a.$$p = (TMP_85 = function(v2, i2){var self = TMP_85.$$s || this, $a, v = nil;
+        return ($a = ($b = self.b2).$each_with_index, $a.$$p = (TMP_33 = function(v2, i2){var self = TMP_33.$$s || this, $a, v = nil;
 if (v2 == null) v2 = nil;if (i2 == null) i2 = nil;
-          v = $scope.get('CqlsAEP').$quantize(v1['$+'](v2));
+          v = $scope.get('CqlsHypo').$quantize(v1['$+'](v2));
             if ((($a = ind.$keys()['$include?'](v)) !== nil && (!$a.$$is_boolean || $a == true))) {
               return ind['$[]'](v)['$<<']([i1, i2])
               } else {
               return ind['$[]='](v, [[i1, i2]])
-            };}, TMP_85.$$s = self, TMP_85), $a).call($b)}, TMP_84.$$s = self, TMP_84), $a).call($b);
+            };}, TMP_33.$$s = self, TMP_33), $a).call($b)}, TMP_32.$$s = self, TMP_32), $a).call($b);
         self.bounds = ind.$keys().$sort();
         self.pdf = [];
-        return ($a = ($c = self.bounds).$each_with_index, $a.$$p = (TMP_86 = function(v, i){var self = TMP_86.$$s || this, $a, $b, TMP_87;
+        return ($a = ($c = self.bounds).$each_with_index, $a.$$p = (TMP_34 = function(v, i){var self = TMP_34.$$s || this, $a, $b, TMP_35;
           if (self.pdf == null) self.pdf = nil;
 if (v == null) v = nil;if (i == null) i = nil;
         self.pdf['$[]='](i, 0);
-          return ($a = ($b = ind['$[]'](v)).$each, $a.$$p = (TMP_87 = function(j1, j2){var self = TMP_87.$$s || this, $a, $b;
+          return ($a = ($b = ind['$[]'](v)).$each, $a.$$p = (TMP_35 = function(j1, j2){var self = TMP_35.$$s || this, $a, $b;
             if (self.pdf == null) self.pdf = nil;
             if (self.d1 == null) self.d1 = nil;
             if (self.b1 == null) self.b1 = nil;
             if (self.d2 == null) self.d2 = nil;
             if (self.b2 == null) self.b2 = nil;
 if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
-          return ($a = i, $b = self.pdf, $b['$[]=']($a, $b['$[]']($a)['$+'](self.d1.density(self.b1['$[]'](j1))* self.d2.density(self.b2['$[]'](j2)))))}, TMP_87.$$s = self, TMP_87), $a).call($b);}, TMP_86.$$s = self, TMP_86), $a).call($c);
+          return ($a = i, $b = self.pdf, $b['$[]=']($a, $b['$[]']($a)['$+'](self.d1.density(self.b1['$[]'](j1))* self.d2.density(self.b2['$[]'](j2)))))}, TMP_35.$$s = self, TMP_35), $a).call($b);}, TMP_34.$$s = self, TMP_34), $a).call($c);
       }, nil) && 'prepare';
     })(self, null);
 
     Opal.cdecl($scope, 'PREC4DISC', 0);
 
-    Opal.defs($scope.get('CqlsAEP'), '$quantize', function(x, prec) {
+    Opal.defs($scope.get('CqlsHypo'), '$quantize', function(x, prec) {
       var self = this;
 
       if (prec == null) {
@@ -15744,13 +14739,13 @@ if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
       return parseFloat(x.toFixed(prec));
     });
 
-    Opal.defs($scope.get('CqlsAEP'), '$equal', function(a, b) {
+    Opal.defs($scope.get('CqlsHypo'), '$equal', function(a, b) {
       var self = this;
 
       return a.toFixed($scope.get('PREC4DISC'))===b.toFixed($scope.get('PREC4DISC'));
     });
 
-    Opal.defs($scope.get('CqlsAEP'), '$range', function(low, high, step) {
+    Opal.defs($scope.get('CqlsHypo'), '$range', function(low, high, step) {
       var self = this;
 
       
@@ -15798,7 +14793,7 @@ if (j1 == null) j1 = nil;if (j2 == null) j2 = nil;
 		
     });
 
-    Opal.defs($scope.get('CqlsAEP'), '$seq', function(min, max, length) {
+    Opal.defs($scope.get('CqlsHypo'), '$seq', function(min, max, length) {
       var self = this;
 
       

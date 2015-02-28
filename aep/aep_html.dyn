@@ -277,7 +277,54 @@
 				</div>
 			</div>
 			<div title="#{probaStage}" style="padding:10px">
+			<div class="easyui-layout" fit="true">
+				<div region="center" border="false">
 				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
+				</div>
+				<div data-options="region:'south',split:true,collapsed:true" title="Menu" style="height:70px;">
+				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.i.paused=!cqlsAEP.i.paused;
+		 			createjs.Ticker.setPaused(cqlsAEP.i.paused);
+		 		">pause</a>
+		 		<span>  Y: </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0Curve',!cqlsAEP.f.getValue('checkExp0Curve'));
+		 		"></a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0Mean',!cqlsAEP.f.getValue('checkExp0Mean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp0SD',!cqlsAEP.f.getValue('checkExp0SD'));
+		 		">SD</a>
+		 		<span>  t(Y): </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1Curve',!cqlsAEP.f.getValue('checkExp1Curve'));
+		 		"></a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1Mean',!cqlsAEP.f.getValue('checkExp1Mean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkExp1SD',!cqlsAEP.f.getValue('checkExp1SD'));
+		 		">SD</a>
+
+		 		<span>  Extra: </span>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkHistMean',!cqlsAEP.f.getValue('checkHistMean'));
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkHistSD',!cqlsAEP.f.getValue('checkHistSD'));
+		 		">SD</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkTCL',!cqlsAEP.f.getValue('checkTCL'));
+		 		">TCL</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsAEP.f.setValue('checkSummary',!cqlsAEP.f.getValue('checkSummary'));
+		 		">Summary</a>
+		 		<!--input class="easyui-slider" style="width:100px" data-options="
+                showTip:true,
+                rule: [0,'|',25,'|',50,'|',75,'|',100]
+            "-->
+				</div>
 			</div>
 			<!--div title="#{hypoStage}" style="padding:10px">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>

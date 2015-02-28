@@ -32,6 +32,15 @@ if (sh == null) sh = nil;
 						//console.log("end mouseover");
 						cqlsHypo.m.stage.update();
 					});
+          sh.on("pressmove",function(evt) {
+            //console.log("mouseover!!!"+evt.stageX/cqlsHypo.m.stage.scaleX+":"+evt.stageY/cqlsHypo.m.stage.scaleY);
+            cqlsHypo.m.tooltip.text=self.$tooltipContent(sh, evt);
+            cqlsHypo.m.tooltip.x=evt.stageX/cqlsHypo.m.stage.scaleX;
+            cqlsHypo.m.tooltip.y=evt.stageY/cqlsHypo.m.stage.scaleY;
+            cqlsHypo.m.tooltip.visible=true;
+            //console.log("end mouseover");
+            cqlsHypo.m.stage.update();
+          });
 					sh.on("rollout",function(evt) {
 						//console.log("mouseout!!!");
 						cqlsHypo.m.tooltip.text="";
