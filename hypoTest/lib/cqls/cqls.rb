@@ -160,17 +160,21 @@ module CqlsHypo
 		end
 
 		def update(active=@active)
+			p @xylim
 			unless synced?
 			#%x{console.log(#{@list})};p @dim;
-			#p active
+			p [:active,active]
+			p [:List,@list]
 				list=@list.select{|e| active.empty? or (active.include? e[1])}
 				#%x{console.log(#{list})}
+				p [:list,list]
 				@xylim[:x][0]=list.map{|e| e2=(e[0]==:element ? e[2].xylim : e[2]);e2[:x][0]}.min
 				@xylim[:x][1]=list.map{|e| e2=(e[0]==:element ? e[2].xylim : e[2]);e2[:x][1]}.max
 				@xylim[:y][0]=list.map{|e| e2=(e[0]==:element ? e[2].xylim : e[2]);e2[:y][0]}.min
 				@xylim[:y][1]=list.map{|e| e2=(e[0]==:element ? e[2].xylim : e[2]);e2[:y][1]}.max
 			end
 			# then update the rescaling coeff
+			p @xylim
 			@tr[:ax],@tr[:ay]=(@xylim[:x][1]+@zoom[:x1]-@xylim[:x][0]-@zoom[:x0])/(@dim[:w]-@marg[:l]-@marg[:r]),(@xylim[:y][0]+@zoom[:y0]-@xylim[:y][1]-@zoom[:y1])/(@dim[:h]-@marg[:t]-@marg[:b])
 			@tr[:bx],@tr[:by]=@xylim[:x][0]+@zoom[:x0]-@tr[:ax]*(@dim[:x]+@marg[:l]),@xylim[:y][1]+@zoom[:y1]-@tr[:ay]*(@dim[:y]+@marg[:t])
 			#p @tr
@@ -357,8 +361,8 @@ module CqlsHypo
 		attr_accessor :distrib, :bounds, :kind, :type, :style, :meanStyle, :sdStyle, :summaryShapes
 
 		def initialize(id=nil,type=:cont,bounds=[0,1],length=512)
-			@@curveCpt=-1 unless @@curveCpt
-			@id=id || "curve"+(@@curveCpt+=1).to_s
+			@@curve_cpt=-1 unless @@curve_cpt
+			@id=id || "curve"+(@@curve_cpt+=1).to_s
 			@type=type
 			case @type
 			when :cont
@@ -1260,6 +1264,7 @@ module CqlsHypo
 			getContext
 
 			@graphParam.active=["curve0","curve1"]
+			p "reset"
 			@graphParam.update
 			@plotParam.update
 

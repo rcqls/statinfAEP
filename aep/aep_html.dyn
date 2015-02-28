@@ -40,8 +40,8 @@
 [#??]all[#>]
 		<script src="#{probaPath}/cqls.js"></script>
 		<script src="#{probaPath}/main.js"></script>
-		<!--script src="#{hypotestPath}/cqls.js"></script>
-		<script src="#{hypotestPath}/main.js"></script-->
+		<script src="#{hypotestPath}/7.1/cqls.js"></script>
+		<script src="#{hypotestPath}/main.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
     	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
@@ -325,10 +325,11 @@
                 rule: [0,'|',25,'|',50,'|',75,'|',100]
             "-->
 				</div>
+				</div>
 			</div>
-			<!--div title="#{hypoStage}" style="padding:10px">
+			<div title="#{hypoStage}" style="padding:10px">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
-			</div-->
+			</div>
 		</div>
 		<script>
 
@@ -339,9 +340,9 @@
 			//init experiment
 			aepProba();
 
-			//cqlsHypo.mode="static";
-			//cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
-			//aepHypo();
+			cqlsHypo.mode="static";
+			cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
+			aepHypo();
 			
 			
 		</script>

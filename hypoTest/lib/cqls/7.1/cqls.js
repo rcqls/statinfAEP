@@ -12891,7 +12891,7 @@ if (file == null) file = nil;
   Opal.dynamic_require_severity = "error";
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $klass = Opal.klass, $hash2 = Opal.hash2, $range = Opal.range;
 
-  Opal.add_stubs(['$each', '$tooltipContent', '$attr_accessor', '$include', '$new', '$[]', '$addChild', '$initTooltip', '$<<', '$shape', '$plot=', '$graph=', '$add', '$>=', '$call', '$method', '$to_Y', '$+', '$to_f', '$to_x', '$*', '$-', '$<', '$[]=', '$empty?', '$xylim', '$zoom', '$syncedChildren', '$synced?', '$select', '$include?', '$min', '$map', '$==', '$max', '$/', '$update', '$===', '$id', '$!', '$each_key', '$showZoom', '$>', '$graph', '$to_s', '$length', '$initStep', '$seq', '$dim', '$to_X', '$mean', '$maxPdf', '$stdDev', '$sample', '$pdf', '$type', '$map!', '$step', '$y', '$abs', '$set', '$initDistrib', '$setAsTransfOf', '$regular?', '$bounds', '$initXYLim', '$adjust', '$drawCont', '$drawDisc', '$<=', '$setParamsFrame', '$updateStatTestDistrib', '$draw', '$drawMean', '$drawSD', '$playCallables', '$nil?', '$paramsFrame', '$setDistrib', '$setAlphaFromQuantile', '$cdf', '$distrib', '$setAlpha', '$getSides', '$each_with_index', '$quantile', '$typeStatTest', '$drawAreaSide', '$setStyles', '$style', '$setPlot', '$alpha=', '$style=', '$initEvents', '$addCallable', '$attachShapes', '$attachAxis', '$setStatMode', '$reset', '$paramsFrame=', '$typeStatTest=', '$setPval', '$meanStyle=', '$sdStyle=', '$getContext', '$active=', '$updateVisible', '$join', '$power', '$p', '$inject', '$qbounds', '$to_a', '$prepare', '$quantize', '$keys', '$sort']);
+  Opal.add_stubs(['$each', '$tooltipContent', '$attr_accessor', '$include', '$new', '$[]', '$addChild', '$initTooltip', '$<<', '$shape', '$plot=', '$graph=', '$add', '$>=', '$call', '$method', '$to_Y', '$+', '$to_f', '$to_x', '$*', '$-', '$<', '$[]=', '$empty?', '$xylim', '$zoom', '$syncedChildren', '$p', '$synced?', '$select', '$include?', '$min', '$map', '$==', '$max', '$/', '$update', '$===', '$id', '$!', '$each_key', '$showZoom', '$>', '$graph', '$to_s', '$length', '$initStep', '$seq', '$dim', '$to_X', '$mean', '$maxPdf', '$stdDev', '$sample', '$pdf', '$type', '$map!', '$step', '$y', '$abs', '$set', '$initDistrib', '$setAsTransfOf', '$regular?', '$bounds', '$initXYLim', '$adjust', '$drawCont', '$drawDisc', '$<=', '$setParamsFrame', '$updateStatTestDistrib', '$draw', '$drawMean', '$drawSD', '$playCallables', '$nil?', '$paramsFrame', '$setDistrib', '$setAlphaFromQuantile', '$cdf', '$distrib', '$setAlpha', '$getSides', '$each_with_index', '$quantile', '$typeStatTest', '$drawAreaSide', '$setStyles', '$style', '$setPlot', '$alpha=', '$style=', '$initEvents', '$addCallable', '$attachShapes', '$attachAxis', '$setStatMode', '$reset', '$paramsFrame=', '$typeStatTest=', '$setPval', '$meanStyle=', '$sdStyle=', '$getContext', '$active=', '$updateVisible', '$join', '$power', '$inject', '$qbounds', '$to_a', '$prepare', '$quantize', '$keys', '$sort']);
   return (function($base) {
     var self = $module($base, 'CqlsHypo');
 
@@ -13103,11 +13103,15 @@ if (k == null) k = nil;if (v == null) v = nil;
         if (active == null) {
           active = self.active
         }
+        self.$p(self.xylim);
         if ((($a = self['$synced?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
+          self.$p(["active", active]);
+          self.$p(["List", self.list]);
           list = ($a = ($b = self.list).$select, $a.$$p = (TMP_3 = function(e){var self = TMP_3.$$s || this, $a;
 if (e == null) e = nil;
           return ((($a = active['$empty?']()) !== false && $a !== nil) ? $a : (active['$include?'](e['$[]'](1))))}, TMP_3.$$s = self, TMP_3), $a).call($b);
+          self.$p(["list", list]);
           self.xylim['$[]']("x")['$[]='](0, ($a = ($c = list).$map, $a.$$p = (TMP_4 = function(e){var self = TMP_4.$$s || this, e2 = nil;
 if (e == null) e = nil;
           e2 = ((function() {if (e['$[]'](0)['$==']("element")) {
@@ -13141,6 +13145,7 @@ if (e == null) e = nil;
             }; return nil; })());
             return e2['$[]']("y")['$[]'](1);}, TMP_7.$$s = self, TMP_7), $a).call($f).$max());
         };
+        self.$p(self.xylim);
         $a = [(self.xylim['$[]']("x")['$[]'](1)['$+'](self.zoom['$[]']("x1"))['$-'](self.xylim['$[]']("x")['$[]'](0))['$-'](self.zoom['$[]']("x0")))['$/']((self.dim['$[]']("w")['$-'](self.marg['$[]']("l"))['$-'](self.marg['$[]']("r")))), (self.xylim['$[]']("y")['$[]'](0)['$+'](self.zoom['$[]']("y0"))['$-'](self.xylim['$[]']("y")['$[]'](1))['$-'](self.zoom['$[]']("y1")))['$/']((self.dim['$[]']("h")['$-'](self.marg['$[]']("t"))['$-'](self.marg['$[]']("b"))))], self.tr['$[]=']("ax", $a[0]), self.tr['$[]=']("ay", $a[1]);
         $a = [self.xylim['$[]']("x")['$[]'](0)['$+'](self.zoom['$[]']("x0"))['$-'](self.tr['$[]']("ax")['$*']((self.dim['$[]']("x")['$+'](self.marg['$[]']("l"))))), self.xylim['$[]']("y")['$[]'](1)['$+'](self.zoom['$[]']("y1"))['$-'](self.tr['$[]']("ay")['$*']((self.dim['$[]']("y")['$+'](self.marg['$[]']("t")))))], self.tr['$[]=']("bx", $a[0]), self.tr['$[]=']("by", $a[1]);
         if ((($a = self.syncedChildren['$empty?']()) !== nil && (!$a.$$is_boolean || $a == true))) {
@@ -13369,11 +13374,11 @@ if (k == null) k = nil;
         if (length == null) {
           length = 512
         }
-        if ((($a = (($b = Opal.cvars['@@curveCpt']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
+        if ((($a = (($b = Opal.cvars['@@curve_cpt']) == null ? nil : $b)) !== nil && (!$a.$$is_boolean || $a == true))) {
           } else {
-          (Opal.cvars['@@curveCpt'] = -1)
+          (Opal.cvars['@@curve_cpt'] = -1)
         };
-        self.id = ((($a = id) !== false && $a !== nil) ? $a : "curve"['$+'](((Opal.cvars['@@curveCpt'] = (($b = Opal.cvars['@@curveCpt']) == null ? nil : $b)['$+'](1))).$to_s()));
+        self.id = ((($a = id) !== false && $a !== nil) ? $a : "curve"['$+'](((Opal.cvars['@@curve_cpt'] = (($b = Opal.cvars['@@curve_cpt']) == null ? nil : $b)['$+'](1))).$to_s()));
         self.type = type;
         $case = self.type;if ("cont"['$===']($case)) {$a = [bounds, length], self.bounds = $a[0], self.length = $a[1]}else if ("disc"['$===']($case)) {self.bounds = bounds;
         self.length = self.bounds.$length();
@@ -14386,6 +14391,7 @@ if (side == null) side = nil;if (i == null) i = nil;
         }
         self.$getContext();
         (($a = [["curve0", "curve1"]]), $b = self.graphParam, $b['$active='].apply($b, $a), $a[$a.length-1]);
+        self.$p("reset");
         self.graphParam.$update();
         self.plotParam.$update();
         (($a = [["curve2", "curve3"]]), $b = self.graphDelta, $b['$active='].apply($b, $a), $a[$a.length-1]);
