@@ -248,7 +248,10 @@
 	    cqlsHypo.m.ow=cqlsHypo.m.canvas.width;cqlsHypo.m.oh=cqlsHypo.m.canvas.height;
 	    
 		//Run function when browser resizes
-		window.onresize=function() {cqlsHypo.f.resizeCanvas();};
+		window.onresize=function() {
+			if(typeof(cqlsAEP) != "undefined") cqlsAEP.f.resizeCanvas();
+			cqlsHypo.f.resizeCanvas();
+		};
 
 	    cqlsHypo.m.stage = new createjs.Stage(cqlsHypo.m.canvas);
 	    cqlsHypo.m.stage.enableMouseOver();

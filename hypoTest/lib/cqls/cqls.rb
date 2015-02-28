@@ -1196,7 +1196,7 @@ module CqlsHypo
 			@context[:alpha]=@alpha
 			@context[:sigma]=1
 
-			# %x{console.log('param:' + #{@context[:param]})}
+			%x{console.log('param:' + #{@context[:param]})}
 
 			case @context[:param]
 			when "p"

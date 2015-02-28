@@ -274,6 +274,38 @@
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
 						</table> 
     				</div>
+
+
+    				<div title="{#lang][#fr]Test d'hypothèses[#en]Hypothesis testing[#}" data-options="iconCls:'icon-ok'" style="padding:10px;">
+    				<table>
+    					<tr><th>Paramètre</th><th>{#lang][#fr]Paramètre[#en]Parameter[#}</th><th>n</th><th></th></tr>
+    					<tr><td><select id="hypo-param" class="easyui-combobox" name="state" style="width:150px;">
+    						<option value="p">p</option>
+							<option value="mu">mu</option>
+						</select></td>
+    					<td><select id="hypo-side" class="easyui-combobox" name="state" style="width:200px;">
+    						<option value=">" selected="true">greater</option>
+							<option value="<">lower</option>
+							<option value="!=">different</option>
+						</select></td>
+						<td><input id="hypo-ref" class="easyui-numberbox" precision="3" value="0.15"></input>
+						</td>
+						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
+							cqlsAEP.i.loop=false;
+							$('#tabs').tabs('select', '#{hypoStage}');
+							var param=$('#hypo-param').combobox('getValue');
+							var side=$('#hypo-side').combobox('getValue');
+							var ref=$('#hypo-ref').numberbox('getValue');
+							//console.log('loi-ech: dist='+distrib+', param='+param+', n='+parseInt(n));
+							cqlsHypo.f.setValue('param',param);
+							cqlsHypo.f.setValue('side',side);
+							cqlsHypo.f.setValue('refValue',ref);
+							cqlsHypo.m.play.$reset();
+							cqlsHypo.m.stage.update();
+							cqlsHypo.m.play.$updateVisible();
+						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]hypo[#}</td></tr>
+						</table> 
+    				</div>
 				</div>
 			</div>
 			<div title="#{probaStage}" style="padding:10px">
@@ -357,6 +389,55 @@
 					cqlsHypo.f.setValue('checkParam0SD',!cqlsHypo.f.getValue('checkParam0SD'));
 					cqlsHypo.m.play.$updateVisible();
 		 		">SD</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta1Curve',!cqlsHypo.f.getValue('checkDelta1Curve'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Curve</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta1Mean',!cqlsHypo.f.getValue('checkDelta1Mean'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta1SD',!cqlsHypo.f.getValue('checkDelta1SD'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">SD</a>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta0Curve',!cqlsHypo.f.getValue('checkDelta0Curve'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Curve</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta0Mean',!cqlsHypo.f.getValue('checkDelta0Mean'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Mean</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDelta0SD',!cqlsHypo.f.getValue('checkDelta0SD'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">SD</a>
+
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkParamLim',!cqlsHypo.f.getValue('checkParamLim'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">ParamLim</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkDeltaLim',!cqlsHypo.f.getValue('checkDeltaLim'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">DeltaLim</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkRiskTypeI',!cqlsHypo.f.getValue('checkRiskTypeI'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Alpha</a>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkRiskTypeGen',!cqlsHypo.f.getValue('checkRiskTypeGen'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Risk</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkData',!cqlsHypo.f.getValue('checkData'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">Est</a>
+		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
+					cqlsHypo.f.setValue('checkPval',!cqlsHypo.f.getValue('checkPval'));
+					cqlsHypo.m.play.$updateVisible();
+		 		">PVal</a>
 				</div>
 			</div>
 			</div>
