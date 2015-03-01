@@ -151,6 +151,16 @@
 		cqlsHypo.f.setValue('checkDelta1SD',false);
 	}
 
+	cqlsHypo.f.easyuiCheckSelect=function(selected) {
+		var e;
+		for (i = 0; i < selected.length; i++) { 
+			e='check'+selected[i];
+			//console.log(e);
+			cqlsHypo.f.setValue(e,true);
+			$('#hypo-'+e).linkbutton('select');
+		}
+	}
+
 	///////////////////////////
 	// Main function to call
 	function aepHypo() {
