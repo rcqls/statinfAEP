@@ -1306,8 +1306,8 @@ module CqlsHypo
 				#{@deltaLim}.shapes[1].visible= cqlsHypo.f.getValue('checkDeltaLim');
 				#{@paramEstLim}.shapes[0].visible= cqlsHypo.f.getValue('checkData');
 				#{@paramEstLim}.shapes[1].visible= cqlsHypo.f.getValue('checkData');
-				#{@deltaEstLim}.shapes[0].visible= cqlsHypo.f.getValue('checkData');
-				#{@deltaEstLim}.shapes[1].visible= cqlsHypo.f.getValue('checkData');
+				#{@deltaEstLim}.shapes[0].visible= cqlsHypo.f.getValue('checkData') & (cqlsHypo.f.getValue('checkDelta0Mean') | cqlsHypo.f.getValue('checkDeltaLim'));
+				#{@deltaEstLim}.shapes[1].visible= cqlsHypo.f.getValue('checkData') & (cqlsHypo.f.getValue('checkDelta0Mean') | cqlsHypo.f.getValue('checkDeltaLim'));
 
 				//Risk
 				#{@paramTypeIRisk}.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');

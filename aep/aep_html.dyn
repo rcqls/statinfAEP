@@ -5,6 +5,7 @@
 [#??]web[#=]cqlsProbaPath[/tools/StatInfJS/probaAEP]
 [#=]jqueryEasyPath[/tools/StatInfJS/probaAEP]
 [#??]github[#=]probaPath[probaStatAEP/lib/cqls]
+[#=]hypotestPath[hypoTest/lib/cqls/7.1]
 [#=]jqueryEasyPath[vendor/jquery-easyui]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
@@ -40,8 +41,8 @@
 [#??]all[#>]
 		<script src="#{probaPath}/cqls.js"></script>
 		<script src="#{probaPath}/main.js"></script>
-		<script src="#{hypotestPath}/7.1/cqls.js"></script>
-		<script src="#{hypotestPath}/main.js"></script>
+		<!--script src="#{hypotestPath}/cqls.js"></script>
+		<script src="#{hypotestPath}/main.js"></script-->
 
 		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
     	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
@@ -274,179 +275,14 @@
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
 						</table> 
     				</div>
-
-
-    				<div title="{#lang][#fr]Test d'hypothèses[#en]Hypothesis testing[#}" data-options="iconCls:'icon-ok'" style="padding:10px;">
-    				<table>
-    					<tr><th>Data: y</th><th></th><th></th><th></th></tr>
-    					<tr><td>n=<input id="hypo-n" class="easyui-numberbox" value="1000" style="width:50%;"></input></td>
-    					<td>mean=<input id="hypo-mean" class="easyui-numberbox" value="0.17" precision="3" style="width:50%;"></input></td>
-						<td>sd=<input id="hypo-sd" class="easyui-numberbox" value="1.2" precision="3" disabled="true" style="width:50%;"></input></td>
-    					<tr><th>Affirmation d'intérêt H1</th><th></th><th></th><th></th></tr>
-    					<tr><td><select id="hypo-param" class="easyui-combobox" name="state" style="width:150px;" data-options="onSelect: function(e) {if(e.value=='p') {$('#hypo-sd').numberbox('disable');} else {$('#hypo-sd').numberbox('enable');}}">
-    						<option value="p" selected="true">p</option>
-							<option value="mu">mu</option>
-						</select></td>
-    					<td><select id="hypo-side" class="easyui-combobox" name="state" style="width:200px;">
-    						<option value=">" selected="true">greater than</option>
-							<option value="<">lower than</option>
-							<option value="!=">different from</option>
-						</select></td>
-						<td><input id="hypo-ref" class="easyui-numberbox" precision="3" value="0.15"></input>
-						</td>
-						<td><a href="javascript:void(0)" class="easyui-linkbutton" onclick="
-							$('#tabs').tabs('select', '#{hypoStage}');
-							var param=$('#hypo-param').combobox('getValue');
-							var side=$('#hypo-side').combobox('getValue');
-							var ref=$('#hypo-ref').numberbox('getValue');
-							console.log('H1:'+param+side+parseFloat(ref));
-							cqlsHypo.f.setValue('param',param);
-							cqlsHypo.f.setValue('side',side);
-							cqlsHypo.f.setValue('refValue',ref);
-							cqlsHypo.f.setValue('nValue', $('#hypo-n').numberbox('getValue'));
-							cqlsHypo.f.setValue('meanValue', $('#hypo-mean').numberbox('getValue'));
-							cqlsHypo.f.setValue('sdValue', $('#hypo-sd').numberbox('getValue'));
-							cqlsHypo.m.play.$reset();
-							cqlsHypo.f.easyuiCheckSelect(['Param1Mean','Param0Mean','Param1Curve']);
-							cqlsHypo.m.play.$updateVisible();
-						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]hypo[#}</td></tr>
-						</table> 
-    				</div>
 				</div>
 			</div>
 			<div title="#{probaStage}" style="padding:10px">
-			<div class="easyui-layout" fit="true">
-				<div region="center" border="false">
 				<canvas id="createjsCanvasProba" width="1200" height="600"></canvas>
-				</div>
-				<div data-options="region:'south',split:true,collapsed:true" title="Menu" style="height:70px;">
-				<a href="javascript:void(0)" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.i.paused=!cqlsAEP.i.paused;
-		 			createjs.Ticker.setPaused(cqlsAEP.i.paused);
-		 		">pause</a>
-		 		<span>  Y: </span>
-		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp0Curve',!cqlsAEP.f.getValue('checkExp0Curve'));
-		 		"></a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp0Mean',!cqlsAEP.f.getValue('checkExp0Mean'));
-		 		">Mean</a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp0SD',!cqlsAEP.f.getValue('checkExp0SD'));
-		 		">SD</a>
-		 		<span>  t(Y): </span>
-		 		<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-large-chart',size:'large',iconAlign:'top',toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp1Curve',!cqlsAEP.f.getValue('checkExp1Curve'));
-		 		"></a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp1Mean',!cqlsAEP.f.getValue('checkExp1Mean'));
-		 		">Mean</a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkExp1SD',!cqlsAEP.f.getValue('checkExp1SD'));
-		 		">SD</a>
-
-		 		<span>  Extra: </span>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkHistMean',!cqlsAEP.f.getValue('checkHistMean'));
-		 		">Mean</a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkHistSD',!cqlsAEP.f.getValue('checkHistSD'));
-		 		">SD</a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkTCL',!cqlsAEP.f.getValue('checkTCL'));
-		 		">TCL</a>
-		 		<a href="#" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsAEP.f.setValue('checkSummary',!cqlsAEP.f.getValue('checkSummary'));
-		 		">Summary</a>
-		 		<!--input class="easyui-slider" style="width:100px" data-options="
-                showTip:true,
-                rule: [0,'|',25,'|',50,'|',75,'|',100]
-            "-->
-				</div>
-				</div>
 			</div>
-			<div title="#{hypoStage}" style="padding:10px">
-			<div class="easyui-layout" fit="true">
-				<div region="center" border="false">
+			<!--div title="#{hypoStage}" style="padding:10px">
 				<canvas id="createjsCanvasHypo" width="1200" height="600"></canvas>
-				</div>
-				<div data-options="region:'south',split:true,collapsed:true" title="Menu" style="height:70px;">
-				<a href="#" id="hypo-checkParam1Curve" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam1Curve',!cqlsHypo.f.getValue('checkParam1Curve'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Curve</a>
-		 		<a href="#" id="hypo-checkParam1Mean" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam1Mean',!cqlsHypo.f.getValue('checkParam1Mean'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Mean</a>
-		 		<a href="#" id="hypo-checkParam1SD" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam1SD',!cqlsHypo.f.getValue('checkParam1SD'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">SD</a>
-				<a href="#" id="hypo-checkParam0Curve" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam0Curve',!cqlsHypo.f.getValue('checkParam0Curve'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Curve</a>
-		 		<a href="#" id="hypo-checkParam0Mean" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam0Mean',!cqlsHypo.f.getValue('checkParam0Mean'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Mean</a>
-		 		<a href="#" id="hypo-checkParam0SD" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParam0SD',!cqlsHypo.f.getValue('checkParam0SD'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">SD</a>
-		 		<a href="#" id="hypo-checkDelta1Curve" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta1Curve',!cqlsHypo.f.getValue('checkDelta1Curve'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Curve</a>
-		 		<a href="#" id="hypo-checkDelta1Mean" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta1Mean',!cqlsHypo.f.getValue('checkDelta1Mean'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Mean</a>
-		 		<a href="#" id="hypo-checkDelta1SD" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta1SD',!cqlsHypo.f.getValue('checkDelta1SD'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">SD</a>
-				<a href="#" id="hypo-checkDelta0Curve" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta0Curve',!cqlsHypo.f.getValue('checkDelta0Curve'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Curve</a>
-		 		<a href="#" id="hypo-checkDelta0Mean" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta0Mean',!cqlsHypo.f.getValue('checkDelta0Mean'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Mean</a>
-		 		<a href="#" id="hypo-checkDelta0SD" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDelta0SD',!cqlsHypo.f.getValue('checkDelta0SD'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">SD</a>
-
-		 		<a href="#" id="hypo-checkParamLim" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkParamLim',!cqlsHypo.f.getValue('checkParamLim'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">ParamLim</a>
-		 		<a href="#" id="hypo-checkDeltaLim" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkDeltaLim',!cqlsHypo.f.getValue('checkDeltaLim'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">DeltaLim</a>
-		 		<a href="#" id="hypo-checkRiskTypeI" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkRiskTypeI',!cqlsHypo.f.getValue('checkRiskTypeI'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Alpha</a>
-				<a href="#" id="hypo-checkRiskTypeGen" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkRiskTypeGen',!cqlsHypo.f.getValue('checkRiskTypeGen'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Risk</a>
-		 		<a href="#" id="hypo-checkData" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkData',!cqlsHypo.f.getValue('checkData'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">Est</a>
-		 		<a href="#" id="hypo-checkPval" class="easyui-linkbutton" data-options="toggle:true" onclick="
-					cqlsHypo.f.setValue('checkPval',!cqlsHypo.f.getValue('checkPval'));
-					cqlsHypo.m.play.$updateVisible();
-		 		">PVal</a>
-				</div>
-			</div>
-			</div>
+			</div-->
 		</div>
 		<script>
 
@@ -457,8 +293,9 @@
 			//init experiment
 			aepProba();
 
-			cqlsHypo.mode="static";
-			cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
-			aepHypo();
+			//cqlsHypo.mode="static";
+			//cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
+			//aepHypo();
+			
 			
 		</script>

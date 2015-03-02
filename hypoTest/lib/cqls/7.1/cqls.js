@@ -14434,8 +14434,8 @@ if (cur == null) cur = nil;
 				self.deltaLim.shapes[1].visible= cqlsHypo.f.getValue('checkDeltaLim');
 				self.paramEstLim.shapes[0].visible= cqlsHypo.f.getValue('checkData');
 				self.paramEstLim.shapes[1].visible= cqlsHypo.f.getValue('checkData');
-				self.deltaEstLim.shapes[0].visible= cqlsHypo.f.getValue('checkData');
-				self.deltaEstLim.shapes[1].visible= cqlsHypo.f.getValue('checkData');
+				self.deltaEstLim.shapes[0].visible= cqlsHypo.f.getValue('checkData') & (cqlsHypo.f.getValue('checkDelta0Mean') | cqlsHypo.f.getValue('checkDeltaLim'));
+				self.deltaEstLim.shapes[1].visible= cqlsHypo.f.getValue('checkData') & (cqlsHypo.f.getValue('checkDelta0Mean') | cqlsHypo.f.getValue('checkDeltaLim'));
 
 				//Risk
 				self.paramTypeIRisk.shapes[0].visible= cqlsHypo.f.getValue('checkRiskTypeI') & cqlsHypo.f.getValue('checkParam0Curve');

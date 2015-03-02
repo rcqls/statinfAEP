@@ -2,27 +2,27 @@
 :docs=>{
   "local"=>{
     :cmd=>[:save],
-    :tag=>["local","createjs-cdn","fr"],
+    :tag=>["local","opal","createjs-cdn","fr"],
     :filename_doc=>"aep_local.html"
   },
    "local_en"=>{
     :cmd=>[:save],
-    :tag=>["local","createjs-cdn","en"],
+    :tag=>["local","opal","createjs-cdn","en"],
     :filename_doc=>"aep_local_en.html"
   },
   "github"=>{
     :cmd=>[:save],
-    :tag=>["github","createjs-cdn","fr"],
+    :tag=>["github","opal-cdn","createjs-cdn","fr"],
     :filename_doc=>"index.html"
   },
   "web"=>{
     :cmd=>[:save],
-    :tag=>["web","createjs-cdn","fr"],
+    :tag=>["web","opal-cdn","createjs-cdn","fr"],
     :filename_doc=>"aep_web.html"
   },
   "web_en"=>{
     :cmd=>[:save],
-    :tag=>["web","createjs-cdn","en"],
+    :tag=>["web","opal-cdn","createjs-cdn","en"],
     :filename_doc=>"aep_web_en.html"
   }
 }
