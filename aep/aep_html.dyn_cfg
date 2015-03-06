@@ -2,7 +2,7 @@
 :docs=>{
   "local"=>{
     :cmd=>[:save],
-    :tag=>["local","opal","createjs-cdn","fr"],
+    :tag=>["local","opal","createjs","fr"],
     :filename_doc=>"aep_local.html"
   },
    "local_en"=>{

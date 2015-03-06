@@ -26,8 +26,9 @@
 		<meta name="apple-mobile-web-app-capable" content="yes"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 [#??]createjs[#%]TO UPDATE!!!![#>]
-		<script src="../../lib/easeljs-NEXT.min.js"></script>
-		<script src="../../lib/tweenjs-NEXT.min.js"></script>
+		<!--script src="../../lib/easeljs-NEXT.min.js"></script>
+		<script src="../../lib/tweenjs-NEXT.min.js"></script-->
+		<script src="createjs/createjs-2014.12.12.min.js"></script>
 [#??]createjs-cdn[#>]
 		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
 [#??]all[#%]TO MERGE[#>]
