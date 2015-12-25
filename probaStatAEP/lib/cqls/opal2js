@@ -1,2 +1,6 @@
 #!/bin/bash
-opal -c cqls.rb > cqls.js
+OPAL_VERSION="0.9.0"
+if [ "$1" != "" ]; then
+	OPAL_VERSION="$1"
+fi
+opal -c cqls.rb > ${OPAL_VERSION}/cqls.js
