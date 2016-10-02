@@ -35,7 +35,7 @@
 		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
 
 		<script src="#{probaPath}/distributions.js"></script>
-		
+
 [#??]opal[#>]
 		<script src="#{probaPath}/opal.min.js"></script>
 [#??]opal-cdn[#>]
@@ -48,7 +48,8 @@
 
 		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
     	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
-    	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.min.js"></script>
+			<script   src="http://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+    	<!-- script type="text/javascript" src="#{jqueryEasyPath}/jquery.min.js"></script -->
     	<script type="text/javascript" src="#{jqueryEasyPath}/jquery.easyui.min.js"></script>
 	</head>
 [#main]
@@ -139,7 +140,7 @@
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]clone_dist[#}</td></tr>
 						</table>
     				</div>
-    				<div title="{#lang][#fr]Variable aléatoire échantillonnale[#en]Sample random variable[#}" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
+    				<div title="{#lang][#fr]Variable aléatoire échantillonnale[#en]Sample random variable[#}" data-options="iconCls:'icon-ok'" style="padding:10px;">
     				<table>
     					<tr><th>Distribution</th><th>{#lang][#fr]Statistique[#en]Statistic[#}</th><th>n</th><th></th></tr>
     					<tr><td><select id="loi-ech-distrib" class="easyui-combobox" name="state" style="width:150px;">
@@ -216,7 +217,7 @@
 								alert(parseInt(value));
 								cqlsAEP.f.updateStage();
         					}" fit="true"></td></tr-->
-						</table>      
+						</table>
     				</div>
     				<div title="{#lang][#fr]Intervalle de confiance[#en]Confidence Interval[#}" data-options="iconCls:'icon-ok'" style="padding:10px;">
     				<table>
@@ -275,7 +276,7 @@
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]ic[#}</td></tr>
-						</table> 
+						</table>
     				</div>
 
 
@@ -313,7 +314,7 @@
 							cqlsHypo.f.easyuiCheckSelect(['Param1Mean','Param0Mean','Param1Curve']);
 							cqlsHypo.m.play.$updateVisible();
 						">{#lang][#fr]Démarre![#en]Start[#}</a></a>{#aide]hypo[#}</td></tr>
-						</table> 
+						</table>
     				</div>
 				</div>
 			</div>
@@ -463,13 +464,13 @@
 
 			cqlsAEP.mode="static";
 			cqlsAEP.f.initSim();
-			
-			
+
+
 			//init experiment
 			aepProba();
 
 			cqlsHypo.mode="static";
 			cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
 			aepHypo();
-			
+
 		</script>

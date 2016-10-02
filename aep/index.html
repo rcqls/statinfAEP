@@ -15,7 +15,7 @@
 		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
 
 		<script src="probaStatAEP/lib/cqls/distributions.js"></script>
-		
+
 
 		<script src="probaStatAEP/lib/cqls/cqls.js"></script>
 		<script src="probaStatAEP/lib/cqls/main.js"></script>
@@ -24,7 +24,8 @@
 
 		<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/black/easyui.css">
     	<link rel="stylesheet" type="text/css" href="vendor/jquery-easyui/themes/icon.css">
-    	<script type="text/javascript" src="vendor/jquery-easyui/jquery.min.js"></script>
+			<script   src="http://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+    	<!-- script type="text/javascript" src="vendor/jquery-easyui/jquery.min.js"></script -->
     	<script type="text/javascript" src="vendor/jquery-easyui/jquery.easyui.min.js"></script>
 	</head>
 
@@ -125,7 +126,7 @@
 						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('clone_dist')"></a></td></tr>
 						</table>
     				</div>
-    				<div title="Variable aléatoire échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;"> 
+    				<div title="Variable aléatoire échantillonnale" data-options="iconCls:'icon-ok'" style="padding:10px;">
     				<table>
     					<tr><th>Distribution</th><th>Statistique</th><th>n</th><th></th></tr>
     					<tr><td><select id="loi-ech-distrib" class="easyui-combobox" name="state" style="width:150px;">
@@ -202,7 +203,7 @@
 								alert(parseInt(value));
 								cqlsAEP.f.updateStage();
         					}" fit="true"></td></tr-->
-						</table>      
+						</table>
     				</div>
     				<div title="Intervalle de confiance" data-options="iconCls:'icon-ok'" style="padding:10px;">
     				<table>
@@ -261,7 +262,7 @@
 							cqlsAEP.f.updateStage();
 							cqlsAEP.f.updateDemo();
 						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('ic')"></a></td></tr>
-						</table> 
+						</table>
     				</div>
 
 
@@ -299,7 +300,7 @@
 							cqlsHypo.f.easyuiCheckSelect(['Param1Mean','Param0Mean','Param1Curve']);
 							cqlsHypo.m.play.$updateVisible();
 						">Démarre!</a></a><a href="#" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="cqlsAEP.f.aide('hypo')"></a></td></tr>
-						</table> 
+						</table>
     				</div>
 				</div>
 			</div>
@@ -449,16 +450,17 @@
 
 			cqlsAEP.mode="static";
 			cqlsAEP.f.initSim();
-			
-			
+
+
 			//init experiment
 			aepProba();
 
 			cqlsHypo.mode="static";
 			cqlsHypo.f.initHypo('p','>',0.15,100,0.17);
 			aepHypo();
-			
+
 		</script>
+
 
 </body>
 
