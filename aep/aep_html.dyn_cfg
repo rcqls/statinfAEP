@@ -12,7 +12,7 @@
   },
   "github"=>{
     :cmd=>[:save],
-    :tag=>["github","createjs-cdn","fr"],
+    :tag=>["cqls-opal-0.9.0","github","createjs-cdn","fr"],
     :filename_doc=>"index.html"
   },
   "web"=>{

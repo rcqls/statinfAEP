@@ -6,9 +6,9 @@
 [#=]probaPath[#{rootPath}/proba]
 [#=]hypotestPath[#{rootPath}/hypotest]
 [#=]jqueryEasyPath[/tools/StatInfJS/aep]
-[#??]github[#=]probaPath[probaStatAEP/lib/cqls]
+[#??]github-old[#=]probaPath[probaStatAEP/lib/cqls]
 [#=]hypotestPath[hypoTest/lib/cqls/7.1]
-[#=]jqueryEasyPath[vendor/jquery-easyui]
+[#??]github[#=]jqueryEasyPath[vendor/jquery-easyui]
 [#??]end
 [#??]fr[#=]lang[fr][#??]en[#=]lang[en][#??]end
 [#=]theme[black]
@@ -31,7 +31,7 @@
 		<script src="createjs/createjs-2014.12.12.min.js"></script>
 [#??]createjs-cdn[#>]
 		<script src="http://code.createjs.com/createjs-2014.12.12.min.js"></script>
-[#??]all[#%]TO MERGE[#>]
+[#??]old-distrib[#%]TO MERGE[#>]
 		<!--script src="../../lib/opentip-native-excanvas.min.js"></script-->
 
 		<script src="#{probaPath}/distributions.js"></script>
@@ -40,12 +40,19 @@
 		<script src="#{probaPath}/opal.min.js"></script>
 [#??]opal-cdn[#>]
 		<script src="http://cdn.opalrb.org/opal/0.6.3/opal.min.js"></script>
-[#??]all[#>]
+[#??]old-proba-hypo[#>]
 		<script src="#{probaPath}/cqls.js"></script>
 		<script src="#{probaPath}/main.js"></script>
 		<script src="#{hypotestPath}/cqls.js"></script>
 		<script src="#{hypotestPath}/main.js"></script>
+		<script src="lib/distributions.js"></script>
 
+[#??]cqls-opal-0.9.0[#>]
+		<script src="lib/0.9.0/cqls.js"></script>
+		<script src="lib/proba/main.js"></script>
+		<script src="lib/hypo/main.js"></script>
+		<script src="lib/distributions.js"></script>
+[#??]all[#>]
 		<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/#{theme}/easyui.css">
     	<link rel="stylesheet" type="text/css" href="#{jqueryEasyPath}/themes/icon.css">
 			<script   src="http://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
