@@ -4,7 +4,7 @@ module CqlsHypo
 
 		def initTooltip(shape=@shape)
 			#shape needs to be an Array
-			shape.each do|sh|
+			shape.each do |sh|
 				%x{
 					#{sh}.on("rollover",function(evt) {
 						//console.log("mouseover!!!"+evt.stageX/cqlsHypo.m.stage.scaleX+":"+evt.stageY/cqlsHypo.m.stage.scaleY);
@@ -45,7 +45,7 @@ module CqlsHypo
 		def initialize(dim={x:0,y:0,w:%x{cqlsHypo.i.dim.w},h:%x{cqlsHypo.i.dim.h}},style={bg:"#88FF88"})
 			@dim,@style=dim,style
 			@parent=%x{new createjs.Container()}
-			@frame=	%x{new createjs.Shape()}		
+			@frame=	%x{new createjs.Shape()}
     		@graph=CqlsHypo::Graph.new(@dim)
     		@updateCalls=[]
     		# init frame
@@ -140,7 +140,7 @@ module CqlsHypo
 			@marg[:t]=@dim[:h]*@marg[:t] if @marg[:t] < 1
 			@marg[:b]=@dim[:h]*@marg[:b] if @marg[:b] < 1
 			@xylim0={x: xlim, y: ylim}
-			@list,@active=[],[] 
+			@list,@active=[],[]
 			@list << @xylim0 unless @xylim0[:x].empty?
 			@xylim={x: [], y: []}
 			@tr={}
@@ -220,11 +220,11 @@ module CqlsHypo
 		end
 
 		# (x,y) global to local (i.e. graph)
-		def to_local(x,y) 
+		def to_local(x,y)
 			[@tr[:ax]*x+@tr[:bx],@tr[:ay]*y+@tr[:by]]
 		end
 
-		# (x,y) from local (i.e. graph) to global 
+		# (x,y) from local (i.e. graph) to global
 		def to_global(x,y)
 			[(x-@tr[:bx])/@tr[:ax],(y-@tr[:by])/@tr[:ay]]
 		end
@@ -269,7 +269,7 @@ module CqlsHypo
 				%x{#{@zoomShapes[k]}.alpha=0.5}
 
 				case k
-				when :xposmore				
+				when :xposmore
 					# %x{#{@zoomShapes[:xposmore]}.graphics.s("#000").f("#FFF").drawRect(#{@dim[:w]}-1.5*#{size},#{@dim[:h]/2.0}-#{size/2},#{size},#{size})}
 					 %x{#{@zoomShapes[:xposmore]}.graphics.c().s("#000").f("#FFF").mt(#{@dim[:w]}-1.5*#{size},#{@dim[:h]/2.0}-#{size/2}).lt(#{@dim[:w]}-1.5*#{size},#{@dim[:h]/2.0}+#{size/2}).lt(#{@dim[:w]}-0.5*#{size},#{@dim[:h]/2.0}).cp() }
 				when :xposless
@@ -324,13 +324,13 @@ module CqlsHypo
 			when :yposless
 				@zoom[:y1]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y1] < (step-1/2)*(@xylim[:y][1]-@xylim[:y][0])
 			when :ynegmore
-				@zoom[:y0]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0]) 
+				@zoom[:y0]=@zoom[:y1]-step*(@xylim[:y][1]-@xylim[:y][0])
 			when :ynegless
 				@zoom[:y0]+=step*(@xylim[:y][1]-@xylim[:y][0]) unless @zoom[:y0] > (1/2-step)*(@xylim[:y][1]-@xylim[:y][0])
 			when :reset
 				@zoom[:x0]=@zoom[:x1]=@zoom[:y0]=@zoom[:y1]=0.0
 			end
-			
+
 			return select
 		end
 
@@ -383,7 +383,7 @@ module CqlsHypo
 			@summaryShapes=[%x{new createjs.Shape()},%x{new createjs.Shape()}]
 			@axisShape=%x{new createjs.Shape()}
 			initTooltip(@summaryShapes)
-			
+
 		end
 
 		def attachAxis(ratio)
@@ -417,7 +417,7 @@ module CqlsHypo
 			h=@graph.to_Y(h)
 			# %x{#{@summaryShapes[1]}.visible=true}
 			%x{
-				#{@summaryShapes[1]}.graphics.c().s(#{@sdStyle[:stroke]}).ss(#{@sdStyle[:thickness]})		
+				#{@summaryShapes[1]}.graphics.c().s(#{@sdStyle[:stroke]}).ss(#{@sdStyle[:thickness]})
 				.mt(#{@graph.to_X(@distrib.mean-@distrib.stdDev)-@graph.to_X(@distrib.mean)}+x,#{h}-y)
 				.lt(#{@graph.to_X(@distrib.mean-@distrib.stdDev)-@graph.to_X(@distrib.mean)},#{h})
 				.lt(#{@graph.to_X(@distrib.mean-@distrib.stdDev)-@graph.to_X(@distrib.mean)}+x,#{h}+y)
@@ -641,7 +641,7 @@ module CqlsHypo
 						#{@summaryShapes[0]}.on("pressmove", function(evt) {
 							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							if(#{@typeStatTest==:p}){
-								#{@paramsFrame[1]=@graph.to_x(%x{x})} 
+								#{@paramsFrame[1]=@graph.to_x(%x{x})}
 								#{updateStatTestDistrib}
 								//console.log("mean="+#{@distrib.mean}+",sd="+#{@distrib.stdDev})
 								#{draw};
@@ -663,7 +663,7 @@ module CqlsHypo
 							}
 						    cqlsHypo.m.stage.update();
 						});
-						#{@summaryShapes[0]}.on("pressup", function(evt) { 
+						#{@summaryShapes[0]}.on("pressup", function(evt) {
 							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							//console.log("TTTTTypeStatTest:"+#{@typeStatTest})
 							if(#{@typeStatTest==:p}){
@@ -678,7 +678,7 @@ module CqlsHypo
 								#{@paramsFrame[1]=@graph.to_x(%x{x})}
 								#{updateStatTestDistrib}
 								//console.log("mean="+#{@distrib.mean}+",sd="+#{@distrib.stdDev})
-							} 
+							}
 							cqlsHypo.m.stage.update();
 						});
 					}
@@ -695,11 +695,11 @@ module CqlsHypo
 							var x=evt.stageX/cqlsHypo.m.stage.scaleX;
 							if(#{@typeStatTest==:m}) {
 								//console.log("sd pressed");
-								
+
 								var newSD=#{@oldSD}+x-#{@sdX};
 						    	//#{@summaryShapes[1]}.scaleX=newSD/oldSD;
 						    	//point at the right in the real scale then substracted from real mean
-						    	//Do not forget the sqrt(n) because it is the 
+						    	//Do not forget the sqrt(n) because it is the
 						    	#{@paramsFrame[2]=@graph.to_x(@graph.to_X(0.0)+@oldSD +%x{x}-@sdX)*%x{Math.sqrt(#{@paramsFrame[0]})}};
 						    	#{updateStatTestDistrib}
 						    	#{draw};
@@ -726,7 +726,7 @@ module CqlsHypo
 			#:dp (delta-prop) : [n,p0,p]
 			#:dp1 (delta-prop) : [[n,p],p0]
 			#:dm (delta-mean) : [n,mu0,mu,sd]
-			#:dm1 (delta-mean) : [[n,mu],mu0] 
+			#:dm1 (delta-mean) : [[n,mu],mu0]
 			@typeStatTest=type
 			@paramsFrame=params
 			updateStatTestDistrib
@@ -734,7 +734,7 @@ module CqlsHypo
 
 		def updateStatTestDistrib
 			#p [:typeStatTest,@typeStatTest,@paramsFrame]
-			@paramsStatTest=case @typeStatTest 
+			@paramsStatTest=case @typeStatTest
 			when :p
 				[@paramsFrame[1],%x{Math.sqrt(#{@paramsFrame[1]*(1-@paramsFrame[1])/@paramsFrame[0]})}]
 			when :m
@@ -780,8 +780,8 @@ module CqlsHypo
 
 				#{@shapes[0]}.on("pressmove", function(evt) {
 					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
-					 
-					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:left)} 
+
+					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:left)}
 					#{draw}
 					#{playCallables};
 					cqlsHypo.m.stage.update();
@@ -789,8 +789,8 @@ module CqlsHypo
 
 				#{@shapes[1]}.on("pressmove", function(evt) {
 					var x=evt.stageX/cqlsHypo.m.stage.scaleX;
-					 
-					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:right)} 
+
+					#{setAlphaFromQuantile(@graph.to_x(%x{x}),:right)}
 					#{draw}
 					#{playCallables};
 					cqlsHypo.m.stage.update();
@@ -835,7 +835,7 @@ module CqlsHypo
 			else
 				@alpha
 			end
-			
+
 			case side
 			when ">"
 				@sides=[0,1-alpha]
@@ -1029,7 +1029,7 @@ module CqlsHypo
 		attr_accessor :exp
 
 		def initialize(plotParam=%x{cqlsHypo.s.plot},plotDelta=%x{cqlsHypo.h.plot})
-			 
+
 			@stage=%x{cqlsHypo.m.stage}
 			@plotParam,@plotDelta=plotParam,plotDelta
 			@graphParam,@graphDelta=@plotParam.graph,@plotDelta.graph
@@ -1043,7 +1043,7 @@ module CqlsHypo
 			@paramEst[1].style[:thickness]=1
 			#%x{console.log(#{@exp})}
 
-			# the param for :dp0 is not used to instantiate the ditrib but set only to inform what is the paramEst[0] (used in AreaRisk) 
+			# the param for :dp0 is not used to instantiate the ditrib but set only to inform what is the paramEst[0] (used in AreaRisk)
 			@deltaEst=[StatTestCurve.new(:dp0,[@paramEst[0]],false),StatTestCurve.new(:dp1,[@paramEst[1],0.15],false)]
 			@plotDelta.addChild(@deltaEst[0]);@plotDelta.addChild(@deltaEst[1])
 			@deltaEst[1].style[:fill]=%x{createjs.Graphics.getRGB(200,200,200,.3)};
@@ -1111,7 +1111,7 @@ module CqlsHypo
 			@paramEst[0].addCallable([@deltaEst[1],:draw],:sd)
 			@paramEst[0].addCallable([@deltaEst[1],:drawMean],:sd)
 			@paramEst[0].addCallable([@deltaEst[1],:drawSD],:sd)
-			@paramEst[0].addCallable([@deltaTypeGenRisk,:draw],:sd) 
+			@paramEst[0].addCallable([@deltaTypeGenRisk,:draw],:sd)
 			@paramEst[0].addCallable([self,:setPval],:sd) #to recompute pval
 			@paramEst[0].addCallable([@paramPvalRisk,:draw],:sd)
 
@@ -1152,12 +1152,12 @@ module CqlsHypo
 			@n01=Distribution.new("normal",[0,1]);
 			setAlpha(0.05)
 			setStatMode(:none)
-	
+
 			reset
 
 			# other init
 			@style={fp:"#FFF",sp:"#000000",fl:"#FFF",sl:"#000000",fr:"rgba(100,100,255,0.8)",sr:"#000000"}
-	
+
 
 		end
 
@@ -1174,7 +1174,7 @@ module CqlsHypo
 		def setPval
 			#left pval
 			#p [:est,@context[:paramEstLim],@context[:deltaEstLim]]
-			@context[:paramPval]=@context[:paramEstH0].distrib.cdf(@context[:paramEstLim]) 
+			@context[:paramPval]=@context[:paramEstH0].distrib.cdf(@context[:paramEstLim])
 			@context[:deltaPval]=@context[:deltaEstH0].distrib.cdf(@context[:deltaEstLim])
 			#p [:pval,@context[:paramPval],@context[:deltaPval]]
 			if @context[:side]==">"
@@ -1218,7 +1218,7 @@ module CqlsHypo
 			@paramEst[1].typeStatTest=@context[:param]
 			@context[:paramEstH0]=@paramEst[0]
 			@context[:deltaEstH0]=@deltaEst[0]
-			
+
 			@deltaEst[0].typeStatTest="d"+@context[:param]+"0"
 			@deltaEst[1].typeStatTest="d"+@context[:param]+"1"
 
@@ -1291,13 +1291,13 @@ module CqlsHypo
 
 
 		def updateVisible #from interface
-		
+
 			%x{
 				#{@paramEst[0]}.shape.visible=cqlsHypo.f.getValue('checkParam0Curve');
 				#{@paramEst[1]}.shape.visible=cqlsHypo.f.getValue('checkParam1Curve');
 				#{@deltaEst[0]}.shape.visible=cqlsHypo.f.getValue('checkDelta0Curve');
 				#{@deltaEst[1]}.shape.visible=cqlsHypo.f.getValue('checkDelta1Curve');
-			 	
+
 
 				// Lim
 				#{@paramLim}.shapes[0].visible= cqlsHypo.f.getValue('checkParamLim');
@@ -1330,17 +1330,17 @@ module CqlsHypo
 				#{@paramEst[0]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam0SD');
 				#{@paramEst[1]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkParam1Mean');
 				#{@paramEst[1]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkParam1SD');
-				
+
 				#{@deltaEst[0]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta0Mean');
 				#{@deltaEst[0]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta0SD');
 				#{@deltaEst[1]}.summaryShapes[0].visible=cqlsHypo.f.getValue('checkDelta1Mean');
 				#{@deltaEst[1]}.summaryShapes[1].visible=cqlsHypo.f.getValue('checkDelta1SD');
-				
+
 				// update stage since possible change of visibility
 				cqlsHypo.m.stage.update();
 			}
 		end
- 
+
 	end
 
 	class Distribution
@@ -1352,32 +1352,32 @@ module CqlsHypo
 				@@list={
 					uniform: {
 						type: :cont,
-						dist: ["UniformDistribution"], 
+						dist: ["UniformDistribution"],
 						qbounds: [0,1]
 					},
 					normal: {
 						type: :cont,
-						dist: ["NormalDistribution"], 
+						dist: ["NormalDistribution"],
 						qbounds: [%x{cqlsHypo.m.qmin},%x{cqlsHypo.m.qmax}]
 					},
 					t: {
 						type: :cont,
-						dist:["StudentDistribution"], 
+						dist:["StudentDistribution"],
 						qbounds: [%x{cqlsHypo.m.qmin},%x{cqlsHypo.m.qmax}]
 					},
 					chi2: {
 						type: :cont,
-						dist: ["ChiSquareDistribution"], 
+						dist: ["ChiSquareDistribution"],
 						qbounds: [0,%x{cqlsHypo.m.qmax}]
 					},
 					exp: {
 						type: :cont,
-						dist: ["ExponentialDistribution"], 
+						dist: ["ExponentialDistribution"],
 						qbounds: [0,%x{cqlsHypo.m.qmax}]
 					},
 					cauchy: {
 						type: :cont,
-						dist: ["CauchyDistribution"], 
+						dist: ["CauchyDistribution"],
 						qbounds: [0.01,0.99]
 					},
 					discreteUniform: {
@@ -1411,7 +1411,7 @@ module CqlsHypo
 					locationScale: {
 						dist: :none,
 						qbounds: [0,1]
-					},	
+					},
 					square: {
 						dist: :none,
 						qbounds: [0,1]
@@ -1448,8 +1448,8 @@ module CqlsHypo
 				@distrib=%x{new PowerDistribution(#{@originalDistrib}.distrib,2)}
 			when :mean
 				d=%x{new Convolution(#{@originalDistrib}.distrib,#{@params[0]})}
-				@distrib=%x{new LocationScaleDistribution(#{d},0,1/#{@params[0]})}		
-			when :sum	
+				@distrib=%x{new LocationScaleDistribution(#{d},0,1/#{@params[0]})}
+			when :sum
 				@distrib=%x{new Convolution(#{@originalDistrib}.distrib,#{@params[0]})}
 			when :locationScale
 				@distrib=%x{new LocationScaleDistribution(#{@originalDistrib}.distrib,#{@params[0]},#{@params[1]})}
@@ -1555,10 +1555,10 @@ module CqlsHypo
 
 		def Convolution.power(d,n)
 			if %x{#{d} instanceof Distribution}
-				dist,b=d,%x{d.values()} 
-				dist2,b2=d,%x{d.values()} 
+				dist,b=d,%x{d.values()}
+				dist2,b2=d,%x{d.values()}
 			else
-				dist,b=d.distrib,d.bounds 
+				dist,b=d.distrib,d.bounds
 				dist2,b2=d.distrib,d.bounds
 			end
 			# %x{console.log(["convN",b,b2,dist,dist2])}
@@ -1617,7 +1617,7 @@ module CqlsHypo
 	PREC4DISC=0
 
 	def CqlsHypo.quantize(x,prec=PREC4DISC)
-		%x{parseFloat(#{x}.toFixed(#{prec}))} 
+		%x{parseFloat(#{x}.toFixed(#{prec}))}
 	end
 
 	def CqlsHypo.equal(a,b)
