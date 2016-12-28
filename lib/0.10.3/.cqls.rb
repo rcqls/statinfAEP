@@ -1,49 +1,5 @@
 module CqlsAEP
 
-	def CqlsAEP.parseAnimScript(script)
-    code=script.strip.split(/at (\d+)\:/)[1..-1].map{|e| e.split(",").map{|e2| e2.strip}}
-		res={}
-		while ind=code.shift
-			res[ind[0]]="{"+code.shift.map{|instr|
-				words=instr.split(" ").map{|w| w.strip}
-				case words[0]
-				when "set","unset"
-					state=(words[0]=="set" ? "true" : "false" )
-					case words[1]
-					when "anim"
-						"cqlsAEP.f.setValue('animMode',"+state+");"
-					else
-						"cqlsAEP.f.setValue('check"+words[1..-1].map{|e| e.capitalize}.join("")+"',"+state+");"
-					end
-				when "speed"
-					"cqlsAEP.i.scaleTime=#{words[1]};"
-				when "count"
-					if words[1] =~ /^\d+$/
-						level=Math::log(words[1].to_i,10).to_i.to_s
-						"cqlsAEP.f.addCount("+level+");"
-					elsif words[1] =~/^level\d+$/
-						"cqlsAEP.f.setMLevel("+words[1][5..-1]+");"
-					end
-				when "hist"
-					"cqlsAEP.f.setLevelOfHist(#{words[1]});";
-				when "end"
-					"cqlsAEP.i.loop=false;"
-				end
-			}.join("")+"}"
-		end
-
-		keys=res.keys
-		script=""
-		keys[0...-1].each do |key|
-			p key
-			p res[key]
-			script << "cqlsAEP.autoPreCycle["+key+"]=\""+res[key]+"\";"+"\n"
-		end
-		key=keys[-1]
-		script << "cqlsAEP.autoPostCycle["+key+"]=\""+res[key]+"\";"
-		script
-  end
-
 	class Plot
 
 		attr_accessor :parent, :frame, :style, :graph, :dim
