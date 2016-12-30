@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cp -R * ~/RodaSrv/public/users/RCqls/tools/statInfAEP_CqlsJS/
+cp -R * ~/RodaSrv/public/users/RCqls/StatInf/tools/statInfAEP/
