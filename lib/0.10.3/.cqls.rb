@@ -3469,6 +3469,7 @@ module CqlsHypo
 
 		def getContext
 			@context[:param]= %x{cqlsHypo.f.getValue('param')}
+			@context[:paramValue]= %x{parseFloat(cqlsHypo.f.getValue('paramValue'))}
 			@context[:side]=%x{cqlsHypo.f.getValue('side')}
 			@context[:ref]=%x{parseFloat(cqlsHypo.f.getValue('refValue'))}
 			@context[:n]=%x{parseInt(cqlsHypo.f.getValue('nValue'))}
@@ -3480,13 +3481,13 @@ module CqlsHypo
 			case @context[:param]
 			when "p"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref]]
-				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5)]
+				@paramEst[1].paramsFrame=[@context[:n],(@context[:paramValue] ? @context[:paramValue].to_f :  @context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5))]
 				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.f.getValue('meanValue'))}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(%x{Math.sqrt(#{@context[:ref]*(1-@context[:ref])/@context[:n]})})
 			when "mu"
 				@context[:param]="m"
 				@paramEst[0].paramsFrame=[@context[:n],@context[:ref],@context[:sigma]]
-				@paramEst[1].paramsFrame=[@context[:n],@context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5),@context[:sigma]]
+				@paramEst[1].paramsFrame=[@context[:n],(@context[:paramValue] ? @context[:paramValue].to_f :  @context[:ref].to_f*(@context[:side]=="<" ? 0.5 : 1.5)),@context[:sigma]]
 				@context[:paramEstLim]=%x{parseFloat(cqlsHypo.f.getValue('meanValue'))}
 				sd=%x{parseFloat(cqlsHypo.f.getValue('sdValue'))}
 				@context[:deltaEstLim]=(@context[:paramEstLim]-@context[:ref])/(sd/%x{Math.sqrt(#{@context[:n]})})
